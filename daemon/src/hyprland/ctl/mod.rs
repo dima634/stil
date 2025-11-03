@@ -23,7 +23,7 @@ impl HyprCtl {
         let mut socket = UnixStream::connect(socket_path).ok()?;
 
         let cmd_str = cmd.to_string();
-        socket.write_all(cmd_str.as_bytes()).expect("to writer");
+        socket.write_all(cmd_str.as_bytes()).ok()?;
 
         self.read_buffer.clear();
         let num_bytes = socket.read_to_end(&mut self.read_buffer).ok()?;
