@@ -6,8 +6,9 @@ message Workspace {
 }
 
 message Client {
-    string class = 1;
-    Workspace workspace = 2;
+    string address = 1;
+    string class = 2;
+    Workspace workspace = 3;
 }
 
 message Clients {

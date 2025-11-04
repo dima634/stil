@@ -1,10 +1,13 @@
-use protobuf_codegen::Codegen;
+use protobuf_codegen::CodeGen;
 
 fn main() {
-    Codegen::new()
-        .protoc()
-        .includes(&["../proto"])
+    let result = CodeGen::new()
+        .include("../proto")
         .input("../proto/hyprland.proto")
-        .out_dir("src/proto")
-        .run_from_script();
+        .output_dir("src")
+        .generate_and_compile();
+
+    if let Err(e) = result {
+        println!("Protobuf code generation error: {}", e);
+    }
 }

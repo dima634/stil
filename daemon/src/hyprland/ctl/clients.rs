@@ -27,15 +27,15 @@ impl TryFrom<&str> for Clients {
 }
 
 #[derive(Debug)]
-pub struct ClientsCmd;
+pub struct GetClientsCmd;
 
-impl ToString for ClientsCmd {
+impl ToString for GetClientsCmd {
     #[inline]
     fn to_string(&self) -> String {
         "-j/clients".to_string()
     }
 }
 
-impl HyprCtlCmd for ClientsCmd {
+impl HyprCtlCmd for GetClientsCmd {
     type Response<'str> = Clients;
 }
