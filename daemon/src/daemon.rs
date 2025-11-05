@@ -1,11 +1,10 @@
 use super::hyprland::{Event, GetClientsCmd, HyprCtl, HyprEvents};
 use std::{
-    cell::RefCell,
     fs,
     io::Write,
     os::unix::net::{UnixListener, UnixStream},
     path::PathBuf,
-    rc::Rc,
+    sync::Arc,
 };
 use tracing::{error, info, warn};
 
@@ -25,6 +24,15 @@ pub fn start_daemon() {
         return;
     };
 
+    let hypr_events = Arc::new(HyprEvents::default());
+    let hypr_events_listen = hypr_events.clone();
+    std::thread::spawn(move || {
+        info!("Listening for Hyprland events...");
+        if let None = hypr_events_listen.listen() {
+            error!("Hyperland events listener exited unexpectedly");
+        }
+    });
+    
     info!("Daemon initialized and listening on {:?}", socket_path);
 
     loop {
@@ -33,32 +41,39 @@ pub fn start_daemon() {
             continue;
         };
 
-        info!("New connection from {:?}. Sending current state...", addr);
+        let hypr_events_add = hypr_events.clone();
+        std::thread::spawn(move || {
+            info!("New connection from {:?}. Sending current state...", addr);
 
-        let clients = get_current_desktop_state();
-        let msg = Message::new(clients);
+            let clients = get_current_desktop_state();
+            let msg = Message::new(clients);
 
-        if msg.write_to_stream(&mut stream).is_err() {
-            error!("Failed to send current desktop state");
-            continue;
-        }
+            if msg.write_to_stream(&mut stream).is_err() {
+                warn!("Failed to send current desktop state. Closing connection.");
+                return;
+            }
 
-        info!("Sending updates to {:?}", addr);
-
-        let cancelled = Rc::new(RefCell::new(false));
-        HyprEvents::listen(cancelled.clone(), |event| {
-            let sent = match event {
-                Event::OpenWindow(event) => write_msg_to_stream::<proto_rust::OpenWindowEvent, _>(event, &mut stream),
-                Event::CloseWindow(event) => write_msg_to_stream::<proto_rust::CloseWindowEvent, _>(event, &mut stream),
-                _ => Ok(()),
+            let Some(rx) = hypr_events_add.add_listener() else {
+                error!("Failed to add Hyperland events listener. Closing connection.");
+                return;
             };
 
-            match sent {
-                Ok(_) => {}
-                Err(SendMessageErr::Malformed) => error!("Failed to serialize event"),
-                Err(SendMessageErr::IoError) => {
-                    warn!("Failed to send event. Connection closed? Closing it.");
-                    *cancelled.borrow_mut() = true;
+            info!("Sending updates to {:?}", addr);
+
+            for event in rx {
+                let sent = match event {
+                    Event::OpenWindow(event) => write_msg_to_stream::<proto_rust::OpenWindowEvent, _>(event, &mut stream),
+                    Event::CloseWindow(event) => write_msg_to_stream::<proto_rust::CloseWindowEvent, _>(event, &mut stream),
+                    _ => Ok(()),
+                };
+
+                match sent {
+                    Ok(_) => {}
+                    Err(SendMessageErr::Malformed) => error!("Failed to serialize event"),
+                    Err(SendMessageErr::IoError) => {
+                        warn!("Failed to send event. Connection closed? Closing it.");
+                        return;
+                    }
                 }
             }
         });
