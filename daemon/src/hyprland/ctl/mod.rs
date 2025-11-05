@@ -1,6 +1,6 @@
 mod clients;
 
-pub use clients::{Clients, GetClientsCmd};
+pub use clients::*;
 
 use super::Hyprland;
 use std::{

@@ -7,7 +7,7 @@ pub use close_window::CloseWindow;
 pub use open_window::OpenWindow;
 
 use super::Hyprland;
-use std::{io::Read, os::unix::net::UnixStream};
+use std::{cell::RefCell, io::Read, os::unix::net::UnixStream, rc::Rc, sync::mpsc::Sender, time::Duration};
 use tracing::warn;
 
 #[derive(Debug)]
@@ -40,22 +40,40 @@ impl TryFrom<&String> for Event {
 }
 
 #[derive(Debug)]
-pub struct HyprEvents;
+pub struct HyprEvents {
+    subs: Vec<Sender<Event>>,
+}
 
 impl HyprEvents {
-    pub fn listen(mut callback: impl FnMut(Event)) {
+    pub fn listen(cancelled: Rc<RefCell<bool>>, mut callback: impl FnMut(Event)) {
         let mut buffer = [0u8; 1024];
         let mut raw_event = String::new();
 
         let Some(socket_path) = Hyprland::events_socket_path() else { return };
         let Ok(mut socket) = UnixStream::connect(socket_path) else { return };
+        socket.set_read_timeout(Some(Duration::from_secs(2))).expect("duration is not zero");
 
         loop {
-            let Ok(num_bytes) = socket.read(&mut buffer) else {
-                warn!("Failed to read from Hyprland events socket");
-                raw_event.clear();
-                continue;
+            let num_bytes = match socket.read(&mut buffer) {
+                Ok(len) => len,
+                Err(err) if err.kind() == std::io::ErrorKind::WouldBlock => {
+                    if *cancelled.borrow() {
+                        return;
+                    } else {
+                        continue;
+                    }
+                },
+                Err(err) => {
+                    warn!("Failed to read from Hyprland events socket: {}", err.kind());
+                    raw_event.clear();
+                    continue;
+                }
             };
+
+            if *cancelled.borrow() {
+                return;
+            }
+
             let Ok(event_part) = std::str::from_utf8(&buffer[..num_bytes]) else {
                 warn!("Received invalid UTF-8 data from Hyprland events socket");
                 raw_event.clear();

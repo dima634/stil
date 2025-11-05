@@ -1,5 +1,6 @@
 mod hyprland;
 mod daemon;
+mod desktop;
 
 fn main() {
     setup_logging();
