@@ -43,18 +43,14 @@ impl TryFrom<&str> for Clients {
 
     #[inline]
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        serde_json::from_str(value)
-            .map_err(|_| ())
-            .map(|vec| Self(vec))
+        serde_json::from_str(value).map_err(|_| ()).map(|vec| Self(vec))
     }
 }
 
 impl Into<proto_rust::Clients> for Clients {
     fn into(self) -> proto_rust::Clients {
         let vec = self.0;
-        let client_dtos = vec
-            .into_iter()
-            .map(|client| Into::<proto_rust::Client>::into(client));
+        let client_dtos = vec.into_iter().map(|client| Into::<proto_rust::Client>::into(client));
 
         let mut clients_dto = proto_rust::Clients::default();
         clients_dto.set_clients(client_dtos);

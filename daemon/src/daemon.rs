@@ -32,7 +32,7 @@ pub fn start_daemon() {
             error!("Hyperland events listener exited unexpectedly");
         }
     });
-    
+
     info!("Daemon initialized and listening on {:?}", socket_path);
 
     loop {

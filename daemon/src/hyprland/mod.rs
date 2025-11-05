@@ -1,8 +1,8 @@
-mod events;
 mod ctl;
+mod events;
 
-pub use events::*;
 pub use ctl::*;
+pub use events::*;
 
 use std::path::PathBuf;
 

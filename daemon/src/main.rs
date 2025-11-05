@@ -1,6 +1,6 @@
-mod hyprland;
 mod daemon;
 mod desktop;
+mod hyprland;
 
 fn main() {
     setup_logging();
@@ -16,6 +16,6 @@ fn setup_logging() {
         .with_thread_ids(true)
         .with_thread_names(true)
         .finish();
-    
+
     tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
 }
