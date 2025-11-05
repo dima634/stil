@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+import "hyprland.proto";
+
+message Desktop {
+    Clients clients = 1;
+    Client active_window = 2;
+}
