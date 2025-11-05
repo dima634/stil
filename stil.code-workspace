@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "daemon"
+		},
+		{
+			"path": "proto"
+		},
+		{
+			"path": "eleven"
+		},
+		{
+			"path": "proto_rust"
+		}
+	]
+}
