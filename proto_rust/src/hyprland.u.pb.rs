@@ -1447,3 +1447,835 @@ unsafe impl ::protobuf::__internal::runtime::UpbGetArena for ClientsMut<'_> {
 
 
 
+// This variable must not be referenced except by protobuf generated
+// code.
+pub(crate) static mut OpenWindowEvent_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+    ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
+#[allow(non_camel_case_types)]
+pub struct OpenWindowEvent {
+  inner: ::protobuf::__internal::runtime::OwnedMessageInner<OpenWindowEvent>
+}
+
+impl ::protobuf::Message for OpenWindowEvent {}
+
+impl ::std::default::Default for OpenWindowEvent {
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
+impl ::std::fmt::Debug for OpenWindowEvent {
+  fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+    write!(f, "{}", ::protobuf::__internal::runtime::debug_string(self))
+  }
+}
+
+// SAFETY:
+// - `OpenWindowEvent` is `Sync` because it does not implement interior mutability.
+//    Neither does `OpenWindowEventMut`.
+unsafe impl Sync for OpenWindowEvent {}
+
+// SAFETY:
+// - `OpenWindowEvent` is `Send` because it uniquely owns its arena and does
+//   not use thread-local data.
+unsafe impl Send for OpenWindowEvent {}
+
+impl ::protobuf::Proxied for OpenWindowEvent {
+  type View<'msg> = OpenWindowEventView<'msg>;
+}
+
+impl ::protobuf::__internal::SealedInternal for OpenWindowEvent {}
+
+impl ::protobuf::MutProxied for OpenWindowEvent {
+  type Mut<'msg> = OpenWindowEventMut<'msg>;
+}
+
+#[derive(Copy, Clone)]
+#[allow(dead_code)]
+pub struct OpenWindowEventView<'msg> {
+  inner: ::protobuf::__internal::runtime::MessageViewInner<'msg, OpenWindowEvent>,
+}
+
+impl<'msg> ::protobuf::__internal::SealedInternal for OpenWindowEventView<'msg> {}
+
+impl<'msg> ::protobuf::MessageView<'msg> for OpenWindowEventView<'msg> {
+  type Message = OpenWindowEvent;
+}
+
+impl ::std::fmt::Debug for OpenWindowEventView<'_> {
+  fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+    write!(f, "{}", ::protobuf::__internal::runtime::debug_string(self))
+  }
+}
+
+impl ::std::default::Default for OpenWindowEventView<'_> {
+  fn default() -> OpenWindowEventView<'static> {
+    ::protobuf::__internal::runtime::MessageViewInner::default().into()
+  }
+}
+
+impl<'msg> From<::protobuf::__internal::runtime::MessageViewInner<'msg, OpenWindowEvent>> for OpenWindowEventView<'msg> {
+  fn from(inner: ::protobuf::__internal::runtime::MessageViewInner<'msg, OpenWindowEvent>) -> Self {
+    Self { inner }
+  }
+}
+
+#[allow(dead_code)]
+impl<'msg> OpenWindowEventView<'msg> {
+
+  pub fn to_owned(&self) -> OpenWindowEvent {
+    ::protobuf::IntoProxied::into_proxied(*self, ::protobuf::__internal::Private)
+  }
+
+  // window: optional message Client
+  pub fn has_window(self) -> bool {
+    unsafe {
+      self.inner.ptr().has_field_at_index(0)
+    }
+  }
+  pub fn window_opt(self) -> ::protobuf::Optional<super::ClientView<'msg>> {
+        ::protobuf::Optional::new(self.window(), self.has_window())
+  }
+  pub fn window(self) -> super::ClientView<'msg> {
+    let submsg = unsafe {
+      self.inner.ptr().get_message_at_index(0)
+    };
+    submsg
+        .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
+       .unwrap_or(super::ClientView::default())
+  }
+
+}
+
+// SAFETY:
+// - `OpenWindowEventView` is `Sync` because it does not support mutation.
+unsafe impl Sync for OpenWindowEventView<'_> {}
+
+// SAFETY:
+// - `OpenWindowEventView` is `Send` because while its alive a `OpenWindowEventMut` cannot.
+// - `OpenWindowEventView` does not use thread-local data.
+unsafe impl Send for OpenWindowEventView<'_> {}
+
+impl<'msg> ::protobuf::Proxy<'msg> for OpenWindowEventView<'msg> {}
+impl<'msg> ::protobuf::ViewProxy<'msg> for OpenWindowEventView<'msg> {}
+
+impl<'msg> ::protobuf::AsView for OpenWindowEventView<'msg> {
+  type Proxied = OpenWindowEvent;
+  fn as_view(&self) -> ::protobuf::View<'msg, OpenWindowEvent> {
+    *self
+  }
+}
+
+impl<'msg> ::protobuf::IntoView<'msg> for OpenWindowEventView<'msg> {
+  fn into_view<'shorter>(self) -> OpenWindowEventView<'shorter>
+  where
+      'msg: 'shorter {
+    self
+  }
+}
+
+impl<'msg> ::protobuf::IntoProxied<OpenWindowEvent> for OpenWindowEventView<'msg> {
+  fn into_proxied(self, _private: ::protobuf::__internal::Private) -> OpenWindowEvent {
+    let mut dst = OpenWindowEvent::new();
+    assert!(unsafe {
+      dst.inner.ptr_mut().deep_copy(self.inner.ptr(), dst.inner.arena())
+    });
+    dst
+  }
+}
+
+impl<'msg> ::protobuf::IntoProxied<OpenWindowEvent> for OpenWindowEventMut<'msg> {
+  fn into_proxied(self, _private: ::protobuf::__internal::Private) -> OpenWindowEvent {
+    ::protobuf::IntoProxied::into_proxied(::protobuf::IntoView::into_view(self), _private)
+  }
+}
+
+impl ::protobuf::__internal::runtime::EntityType for OpenWindowEvent {
+    type Tag = ::protobuf::__internal::runtime::MessageTag;
+}
+
+impl<'msg> ::protobuf::__internal::runtime::EntityType for OpenWindowEventView<'msg> {
+    type Tag = ::protobuf::__internal::runtime::ViewProxyTag;
+}
+
+impl<'msg> ::protobuf::__internal::runtime::EntityType for OpenWindowEventMut<'msg> {
+    type Tag = ::protobuf::__internal::runtime::MutProxyTag;
+}
+
+#[allow(dead_code)]
+#[allow(non_camel_case_types)]
+pub struct OpenWindowEventMut<'msg> {
+  inner: ::protobuf::__internal::runtime::MessageMutInner<'msg, OpenWindowEvent>,
+}
+
+impl<'msg> ::protobuf::__internal::SealedInternal for OpenWindowEventMut<'msg> {}
+
+impl<'msg> ::protobuf::MessageMut<'msg> for OpenWindowEventMut<'msg> {
+  type Message = OpenWindowEvent;
+}
+
+impl ::std::fmt::Debug for OpenWindowEventMut<'_> {
+  fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+    write!(f, "{}", ::protobuf::__internal::runtime::debug_string(self))
+  }
+}
+
+impl<'msg> From<::protobuf::__internal::runtime::MessageMutInner<'msg, OpenWindowEvent>> for OpenWindowEventMut<'msg> {
+  fn from(inner: ::protobuf::__internal::runtime::MessageMutInner<'msg, OpenWindowEvent>) -> Self {
+    Self { inner }
+  }
+}
+
+#[allow(dead_code)]
+impl<'msg> OpenWindowEventMut<'msg> {
+
+  #[doc(hidden)]
+  pub fn as_message_mut_inner(&mut self, _private: ::protobuf::__internal::Private)
+    -> ::protobuf::__internal::runtime::MessageMutInner<'msg, OpenWindowEvent> {
+    self.inner
+  }
+
+  pub fn to_owned(&self) -> OpenWindowEvent {
+    ::protobuf::AsView::as_view(self).to_owned()
+  }
+
+  // window: optional message Client
+  pub fn has_window(&self) -> bool {
+    unsafe {
+      self.inner.ptr().has_field_at_index(0)
+    }
+  }
+  pub fn clear_window(&mut self) {
+    unsafe {
+      self.inner.ptr().clear_field_at_index(
+        0
+      );
+    }
+  }
+  pub fn window_opt(&self) -> ::protobuf::Optional<super::ClientView<'_>> {
+        ::protobuf::Optional::new(self.window(), self.has_window())
+  }
+  pub fn window(&self) -> super::ClientView<'_> {
+    let submsg = unsafe {
+      self.inner.ptr().get_message_at_index(0)
+    };
+    submsg
+        .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
+       .unwrap_or(super::ClientView::default())
+  }
+  pub fn window_mut(&mut self) -> super::ClientMut<'_> {
+     let ptr = unsafe {
+       self.inner.ptr_mut().get_or_create_mutable_message_at_index(
+         0, self.inner.arena()
+       ).unwrap()
+     };
+     ::protobuf::__internal::runtime::MessageMutInner::from_parent(
+         self.as_message_mut_inner(::protobuf::__internal::Private),
+         ptr
+     ).into()
+  }
+  pub fn set_window(&mut self,
+    val: impl ::protobuf::IntoProxied<super::Client>) {
+
+    unsafe {
+      ::protobuf::__internal::runtime::message_set_sub_message(
+        ::protobuf::AsMut::as_mut(self).inner,
+        0,
+        val
+      );
+    }
+  }
+
+}
+
+// SAFETY:
+// - `OpenWindowEventMut` does not perform any shared mutation.
+unsafe impl Send for OpenWindowEventMut<'_> {}
+
+// SAFETY:
+// - `OpenWindowEventMut` does not perform any shared mutation.
+unsafe impl Sync for OpenWindowEventMut<'_> {}
+
+impl<'msg> ::protobuf::Proxy<'msg> for OpenWindowEventMut<'msg> {}
+impl<'msg> ::protobuf::MutProxy<'msg> for OpenWindowEventMut<'msg> {}
+
+impl<'msg> ::protobuf::AsView for OpenWindowEventMut<'msg> {
+  type Proxied = OpenWindowEvent;
+  fn as_view(&self) -> ::protobuf::View<'_, OpenWindowEvent> {
+    OpenWindowEventView {
+      inner: ::protobuf::__internal::runtime::MessageViewInner::view_of_mut(self.inner.clone())
+    }
+  }
+}
+
+impl<'msg> ::protobuf::IntoView<'msg> for OpenWindowEventMut<'msg> {
+  fn into_view<'shorter>(self) -> ::protobuf::View<'shorter, OpenWindowEvent>
+  where
+      'msg: 'shorter {
+    OpenWindowEventView {
+      inner: ::protobuf::__internal::runtime::MessageViewInner::view_of_mut(self.inner.clone())
+    }
+  }
+}
+
+impl<'msg> ::protobuf::AsMut for OpenWindowEventMut<'msg> {
+  type MutProxied = OpenWindowEvent;
+  fn as_mut(&mut self) -> OpenWindowEventMut<'msg> {
+    OpenWindowEventMut { inner: self.inner }
+  }
+}
+
+impl<'msg> ::protobuf::IntoMut<'msg> for OpenWindowEventMut<'msg> {
+  fn into_mut<'shorter>(self) -> OpenWindowEventMut<'shorter>
+  where
+      'msg: 'shorter {
+    self
+  }
+}
+
+#[allow(dead_code)]
+impl OpenWindowEvent {
+  pub fn new() -> Self {
+    Self { inner: ::protobuf::__internal::runtime::OwnedMessageInner::<Self>::new() }
+  }
+
+
+  #[doc(hidden)]
+  pub fn as_message_mut_inner(&mut self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessageMutInner<'_, OpenWindowEvent> {
+    ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner)
+  }
+
+  pub fn as_view(&self) -> OpenWindowEventView<'_> {
+    ::protobuf::__internal::runtime::MessageViewInner::view_of_owned(&self.inner).into()
+  }
+
+  pub fn as_mut(&mut self) -> OpenWindowEventMut<'_> {
+    ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner).into()
+  }
+
+  // window: optional message Client
+  pub fn has_window(&self) -> bool {
+    unsafe {
+      self.inner.ptr().has_field_at_index(0)
+    }
+  }
+  pub fn clear_window(&mut self) {
+    unsafe {
+      self.inner.ptr().clear_field_at_index(
+        0
+      );
+    }
+  }
+  pub fn window_opt(&self) -> ::protobuf::Optional<super::ClientView<'_>> {
+        ::protobuf::Optional::new(self.window(), self.has_window())
+  }
+  pub fn window(&self) -> super::ClientView<'_> {
+    let submsg = unsafe {
+      self.inner.ptr().get_message_at_index(0)
+    };
+    submsg
+        .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
+       .unwrap_or(super::ClientView::default())
+  }
+  pub fn window_mut(&mut self) -> super::ClientMut<'_> {
+     let ptr = unsafe {
+       self.inner.ptr_mut().get_or_create_mutable_message_at_index(
+         0, self.inner.arena()
+       ).unwrap()
+     };
+     ::protobuf::__internal::runtime::MessageMutInner::from_parent(
+         self.as_message_mut_inner(::protobuf::__internal::Private),
+         ptr
+     ).into()
+  }
+  pub fn set_window(&mut self,
+    val: impl ::protobuf::IntoProxied<super::Client>) {
+
+    unsafe {
+      ::protobuf::__internal::runtime::message_set_sub_message(
+        ::protobuf::AsMut::as_mut(self).inner,
+        0,
+        val
+      );
+    }
+  }
+
+}  // impl OpenWindowEvent
+
+impl ::std::ops::Drop for OpenWindowEvent {
+  fn drop(&mut self) {
+  }
+}
+
+impl ::std::clone::Clone for OpenWindowEvent {
+  fn clone(&self) -> Self {
+    self.as_view().to_owned()
+  }
+}
+
+impl ::protobuf::AsView for OpenWindowEvent {
+  type Proxied = Self;
+  fn as_view(&self) -> OpenWindowEventView<'_> {
+    self.as_view()
+  }
+}
+
+impl ::protobuf::AsMut for OpenWindowEvent {
+  type MutProxied = Self;
+  fn as_mut(&mut self) -> OpenWindowEventMut<'_> {
+    self.as_mut()
+  }
+}
+
+unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for OpenWindowEvent {
+  fn mini_table() -> ::protobuf::__internal::runtime::MiniTablePtr {
+    static ONCE_LOCK: ::std::sync::OnceLock<::protobuf::__internal::runtime::MiniTableInitPtr> =
+        ::std::sync::OnceLock::new();
+    unsafe {
+      ONCE_LOCK.get_or_init(|| {
+        super::OpenWindowEvent_msg_init.0 =
+            ::protobuf::__internal::runtime::build_mini_table("$3");
+        ::protobuf::__internal::runtime::link_mini_table(
+            super::OpenWindowEvent_msg_init.0, &[<super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
+            ], &[]);
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::OpenWindowEvent_msg_init.0)
+      }).0
+    }
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetArena for OpenWindowEvent {
+  fn get_arena(&mut self, _private: ::protobuf::__internal::Private) -> &::protobuf::__internal::runtime::Arena {
+    self.inner.arena()
+  }
+}
+
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtrMut for OpenWindowEvent {
+  type Msg = OpenWindowEvent;
+  fn get_ptr_mut(&mut self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<OpenWindowEvent> {
+    self.inner.ptr_mut()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtr for OpenWindowEvent {
+  type Msg = OpenWindowEvent;
+  fn get_ptr(&self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<OpenWindowEvent> {
+    self.inner.ptr()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtrMut for OpenWindowEventMut<'_> {
+  type Msg = OpenWindowEvent;
+  fn get_ptr_mut(&mut self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<OpenWindowEvent> {
+    self.inner.ptr_mut()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtr for OpenWindowEventMut<'_> {
+  type Msg = OpenWindowEvent;
+  fn get_ptr(&self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<OpenWindowEvent> {
+    self.inner.ptr()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtr for OpenWindowEventView<'_> {
+  type Msg = OpenWindowEvent;
+  fn get_ptr(&self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<OpenWindowEvent> {
+    self.inner.ptr()
+  }
+}
+
+unsafe impl ::protobuf::__internal::runtime::UpbGetArena for OpenWindowEventMut<'_> {
+  fn get_arena(&mut self, _private: ::protobuf::__internal::Private) -> &::protobuf::__internal::runtime::Arena {
+    self.inner.arena()
+  }
+}
+
+
+
+// This variable must not be referenced except by protobuf generated
+// code.
+pub(crate) static mut CloseWindowEvent_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+    ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
+#[allow(non_camel_case_types)]
+pub struct CloseWindowEvent {
+  inner: ::protobuf::__internal::runtime::OwnedMessageInner<CloseWindowEvent>
+}
+
+impl ::protobuf::Message for CloseWindowEvent {}
+
+impl ::std::default::Default for CloseWindowEvent {
+  fn default() -> Self {
+    Self::new()
+  }
+}
+
+impl ::std::fmt::Debug for CloseWindowEvent {
+  fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+    write!(f, "{}", ::protobuf::__internal::runtime::debug_string(self))
+  }
+}
+
+// SAFETY:
+// - `CloseWindowEvent` is `Sync` because it does not implement interior mutability.
+//    Neither does `CloseWindowEventMut`.
+unsafe impl Sync for CloseWindowEvent {}
+
+// SAFETY:
+// - `CloseWindowEvent` is `Send` because it uniquely owns its arena and does
+//   not use thread-local data.
+unsafe impl Send for CloseWindowEvent {}
+
+impl ::protobuf::Proxied for CloseWindowEvent {
+  type View<'msg> = CloseWindowEventView<'msg>;
+}
+
+impl ::protobuf::__internal::SealedInternal for CloseWindowEvent {}
+
+impl ::protobuf::MutProxied for CloseWindowEvent {
+  type Mut<'msg> = CloseWindowEventMut<'msg>;
+}
+
+#[derive(Copy, Clone)]
+#[allow(dead_code)]
+pub struct CloseWindowEventView<'msg> {
+  inner: ::protobuf::__internal::runtime::MessageViewInner<'msg, CloseWindowEvent>,
+}
+
+impl<'msg> ::protobuf::__internal::SealedInternal for CloseWindowEventView<'msg> {}
+
+impl<'msg> ::protobuf::MessageView<'msg> for CloseWindowEventView<'msg> {
+  type Message = CloseWindowEvent;
+}
+
+impl ::std::fmt::Debug for CloseWindowEventView<'_> {
+  fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+    write!(f, "{}", ::protobuf::__internal::runtime::debug_string(self))
+  }
+}
+
+impl ::std::default::Default for CloseWindowEventView<'_> {
+  fn default() -> CloseWindowEventView<'static> {
+    ::protobuf::__internal::runtime::MessageViewInner::default().into()
+  }
+}
+
+impl<'msg> From<::protobuf::__internal::runtime::MessageViewInner<'msg, CloseWindowEvent>> for CloseWindowEventView<'msg> {
+  fn from(inner: ::protobuf::__internal::runtime::MessageViewInner<'msg, CloseWindowEvent>) -> Self {
+    Self { inner }
+  }
+}
+
+#[allow(dead_code)]
+impl<'msg> CloseWindowEventView<'msg> {
+
+  pub fn to_owned(&self) -> CloseWindowEvent {
+    ::protobuf::IntoProxied::into_proxied(*self, ::protobuf::__internal::Private)
+  }
+
+  // address: optional string
+  pub fn address(self) -> ::protobuf::View<'msg, ::protobuf::ProtoString> {
+    let str_view = unsafe {
+      self.inner.ptr().get_string_at_index(
+        0, (b"").into()
+      )
+    };
+    // SAFETY: The runtime doesn't require ProtoStr to be UTF-8.
+    unsafe { ::protobuf::ProtoStr::from_utf8_unchecked(str_view.as_ref()) }
+  }
+
+}
+
+// SAFETY:
+// - `CloseWindowEventView` is `Sync` because it does not support mutation.
+unsafe impl Sync for CloseWindowEventView<'_> {}
+
+// SAFETY:
+// - `CloseWindowEventView` is `Send` because while its alive a `CloseWindowEventMut` cannot.
+// - `CloseWindowEventView` does not use thread-local data.
+unsafe impl Send for CloseWindowEventView<'_> {}
+
+impl<'msg> ::protobuf::Proxy<'msg> for CloseWindowEventView<'msg> {}
+impl<'msg> ::protobuf::ViewProxy<'msg> for CloseWindowEventView<'msg> {}
+
+impl<'msg> ::protobuf::AsView for CloseWindowEventView<'msg> {
+  type Proxied = CloseWindowEvent;
+  fn as_view(&self) -> ::protobuf::View<'msg, CloseWindowEvent> {
+    *self
+  }
+}
+
+impl<'msg> ::protobuf::IntoView<'msg> for CloseWindowEventView<'msg> {
+  fn into_view<'shorter>(self) -> CloseWindowEventView<'shorter>
+  where
+      'msg: 'shorter {
+    self
+  }
+}
+
+impl<'msg> ::protobuf::IntoProxied<CloseWindowEvent> for CloseWindowEventView<'msg> {
+  fn into_proxied(self, _private: ::protobuf::__internal::Private) -> CloseWindowEvent {
+    let mut dst = CloseWindowEvent::new();
+    assert!(unsafe {
+      dst.inner.ptr_mut().deep_copy(self.inner.ptr(), dst.inner.arena())
+    });
+    dst
+  }
+}
+
+impl<'msg> ::protobuf::IntoProxied<CloseWindowEvent> for CloseWindowEventMut<'msg> {
+  fn into_proxied(self, _private: ::protobuf::__internal::Private) -> CloseWindowEvent {
+    ::protobuf::IntoProxied::into_proxied(::protobuf::IntoView::into_view(self), _private)
+  }
+}
+
+impl ::protobuf::__internal::runtime::EntityType for CloseWindowEvent {
+    type Tag = ::protobuf::__internal::runtime::MessageTag;
+}
+
+impl<'msg> ::protobuf::__internal::runtime::EntityType for CloseWindowEventView<'msg> {
+    type Tag = ::protobuf::__internal::runtime::ViewProxyTag;
+}
+
+impl<'msg> ::protobuf::__internal::runtime::EntityType for CloseWindowEventMut<'msg> {
+    type Tag = ::protobuf::__internal::runtime::MutProxyTag;
+}
+
+#[allow(dead_code)]
+#[allow(non_camel_case_types)]
+pub struct CloseWindowEventMut<'msg> {
+  inner: ::protobuf::__internal::runtime::MessageMutInner<'msg, CloseWindowEvent>,
+}
+
+impl<'msg> ::protobuf::__internal::SealedInternal for CloseWindowEventMut<'msg> {}
+
+impl<'msg> ::protobuf::MessageMut<'msg> for CloseWindowEventMut<'msg> {
+  type Message = CloseWindowEvent;
+}
+
+impl ::std::fmt::Debug for CloseWindowEventMut<'_> {
+  fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+    write!(f, "{}", ::protobuf::__internal::runtime::debug_string(self))
+  }
+}
+
+impl<'msg> From<::protobuf::__internal::runtime::MessageMutInner<'msg, CloseWindowEvent>> for CloseWindowEventMut<'msg> {
+  fn from(inner: ::protobuf::__internal::runtime::MessageMutInner<'msg, CloseWindowEvent>) -> Self {
+    Self { inner }
+  }
+}
+
+#[allow(dead_code)]
+impl<'msg> CloseWindowEventMut<'msg> {
+
+  #[doc(hidden)]
+  pub fn as_message_mut_inner(&mut self, _private: ::protobuf::__internal::Private)
+    -> ::protobuf::__internal::runtime::MessageMutInner<'msg, CloseWindowEvent> {
+    self.inner
+  }
+
+  pub fn to_owned(&self) -> CloseWindowEvent {
+    ::protobuf::AsView::as_view(self).to_owned()
+  }
+
+  // address: optional string
+  pub fn address(&self) -> ::protobuf::View<'_, ::protobuf::ProtoString> {
+    let str_view = unsafe {
+      self.inner.ptr().get_string_at_index(
+        0, (b"").into()
+      )
+    };
+    // SAFETY: The runtime doesn't require ProtoStr to be UTF-8.
+    unsafe { ::protobuf::ProtoStr::from_utf8_unchecked(str_view.as_ref()) }
+  }
+  pub fn set_address(&mut self, val: impl ::protobuf::IntoProxied<::protobuf::ProtoString>) {
+    let s = val.into_proxied(::protobuf::__internal::Private);
+    let (view, arena) =
+      s.into_inner(::protobuf::__internal::Private).into_raw_parts();
+
+    let parent_arena = self.inner.arena();
+    parent_arena.fuse(&arena);
+
+    unsafe {
+      self.inner.ptr_mut().set_base_field_string_at_index(
+        0,
+        view,
+      );
+    }
+  }
+
+}
+
+// SAFETY:
+// - `CloseWindowEventMut` does not perform any shared mutation.
+unsafe impl Send for CloseWindowEventMut<'_> {}
+
+// SAFETY:
+// - `CloseWindowEventMut` does not perform any shared mutation.
+unsafe impl Sync for CloseWindowEventMut<'_> {}
+
+impl<'msg> ::protobuf::Proxy<'msg> for CloseWindowEventMut<'msg> {}
+impl<'msg> ::protobuf::MutProxy<'msg> for CloseWindowEventMut<'msg> {}
+
+impl<'msg> ::protobuf::AsView for CloseWindowEventMut<'msg> {
+  type Proxied = CloseWindowEvent;
+  fn as_view(&self) -> ::protobuf::View<'_, CloseWindowEvent> {
+    CloseWindowEventView {
+      inner: ::protobuf::__internal::runtime::MessageViewInner::view_of_mut(self.inner.clone())
+    }
+  }
+}
+
+impl<'msg> ::protobuf::IntoView<'msg> for CloseWindowEventMut<'msg> {
+  fn into_view<'shorter>(self) -> ::protobuf::View<'shorter, CloseWindowEvent>
+  where
+      'msg: 'shorter {
+    CloseWindowEventView {
+      inner: ::protobuf::__internal::runtime::MessageViewInner::view_of_mut(self.inner.clone())
+    }
+  }
+}
+
+impl<'msg> ::protobuf::AsMut for CloseWindowEventMut<'msg> {
+  type MutProxied = CloseWindowEvent;
+  fn as_mut(&mut self) -> CloseWindowEventMut<'msg> {
+    CloseWindowEventMut { inner: self.inner }
+  }
+}
+
+impl<'msg> ::protobuf::IntoMut<'msg> for CloseWindowEventMut<'msg> {
+  fn into_mut<'shorter>(self) -> CloseWindowEventMut<'shorter>
+  where
+      'msg: 'shorter {
+    self
+  }
+}
+
+#[allow(dead_code)]
+impl CloseWindowEvent {
+  pub fn new() -> Self {
+    Self { inner: ::protobuf::__internal::runtime::OwnedMessageInner::<Self>::new() }
+  }
+
+
+  #[doc(hidden)]
+  pub fn as_message_mut_inner(&mut self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessageMutInner<'_, CloseWindowEvent> {
+    ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner)
+  }
+
+  pub fn as_view(&self) -> CloseWindowEventView<'_> {
+    ::protobuf::__internal::runtime::MessageViewInner::view_of_owned(&self.inner).into()
+  }
+
+  pub fn as_mut(&mut self) -> CloseWindowEventMut<'_> {
+    ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner).into()
+  }
+
+  // address: optional string
+  pub fn address(&self) -> ::protobuf::View<'_, ::protobuf::ProtoString> {
+    let str_view = unsafe {
+      self.inner.ptr().get_string_at_index(
+        0, (b"").into()
+      )
+    };
+    // SAFETY: The runtime doesn't require ProtoStr to be UTF-8.
+    unsafe { ::protobuf::ProtoStr::from_utf8_unchecked(str_view.as_ref()) }
+  }
+  pub fn set_address(&mut self, val: impl ::protobuf::IntoProxied<::protobuf::ProtoString>) {
+    let s = val.into_proxied(::protobuf::__internal::Private);
+    let (view, arena) =
+      s.into_inner(::protobuf::__internal::Private).into_raw_parts();
+
+    let parent_arena = self.inner.arena();
+    parent_arena.fuse(&arena);
+
+    unsafe {
+      self.inner.ptr_mut().set_base_field_string_at_index(
+        0,
+        view,
+      );
+    }
+  }
+
+}  // impl CloseWindowEvent
+
+impl ::std::ops::Drop for CloseWindowEvent {
+  fn drop(&mut self) {
+  }
+}
+
+impl ::std::clone::Clone for CloseWindowEvent {
+  fn clone(&self) -> Self {
+    self.as_view().to_owned()
+  }
+}
+
+impl ::protobuf::AsView for CloseWindowEvent {
+  type Proxied = Self;
+  fn as_view(&self) -> CloseWindowEventView<'_> {
+    self.as_view()
+  }
+}
+
+impl ::protobuf::AsMut for CloseWindowEvent {
+  type MutProxied = Self;
+  fn as_mut(&mut self) -> CloseWindowEventMut<'_> {
+    self.as_mut()
+  }
+}
+
+unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for CloseWindowEvent {
+  fn mini_table() -> ::protobuf::__internal::runtime::MiniTablePtr {
+    static ONCE_LOCK: ::std::sync::OnceLock<::protobuf::__internal::runtime::MiniTableInitPtr> =
+        ::std::sync::OnceLock::new();
+    unsafe {
+      ONCE_LOCK.get_or_init(|| {
+        super::CloseWindowEvent_msg_init.0 =
+            ::protobuf::__internal::runtime::build_mini_table("$M1P");
+        ::protobuf::__internal::runtime::link_mini_table(
+            super::CloseWindowEvent_msg_init.0, &[], &[]);
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::CloseWindowEvent_msg_init.0)
+      }).0
+    }
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetArena for CloseWindowEvent {
+  fn get_arena(&mut self, _private: ::protobuf::__internal::Private) -> &::protobuf::__internal::runtime::Arena {
+    self.inner.arena()
+  }
+}
+
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtrMut for CloseWindowEvent {
+  type Msg = CloseWindowEvent;
+  fn get_ptr_mut(&mut self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<CloseWindowEvent> {
+    self.inner.ptr_mut()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtr for CloseWindowEvent {
+  type Msg = CloseWindowEvent;
+  fn get_ptr(&self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<CloseWindowEvent> {
+    self.inner.ptr()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtrMut for CloseWindowEventMut<'_> {
+  type Msg = CloseWindowEvent;
+  fn get_ptr_mut(&mut self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<CloseWindowEvent> {
+    self.inner.ptr_mut()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtr for CloseWindowEventMut<'_> {
+  type Msg = CloseWindowEvent;
+  fn get_ptr(&self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<CloseWindowEvent> {
+    self.inner.ptr()
+  }
+}
+unsafe impl ::protobuf::__internal::runtime::UpbGetMessagePtr for CloseWindowEventView<'_> {
+  type Msg = CloseWindowEvent;
+  fn get_ptr(&self, _private: ::protobuf::__internal::Private) -> ::protobuf::__internal::runtime::MessagePtr<CloseWindowEvent> {
+    self.inner.ptr()
+  }
+}
+
+unsafe impl ::protobuf::__internal::runtime::UpbGetArena for CloseWindowEventMut<'_> {
+  fn get_arena(&mut self, _private: ::protobuf::__internal::Private) -> &::protobuf::__internal::runtime::Arena {
+    self.inner.arena()
+  }
+}
+
+
+
