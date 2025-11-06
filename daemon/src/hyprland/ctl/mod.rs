@@ -1,5 +1,7 @@
+mod active_window;
 mod clients;
 
+pub use active_window::*;
 pub use clients::*;
 
 use super::Hyprland;

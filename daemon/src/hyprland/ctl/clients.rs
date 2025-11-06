@@ -35,6 +35,15 @@ impl Into<proto_rust::Client> for Client {
     }
 }
 
+impl TryFrom<&str> for Client {
+    type Error = ();
+
+    #[inline]
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        serde_json::from_str(value).map_err(|_| ())
+    }
+}
+
 #[derive(Debug, Deserialize)]
 pub struct Clients(pub Vec<Client>);
 

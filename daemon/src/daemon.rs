@@ -1,4 +1,4 @@
-use super::hyprland::{Event, GetClientsCmd, HyprCtl, HyprEvents};
+use super::hyprland::{Event, GetActiveWindowCmd, GetClientsCmd, HyprCtl, HyprEvents};
 use std::{
     fs,
     io::Write,
@@ -45,8 +45,7 @@ pub fn start_daemon() {
         std::thread::spawn(move || {
             info!("New connection from {:?}. Sending current state...", addr);
 
-            let clients = get_current_desktop_state();
-            let msg = Message::new(clients);
+            let msg = Message::new(get_current_desktop_state());
 
             if msg.write_to_stream(&mut stream).is_err() {
                 warn!("Failed to send current desktop state. Closing connection.");
@@ -115,14 +114,27 @@ where
     msg.write_to_stream(stream)
 }
 
-fn get_current_desktop_state() -> proto_rust::Clients {
-    HyprCtl::default()
+fn get_current_desktop_state() -> proto_rust::Desktop {
+    let clients = HyprCtl::default()
         .run(GetClientsCmd)
         .map(|clients| clients.into())
         .unwrap_or_else(|| {
             error!("Failed to get clients from Hyprland");
             proto_rust::Clients::default()
-        })
+        });
+
+    let active_window = HyprCtl::default()
+        .run(GetActiveWindowCmd)
+        .map(|window| window.into())
+        .unwrap_or_else(|| {
+            error!("Failed to get active window from Hyprland");
+            proto_rust::Client::default()
+        });
+
+    let mut desktop = proto_rust::Desktop::default();
+    desktop.set_clients(clients);
+    desktop.set_active_window(active_window);
+    desktop
 }
 
 fn window_events_socket_path() -> PathBuf {
