@@ -52,6 +52,7 @@ struct TableStruct_hyprland_2eproto {
 extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_hyprland_2eproto;
 }  // extern "C"
+namespace protos {
 class Client;
 struct ClientDefaultTypeInternal;
 extern ClientDefaultTypeInternal _Client_default_instance_;
@@ -72,11 +73,13 @@ class Workspace;
 struct WorkspaceDefaultTypeInternal;
 extern WorkspaceDefaultTypeInternal _Workspace_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull Workspace_class_data_;
+}  // namespace protos
 namespace google {
 namespace protobuf {
 }  // namespace protobuf
 }  // namespace google
 
+namespace protos {
 
 // ===================================================================
 
@@ -84,7 +87,7 @@ namespace protobuf {
 // -------------------------------------------------------------------
 
 class Workspace final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Workspace) */ {
+/* @@protoc_insertion_point(class_definition:protos.Workspace) */ {
  public:
   inline Workspace() : Workspace(nullptr) {}
   ~Workspace() PROTOBUF_FINAL;
@@ -202,7 +205,7 @@ class Workspace final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Workspace"; }
+  static ::absl::string_view FullMessageName() { return "protos.Workspace"; }
 
   explicit Workspace(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   Workspace(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Workspace& from);
@@ -253,12 +256,12 @@ class Workspace final : public ::google::protobuf::Message
   void _internal_set_id(::uint32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:Workspace)
+  // @@protoc_insertion_point(class_scope:protos.Workspace)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<1, 2,
-                                   0, 22,
+                                   0, 29,
                                    2>
       _table_;
 
@@ -291,7 +294,7 @@ extern const ::google::protobuf::internal::ClassDataFull Workspace_class_data_;
 // -------------------------------------------------------------------
 
 class CloseWindowEvent final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:CloseWindowEvent) */ {
+/* @@protoc_insertion_point(class_definition:protos.CloseWindowEvent) */ {
  public:
   inline CloseWindowEvent() : CloseWindowEvent(nullptr) {}
   ~CloseWindowEvent() PROTOBUF_FINAL;
@@ -409,7 +412,7 @@ class CloseWindowEvent final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "CloseWindowEvent"; }
+  static ::absl::string_view FullMessageName() { return "protos.CloseWindowEvent"; }
 
   explicit CloseWindowEvent(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   CloseWindowEvent(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const CloseWindowEvent& from);
@@ -449,12 +452,12 @@ class CloseWindowEvent final : public ::google::protobuf::Message
   ::std::string* PROTOBUF_NONNULL _internal_mutable_address();
 
   public:
-  // @@protoc_insertion_point(class_scope:CloseWindowEvent)
+  // @@protoc_insertion_point(class_scope:protos.CloseWindowEvent)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   0, 32,
+                                   0, 39,
                                    2>
       _table_;
 
@@ -486,7 +489,7 @@ extern const ::google::protobuf::internal::ClassDataFull CloseWindowEvent_class_
 // -------------------------------------------------------------------
 
 class Client final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Client) */ {
+/* @@protoc_insertion_point(class_definition:protos.Client) */ {
  public:
   inline Client() : Client(nullptr) {}
   ~Client() PROTOBUF_FINAL;
@@ -604,7 +607,7 @@ class Client final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Client"; }
+  static ::absl::string_view FullMessageName() { return "protos.Client"; }
 
   explicit Client(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   Client(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Client& from);
@@ -661,27 +664,27 @@ class Client final : public ::google::protobuf::Message
   ::std::string* PROTOBUF_NONNULL _internal_mutable_class_();
 
   public:
-  // .Workspace workspace = 3;
+  // .protos.Workspace workspace = 3;
   bool has_workspace() const;
   void clear_workspace() ;
-  const ::Workspace& workspace() const;
-  [[nodiscard]] ::Workspace* PROTOBUF_NULLABLE release_workspace();
-  ::Workspace* PROTOBUF_NONNULL mutable_workspace();
-  void set_allocated_workspace(::Workspace* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_workspace(::Workspace* PROTOBUF_NULLABLE value);
-  ::Workspace* PROTOBUF_NULLABLE unsafe_arena_release_workspace();
+  const ::protos::Workspace& workspace() const;
+  [[nodiscard]] ::protos::Workspace* PROTOBUF_NULLABLE release_workspace();
+  ::protos::Workspace* PROTOBUF_NONNULL mutable_workspace();
+  void set_allocated_workspace(::protos::Workspace* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_workspace(::protos::Workspace* PROTOBUF_NULLABLE value);
+  ::protos::Workspace* PROTOBUF_NULLABLE unsafe_arena_release_workspace();
 
   private:
-  const ::Workspace& _internal_workspace() const;
-  ::Workspace* PROTOBUF_NONNULL _internal_mutable_workspace();
+  const ::protos::Workspace& _internal_workspace() const;
+  ::protos::Workspace* PROTOBUF_NONNULL _internal_mutable_workspace();
 
   public:
-  // @@protoc_insertion_point(class_scope:Client)
+  // @@protoc_insertion_point(class_scope:protos.Client)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<2, 3,
-                                   1, 27,
+                                   1, 34,
                                    2>
       _table_;
 
@@ -704,7 +707,7 @@ class Client final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr address_;
     ::google::protobuf::internal::ArenaStringPtr class__;
-    ::Workspace* PROTOBUF_NULLABLE workspace_;
+    ::protos::Workspace* PROTOBUF_NULLABLE workspace_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -715,7 +718,7 @@ extern const ::google::protobuf::internal::ClassDataFull Client_class_data_;
 // -------------------------------------------------------------------
 
 class OpenWindowEvent final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:OpenWindowEvent) */ {
+/* @@protoc_insertion_point(class_definition:protos.OpenWindowEvent) */ {
  public:
   inline OpenWindowEvent() : OpenWindowEvent(nullptr) {}
   ~OpenWindowEvent() PROTOBUF_FINAL;
@@ -833,7 +836,7 @@ class OpenWindowEvent final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "OpenWindowEvent"; }
+  static ::absl::string_view FullMessageName() { return "protos.OpenWindowEvent"; }
 
   explicit OpenWindowEvent(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   OpenWindowEvent(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const OpenWindowEvent& from);
@@ -858,22 +861,22 @@ class OpenWindowEvent final : public ::google::protobuf::Message
   enum : int {
     kWindowFieldNumber = 1,
   };
-  // .Client window = 1;
+  // .protos.Client window = 1;
   bool has_window() const;
   void clear_window() ;
-  const ::Client& window() const;
-  [[nodiscard]] ::Client* PROTOBUF_NULLABLE release_window();
-  ::Client* PROTOBUF_NONNULL mutable_window();
-  void set_allocated_window(::Client* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_window(::Client* PROTOBUF_NULLABLE value);
-  ::Client* PROTOBUF_NULLABLE unsafe_arena_release_window();
+  const ::protos::Client& window() const;
+  [[nodiscard]] ::protos::Client* PROTOBUF_NULLABLE release_window();
+  ::protos::Client* PROTOBUF_NONNULL mutable_window();
+  void set_allocated_window(::protos::Client* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_window(::protos::Client* PROTOBUF_NULLABLE value);
+  ::protos::Client* PROTOBUF_NULLABLE unsafe_arena_release_window();
 
   private:
-  const ::Client& _internal_window() const;
-  ::Client* PROTOBUF_NONNULL _internal_mutable_window();
+  const ::protos::Client& _internal_window() const;
+  ::protos::Client* PROTOBUF_NONNULL _internal_mutable_window();
 
   public:
-  // @@protoc_insertion_point(class_scope:OpenWindowEvent)
+  // @@protoc_insertion_point(class_scope:protos.OpenWindowEvent)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -899,7 +902,7 @@ class OpenWindowEvent final : public ::google::protobuf::Message
         const OpenWindowEvent& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::Client* PROTOBUF_NULLABLE window_;
+    ::protos::Client* PROTOBUF_NULLABLE window_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -910,7 +913,7 @@ extern const ::google::protobuf::internal::ClassDataFull OpenWindowEvent_class_d
 // -------------------------------------------------------------------
 
 class Clients final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Clients) */ {
+/* @@protoc_insertion_point(class_definition:protos.Clients) */ {
  public:
   inline Clients() : Clients(nullptr) {}
   ~Clients() PROTOBUF_FINAL;
@@ -1028,7 +1031,7 @@ class Clients final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Clients"; }
+  static ::absl::string_view FullMessageName() { return "protos.Clients"; }
 
   explicit Clients(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   Clients(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Clients& from);
@@ -1053,24 +1056,24 @@ class Clients final : public ::google::protobuf::Message
   enum : int {
     kClientsFieldNumber = 1,
   };
-  // repeated .Client clients = 1;
+  // repeated .protos.Client clients = 1;
   int clients_size() const;
   private:
   int _internal_clients_size() const;
 
   public:
   void clear_clients() ;
-  ::Client* PROTOBUF_NONNULL mutable_clients(int index);
-  ::google::protobuf::RepeatedPtrField<::Client>* PROTOBUF_NONNULL mutable_clients();
+  ::protos::Client* PROTOBUF_NONNULL mutable_clients(int index);
+  ::google::protobuf::RepeatedPtrField<::protos::Client>* PROTOBUF_NONNULL mutable_clients();
 
   private:
-  const ::google::protobuf::RepeatedPtrField<::Client>& _internal_clients() const;
-  ::google::protobuf::RepeatedPtrField<::Client>* PROTOBUF_NONNULL _internal_mutable_clients();
+  const ::google::protobuf::RepeatedPtrField<::protos::Client>& _internal_clients() const;
+  ::google::protobuf::RepeatedPtrField<::protos::Client>* PROTOBUF_NONNULL _internal_mutable_clients();
   public:
-  const ::Client& clients(int index) const;
-  ::Client* PROTOBUF_NONNULL add_clients();
-  const ::google::protobuf::RepeatedPtrField<::Client>& clients() const;
-  // @@protoc_insertion_point(class_scope:Clients)
+  const ::protos::Client& clients(int index) const;
+  ::protos::Client* PROTOBUF_NONNULL add_clients();
+  const ::google::protobuf::RepeatedPtrField<::protos::Client>& clients() const;
+  // @@protoc_insertion_point(class_scope:protos.Clients)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -1096,7 +1099,7 @@ class Clients final : public ::google::protobuf::Message
         const Clients& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::RepeatedPtrField< ::Client > clients_;
+    ::google::protobuf::RepeatedPtrField< ::protos::Client > clients_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1129,13 +1132,13 @@ inline void Workspace::clear_id() {
                   0x00000002U);
 }
 inline ::uint32_t Workspace::id() const {
-  // @@protoc_insertion_point(field_get:Workspace.id)
+  // @@protoc_insertion_point(field_get:protos.Workspace.id)
   return _internal_id();
 }
 inline void Workspace::set_id(::uint32_t value) {
   _internal_set_id(value);
   SetHasBit(_impl_._has_bits_[0], 0x00000002U);
-  // @@protoc_insertion_point(field_set:Workspace.id)
+  // @@protoc_insertion_point(field_set:protos.Workspace.id)
 }
 inline ::uint32_t Workspace::_internal_id() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
@@ -1155,7 +1158,7 @@ inline void Workspace::clear_name() {
 }
 inline const ::std::string& Workspace::name() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Workspace.name)
+  // @@protoc_insertion_point(field_get:protos.Workspace.name)
   return _internal_name();
 }
 template <typename Arg_, typename... Args_>
@@ -1163,13 +1166,13 @@ PROTOBUF_ALWAYS_INLINE void Workspace::set_name(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Workspace.name)
+  // @@protoc_insertion_point(field_set:protos.Workspace.name)
 }
 inline ::std::string* PROTOBUF_NONNULL Workspace::mutable_name()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   ::std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:Workspace.name)
+  // @@protoc_insertion_point(field_mutable:protos.Workspace.name)
   return _s;
 }
 inline const ::std::string& Workspace::_internal_name() const {
@@ -1186,7 +1189,7 @@ inline ::std::string* PROTOBUF_NONNULL Workspace::_internal_mutable_name() {
 }
 inline ::std::string* PROTOBUF_NULLABLE Workspace::release_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Workspace.name)
+  // @@protoc_insertion_point(field_release:protos.Workspace.name)
   if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
     return nullptr;
   }
@@ -1208,7 +1211,7 @@ inline void Workspace::set_allocated_name(::std::string* PROTOBUF_NULLABLE value
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_.IsDefault()) {
     _impl_.name_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:Workspace.name)
+  // @@protoc_insertion_point(field_set_allocated:protos.Workspace.name)
 }
 
 // -------------------------------------------------------------------
@@ -1224,7 +1227,7 @@ inline void Client::clear_address() {
 }
 inline const ::std::string& Client::address() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Client.address)
+  // @@protoc_insertion_point(field_get:protos.Client.address)
   return _internal_address();
 }
 template <typename Arg_, typename... Args_>
@@ -1232,13 +1235,13 @@ PROTOBUF_ALWAYS_INLINE void Client::set_address(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   _impl_.address_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Client.address)
+  // @@protoc_insertion_point(field_set:protos.Client.address)
 }
 inline ::std::string* PROTOBUF_NONNULL Client::mutable_address()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   ::std::string* _s = _internal_mutable_address();
-  // @@protoc_insertion_point(field_mutable:Client.address)
+  // @@protoc_insertion_point(field_mutable:protos.Client.address)
   return _s;
 }
 inline const ::std::string& Client::_internal_address() const {
@@ -1255,7 +1258,7 @@ inline ::std::string* PROTOBUF_NONNULL Client::_internal_mutable_address() {
 }
 inline ::std::string* PROTOBUF_NULLABLE Client::release_address() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Client.address)
+  // @@protoc_insertion_point(field_release:protos.Client.address)
   if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
     return nullptr;
   }
@@ -1277,7 +1280,7 @@ inline void Client::set_allocated_address(::std::string* PROTOBUF_NULLABLE value
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.address_.IsDefault()) {
     _impl_.address_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:Client.address)
+  // @@protoc_insertion_point(field_set_allocated:protos.Client.address)
 }
 
 // string class = 2;
@@ -1289,7 +1292,7 @@ inline void Client::clear_class_() {
 }
 inline const ::std::string& Client::class_() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Client.class)
+  // @@protoc_insertion_point(field_get:protos.Client.class)
   return _internal_class_();
 }
 template <typename Arg_, typename... Args_>
@@ -1297,13 +1300,13 @@ PROTOBUF_ALWAYS_INLINE void Client::set_class_(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   SetHasBit(_impl_._has_bits_[0], 0x00000002U);
   _impl_.class__.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Client.class)
+  // @@protoc_insertion_point(field_set:protos.Client.class)
 }
 inline ::std::string* PROTOBUF_NONNULL Client::mutable_class_()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000002U);
   ::std::string* _s = _internal_mutable_class_();
-  // @@protoc_insertion_point(field_mutable:Client.class)
+  // @@protoc_insertion_point(field_mutable:protos.Client.class)
   return _s;
 }
 inline const ::std::string& Client::_internal_class_() const {
@@ -1320,7 +1323,7 @@ inline ::std::string* PROTOBUF_NONNULL Client::_internal_mutable_class_() {
 }
 inline ::std::string* PROTOBUF_NULLABLE Client::release_class_() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Client.class)
+  // @@protoc_insertion_point(field_release:protos.Client.class)
   if (!CheckHasBit(_impl_._has_bits_[0], 0x00000002U)) {
     return nullptr;
   }
@@ -1342,10 +1345,10 @@ inline void Client::set_allocated_class_(::std::string* PROTOBUF_NULLABLE value)
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.class__.IsDefault()) {
     _impl_.class__.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:Client.class)
+  // @@protoc_insertion_point(field_set_allocated:protos.Client.class)
 }
 
-// .Workspace workspace = 3;
+// .protos.Workspace workspace = 3;
 inline bool Client::has_workspace() const {
   bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000004U);
   PROTOBUF_ASSUME(!value || _impl_.workspace_ != nullptr);
@@ -1357,34 +1360,34 @@ inline void Client::clear_workspace() {
   ClearHasBit(_impl_._has_bits_[0],
                   0x00000004U);
 }
-inline const ::Workspace& Client::_internal_workspace() const {
+inline const ::protos::Workspace& Client::_internal_workspace() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Workspace* p = _impl_.workspace_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Workspace&>(::_Workspace_default_instance_);
+  const ::protos::Workspace* p = _impl_.workspace_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protos::Workspace&>(::protos::_Workspace_default_instance_);
 }
-inline const ::Workspace& Client::workspace() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Client.workspace)
+inline const ::protos::Workspace& Client::workspace() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:protos.Client.workspace)
   return _internal_workspace();
 }
 inline void Client::unsafe_arena_set_allocated_workspace(
-    ::Workspace* PROTOBUF_NULLABLE value) {
+    ::protos::Workspace* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.workspace_);
   }
-  _impl_.workspace_ = reinterpret_cast<::Workspace*>(value);
+  _impl_.workspace_ = reinterpret_cast<::protos::Workspace*>(value);
   if (value != nullptr) {
     SetHasBit(_impl_._has_bits_[0], 0x00000004U);
   } else {
     ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Client.workspace)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protos.Client.workspace)
 }
-inline ::Workspace* PROTOBUF_NULLABLE Client::release_workspace() {
+inline ::protos::Workspace* PROTOBUF_NULLABLE Client::release_workspace() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
-  ::Workspace* released = _impl_.workspace_;
+  ::protos::Workspace* released = _impl_.workspace_;
   _impl_.workspace_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -1399,31 +1402,31 @@ inline ::Workspace* PROTOBUF_NULLABLE Client::release_workspace() {
   }
   return released;
 }
-inline ::Workspace* PROTOBUF_NULLABLE Client::unsafe_arena_release_workspace() {
+inline ::protos::Workspace* PROTOBUF_NULLABLE Client::unsafe_arena_release_workspace() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Client.workspace)
+  // @@protoc_insertion_point(field_release:protos.Client.workspace)
 
   ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
-  ::Workspace* temp = _impl_.workspace_;
+  ::protos::Workspace* temp = _impl_.workspace_;
   _impl_.workspace_ = nullptr;
   return temp;
 }
-inline ::Workspace* PROTOBUF_NONNULL Client::_internal_mutable_workspace() {
+inline ::protos::Workspace* PROTOBUF_NONNULL Client::_internal_mutable_workspace() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.workspace_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Workspace>(GetArena());
-    _impl_.workspace_ = reinterpret_cast<::Workspace*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::protos::Workspace>(GetArena());
+    _impl_.workspace_ = reinterpret_cast<::protos::Workspace*>(p);
   }
   return _impl_.workspace_;
 }
-inline ::Workspace* PROTOBUF_NONNULL Client::mutable_workspace()
+inline ::protos::Workspace* PROTOBUF_NONNULL Client::mutable_workspace()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000004U);
-  ::Workspace* _msg = _internal_mutable_workspace();
-  // @@protoc_insertion_point(field_mutable:Client.workspace)
+  ::protos::Workspace* _msg = _internal_mutable_workspace();
+  // @@protoc_insertion_point(field_mutable:protos.Client.workspace)
   return _msg;
 }
-inline void Client::set_allocated_workspace(::Workspace* PROTOBUF_NULLABLE value) {
+inline void Client::set_allocated_workspace(::protos::Workspace* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1440,15 +1443,15 @@ inline void Client::set_allocated_workspace(::Workspace* PROTOBUF_NULLABLE value
     ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
   }
 
-  _impl_.workspace_ = reinterpret_cast<::Workspace*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Client.workspace)
+  _impl_.workspace_ = reinterpret_cast<::protos::Workspace*>(value);
+  // @@protoc_insertion_point(field_set_allocated:protos.Client.workspace)
 }
 
 // -------------------------------------------------------------------
 
 // Clients
 
-// repeated .Client clients = 1;
+// repeated .protos.Client clients = 1;
 inline int Clients::_internal_clients_size() const {
   return _internal_clients().size();
 }
@@ -1461,44 +1464,44 @@ inline void Clients::clear_clients() {
   ClearHasBitForRepeated(_impl_._has_bits_[0],
                   0x00000001U);
 }
-inline ::Client* PROTOBUF_NONNULL Clients::mutable_clients(int index)
+inline ::protos::Client* PROTOBUF_NONNULL Clients::mutable_clients(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:Clients.clients)
+  // @@protoc_insertion_point(field_mutable:protos.Clients.clients)
   return _internal_mutable_clients()->Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField<::Client>* PROTOBUF_NONNULL Clients::mutable_clients()
+inline ::google::protobuf::RepeatedPtrField<::protos::Client>* PROTOBUF_NONNULL Clients::mutable_clients()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBitForRepeated(_impl_._has_bits_[0], 0x00000001U);
-  // @@protoc_insertion_point(field_mutable_list:Clients.clients)
+  // @@protoc_insertion_point(field_mutable_list:protos.Clients.clients)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _internal_mutable_clients();
 }
-inline const ::Client& Clients::clients(int index) const
+inline const ::protos::Client& Clients::clients(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Clients.clients)
+  // @@protoc_insertion_point(field_get:protos.Clients.clients)
   return _internal_clients().Get(index);
 }
-inline ::Client* PROTOBUF_NONNULL Clients::add_clients()
+inline ::protos::Client* PROTOBUF_NONNULL Clients::add_clients()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::Client* _add =
+  ::protos::Client* _add =
       _internal_mutable_clients()->InternalAddWithArena(
           ::google::protobuf::MessageLite::internal_visibility(), GetArena());
   SetHasBitForRepeated(_impl_._has_bits_[0], 0x00000001U);
-  // @@protoc_insertion_point(field_add:Clients.clients)
+  // @@protoc_insertion_point(field_add:protos.Clients.clients)
   return _add;
 }
-inline const ::google::protobuf::RepeatedPtrField<::Client>& Clients::clients() const
+inline const ::google::protobuf::RepeatedPtrField<::protos::Client>& Clients::clients() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:Clients.clients)
+  // @@protoc_insertion_point(field_list:protos.Clients.clients)
   return _internal_clients();
 }
-inline const ::google::protobuf::RepeatedPtrField<::Client>&
+inline const ::google::protobuf::RepeatedPtrField<::protos::Client>&
 Clients::_internal_clients() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.clients_;
 }
-inline ::google::protobuf::RepeatedPtrField<::Client>* PROTOBUF_NONNULL
+inline ::google::protobuf::RepeatedPtrField<::protos::Client>* PROTOBUF_NONNULL
 Clients::_internal_mutable_clients() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.clients_;
@@ -1508,7 +1511,7 @@ Clients::_internal_mutable_clients() {
 
 // OpenWindowEvent
 
-// .Client window = 1;
+// .protos.Client window = 1;
 inline bool OpenWindowEvent::has_window() const {
   bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000001U);
   PROTOBUF_ASSUME(!value || _impl_.window_ != nullptr);
@@ -1520,34 +1523,34 @@ inline void OpenWindowEvent::clear_window() {
   ClearHasBit(_impl_._has_bits_[0],
                   0x00000001U);
 }
-inline const ::Client& OpenWindowEvent::_internal_window() const {
+inline const ::protos::Client& OpenWindowEvent::_internal_window() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Client* p = _impl_.window_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Client&>(::_Client_default_instance_);
+  const ::protos::Client* p = _impl_.window_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protos::Client&>(::protos::_Client_default_instance_);
 }
-inline const ::Client& OpenWindowEvent::window() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:OpenWindowEvent.window)
+inline const ::protos::Client& OpenWindowEvent::window() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:protos.OpenWindowEvent.window)
   return _internal_window();
 }
 inline void OpenWindowEvent::unsafe_arena_set_allocated_window(
-    ::Client* PROTOBUF_NULLABLE value) {
+    ::protos::Client* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.window_);
   }
-  _impl_.window_ = reinterpret_cast<::Client*>(value);
+  _impl_.window_ = reinterpret_cast<::protos::Client*>(value);
   if (value != nullptr) {
     SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   } else {
     ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:OpenWindowEvent.window)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protos.OpenWindowEvent.window)
 }
-inline ::Client* PROTOBUF_NULLABLE OpenWindowEvent::release_window() {
+inline ::protos::Client* PROTOBUF_NULLABLE OpenWindowEvent::release_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::Client* released = _impl_.window_;
+  ::protos::Client* released = _impl_.window_;
   _impl_.window_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -1562,31 +1565,31 @@ inline ::Client* PROTOBUF_NULLABLE OpenWindowEvent::release_window() {
   }
   return released;
 }
-inline ::Client* PROTOBUF_NULLABLE OpenWindowEvent::unsafe_arena_release_window() {
+inline ::protos::Client* PROTOBUF_NULLABLE OpenWindowEvent::unsafe_arena_release_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:OpenWindowEvent.window)
+  // @@protoc_insertion_point(field_release:protos.OpenWindowEvent.window)
 
   ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::Client* temp = _impl_.window_;
+  ::protos::Client* temp = _impl_.window_;
   _impl_.window_ = nullptr;
   return temp;
 }
-inline ::Client* PROTOBUF_NONNULL OpenWindowEvent::_internal_mutable_window() {
+inline ::protos::Client* PROTOBUF_NONNULL OpenWindowEvent::_internal_mutable_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.window_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Client>(GetArena());
-    _impl_.window_ = reinterpret_cast<::Client*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::protos::Client>(GetArena());
+    _impl_.window_ = reinterpret_cast<::protos::Client*>(p);
   }
   return _impl_.window_;
 }
-inline ::Client* PROTOBUF_NONNULL OpenWindowEvent::mutable_window()
+inline ::protos::Client* PROTOBUF_NONNULL OpenWindowEvent::mutable_window()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::Client* _msg = _internal_mutable_window();
-  // @@protoc_insertion_point(field_mutable:OpenWindowEvent.window)
+  ::protos::Client* _msg = _internal_mutable_window();
+  // @@protoc_insertion_point(field_mutable:protos.OpenWindowEvent.window)
   return _msg;
 }
-inline void OpenWindowEvent::set_allocated_window(::Client* PROTOBUF_NULLABLE value) {
+inline void OpenWindowEvent::set_allocated_window(::protos::Client* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1603,8 +1606,8 @@ inline void OpenWindowEvent::set_allocated_window(::Client* PROTOBUF_NULLABLE va
     ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
   }
 
-  _impl_.window_ = reinterpret_cast<::Client*>(value);
-  // @@protoc_insertion_point(field_set_allocated:OpenWindowEvent.window)
+  _impl_.window_ = reinterpret_cast<::protos::Client*>(value);
+  // @@protoc_insertion_point(field_set_allocated:protos.OpenWindowEvent.window)
 }
 
 // -------------------------------------------------------------------
@@ -1620,7 +1623,7 @@ inline void CloseWindowEvent::clear_address() {
 }
 inline const ::std::string& CloseWindowEvent::address() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:CloseWindowEvent.address)
+  // @@protoc_insertion_point(field_get:protos.CloseWindowEvent.address)
   return _internal_address();
 }
 template <typename Arg_, typename... Args_>
@@ -1628,13 +1631,13 @@ PROTOBUF_ALWAYS_INLINE void CloseWindowEvent::set_address(Arg_&& arg, Args_... a
   ::google::protobuf::internal::TSanWrite(&_impl_);
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   _impl_.address_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:CloseWindowEvent.address)
+  // @@protoc_insertion_point(field_set:protos.CloseWindowEvent.address)
 }
 inline ::std::string* PROTOBUF_NONNULL CloseWindowEvent::mutable_address()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   ::std::string* _s = _internal_mutable_address();
-  // @@protoc_insertion_point(field_mutable:CloseWindowEvent.address)
+  // @@protoc_insertion_point(field_mutable:protos.CloseWindowEvent.address)
   return _s;
 }
 inline const ::std::string& CloseWindowEvent::_internal_address() const {
@@ -1651,7 +1654,7 @@ inline ::std::string* PROTOBUF_NONNULL CloseWindowEvent::_internal_mutable_addre
 }
 inline ::std::string* PROTOBUF_NULLABLE CloseWindowEvent::release_address() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:CloseWindowEvent.address)
+  // @@protoc_insertion_point(field_release:protos.CloseWindowEvent.address)
   if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
     return nullptr;
   }
@@ -1673,7 +1676,7 @@ inline void CloseWindowEvent::set_allocated_address(::std::string* PROTOBUF_NULL
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.address_.IsDefault()) {
     _impl_.address_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:CloseWindowEvent.address)
+  // @@protoc_insertion_point(field_set_allocated:protos.CloseWindowEvent.address)
 }
 
 #ifdef __GNUC__
@@ -1681,6 +1684,7 @@ inline void CloseWindowEvent::set_allocated_address(::std::string* PROTOBUF_NULL
 #endif  // __GNUC__
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace protos
 
 
 // @@protoc_insertion_point(global_scope)

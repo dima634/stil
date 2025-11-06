@@ -53,15 +53,18 @@ struct TableStruct_desktop_2eproto {
 extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_desktop_2eproto;
 }  // extern "C"
+namespace protos {
 class Desktop;
 struct DesktopDefaultTypeInternal;
 extern DesktopDefaultTypeInternal _Desktop_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull Desktop_class_data_;
+}  // namespace protos
 namespace google {
 namespace protobuf {
 }  // namespace protobuf
 }  // namespace google
 
+namespace protos {
 
 // ===================================================================
 
@@ -69,7 +72,7 @@ namespace protobuf {
 // -------------------------------------------------------------------
 
 class Desktop final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:Desktop) */ {
+/* @@protoc_insertion_point(class_definition:protos.Desktop) */ {
  public:
   inline Desktop() : Desktop(nullptr) {}
   ~Desktop() PROTOBUF_FINAL;
@@ -187,7 +190,7 @@ class Desktop final : public ::google::protobuf::Message
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "Desktop"; }
+  static ::absl::string_view FullMessageName() { return "protos.Desktop"; }
 
   explicit Desktop(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   Desktop(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Desktop& from);
@@ -210,40 +213,40 @@ class Desktop final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kClientsFieldNumber = 1,
-    kActiveWindowFieldNumber = 2,
+    kActiveWindowFieldNumber = 1,
+    kClientsFieldNumber = 2,
   };
-  // .Clients clients = 1;
-  bool has_clients() const;
-  void clear_clients() ;
-  const ::Clients& clients() const;
-  [[nodiscard]] ::Clients* PROTOBUF_NULLABLE release_clients();
-  ::Clients* PROTOBUF_NONNULL mutable_clients();
-  void set_allocated_clients(::Clients* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_clients(::Clients* PROTOBUF_NULLABLE value);
-  ::Clients* PROTOBUF_NULLABLE unsafe_arena_release_clients();
-
-  private:
-  const ::Clients& _internal_clients() const;
-  ::Clients* PROTOBUF_NONNULL _internal_mutable_clients();
-
-  public:
-  // .Client active_window = 2;
+  // .protos.Client active_window = 1;
   bool has_active_window() const;
   void clear_active_window() ;
-  const ::Client& active_window() const;
-  [[nodiscard]] ::Client* PROTOBUF_NULLABLE release_active_window();
-  ::Client* PROTOBUF_NONNULL mutable_active_window();
-  void set_allocated_active_window(::Client* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_active_window(::Client* PROTOBUF_NULLABLE value);
-  ::Client* PROTOBUF_NULLABLE unsafe_arena_release_active_window();
+  const ::protos::Client& active_window() const;
+  [[nodiscard]] ::protos::Client* PROTOBUF_NULLABLE release_active_window();
+  ::protos::Client* PROTOBUF_NONNULL mutable_active_window();
+  void set_allocated_active_window(::protos::Client* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_active_window(::protos::Client* PROTOBUF_NULLABLE value);
+  ::protos::Client* PROTOBUF_NULLABLE unsafe_arena_release_active_window();
 
   private:
-  const ::Client& _internal_active_window() const;
-  ::Client* PROTOBUF_NONNULL _internal_mutable_active_window();
+  const ::protos::Client& _internal_active_window() const;
+  ::protos::Client* PROTOBUF_NONNULL _internal_mutable_active_window();
 
   public:
-  // @@protoc_insertion_point(class_scope:Desktop)
+  // .protos.Clients clients = 2;
+  bool has_clients() const;
+  void clear_clients() ;
+  const ::protos::Clients& clients() const;
+  [[nodiscard]] ::protos::Clients* PROTOBUF_NULLABLE release_clients();
+  ::protos::Clients* PROTOBUF_NONNULL mutable_clients();
+  void set_allocated_clients(::protos::Clients* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_clients(::protos::Clients* PROTOBUF_NULLABLE value);
+  ::protos::Clients* PROTOBUF_NULLABLE unsafe_arena_release_clients();
+
+  private:
+  const ::protos::Clients& _internal_clients() const;
+  ::protos::Clients* PROTOBUF_NONNULL _internal_mutable_clients();
+
+  public:
+  // @@protoc_insertion_point(class_scope:protos.Desktop)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -269,8 +272,8 @@ class Desktop final : public ::google::protobuf::Message
         const Desktop& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::Clients* PROTOBUF_NULLABLE clients_;
-    ::Client* PROTOBUF_NULLABLE active_window_;
+    ::protos::Client* PROTOBUF_NULLABLE active_window_;
+    ::protos::Clients* PROTOBUF_NULLABLE clients_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -295,133 +298,40 @@ extern const ::google::protobuf::internal::ClassDataFull Desktop_class_data_;
 
 // Desktop
 
-// .Clients clients = 1;
-inline bool Desktop::has_clients() const {
-  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000001U);
-  PROTOBUF_ASSUME(!value || _impl_.clients_ != nullptr);
-  return value;
-}
-inline const ::Clients& Desktop::_internal_clients() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Clients* p = _impl_.clients_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Clients&>(::_Clients_default_instance_);
-}
-inline const ::Clients& Desktop::clients() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Desktop.clients)
-  return _internal_clients();
-}
-inline void Desktop::unsafe_arena_set_allocated_clients(
-    ::Clients* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.clients_);
-  }
-  _impl_.clients_ = reinterpret_cast<::Clients*>(value);
-  if (value != nullptr) {
-    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Desktop.clients)
-}
-inline ::Clients* PROTOBUF_NULLABLE Desktop::release_clients() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::Clients* released = _impl_.clients_;
-  _impl_.clients_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
-}
-inline ::Clients* PROTOBUF_NULLABLE Desktop::unsafe_arena_release_clients() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Desktop.clients)
-
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::Clients* temp = _impl_.clients_;
-  _impl_.clients_ = nullptr;
-  return temp;
-}
-inline ::Clients* PROTOBUF_NONNULL Desktop::_internal_mutable_clients() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.clients_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Clients>(GetArena());
-    _impl_.clients_ = reinterpret_cast<::Clients*>(p);
-  }
-  return _impl_.clients_;
-}
-inline ::Clients* PROTOBUF_NONNULL Desktop::mutable_clients()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::Clients* _msg = _internal_mutable_clients();
-  // @@protoc_insertion_point(field_mutable:Desktop.clients)
-  return _msg;
-}
-inline void Desktop::set_allocated_clients(::Clients* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.clients_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::Message*>(value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  }
-
-  _impl_.clients_ = reinterpret_cast<::Clients*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Desktop.clients)
-}
-
-// .Client active_window = 2;
+// .protos.Client active_window = 1;
 inline bool Desktop::has_active_window() const {
-  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000002U);
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000001U);
   PROTOBUF_ASSUME(!value || _impl_.active_window_ != nullptr);
   return value;
 }
-inline const ::Client& Desktop::_internal_active_window() const {
+inline const ::protos::Client& Desktop::_internal_active_window() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::Client* p = _impl_.active_window_;
-  return p != nullptr ? *p : reinterpret_cast<const ::Client&>(::_Client_default_instance_);
+  const ::protos::Client* p = _impl_.active_window_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protos::Client&>(::protos::_Client_default_instance_);
 }
-inline const ::Client& Desktop::active_window() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Desktop.active_window)
+inline const ::protos::Client& Desktop::active_window() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:protos.Desktop.active_window)
   return _internal_active_window();
 }
 inline void Desktop::unsafe_arena_set_allocated_active_window(
-    ::Client* PROTOBUF_NULLABLE value) {
+    ::protos::Client* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.active_window_);
   }
-  _impl_.active_window_ = reinterpret_cast<::Client*>(value);
+  _impl_.active_window_ = reinterpret_cast<::protos::Client*>(value);
   if (value != nullptr) {
-    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Desktop.active_window)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protos.Desktop.active_window)
 }
-inline ::Client* PROTOBUF_NULLABLE Desktop::release_active_window() {
+inline ::protos::Client* PROTOBUF_NULLABLE Desktop::release_active_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
-  ::Client* released = _impl_.active_window_;
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::protos::Client* released = _impl_.active_window_;
   _impl_.active_window_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
     auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
@@ -436,35 +346,128 @@ inline ::Client* PROTOBUF_NULLABLE Desktop::release_active_window() {
   }
   return released;
 }
-inline ::Client* PROTOBUF_NULLABLE Desktop::unsafe_arena_release_active_window() {
+inline ::protos::Client* PROTOBUF_NULLABLE Desktop::unsafe_arena_release_active_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:Desktop.active_window)
+  // @@protoc_insertion_point(field_release:protos.Desktop.active_window)
 
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
-  ::Client* temp = _impl_.active_window_;
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::protos::Client* temp = _impl_.active_window_;
   _impl_.active_window_ = nullptr;
   return temp;
 }
-inline ::Client* PROTOBUF_NONNULL Desktop::_internal_mutable_active_window() {
+inline ::protos::Client* PROTOBUF_NONNULL Desktop::_internal_mutable_active_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.active_window_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::Client>(GetArena());
-    _impl_.active_window_ = reinterpret_cast<::Client*>(p);
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::protos::Client>(GetArena());
+    _impl_.active_window_ = reinterpret_cast<::protos::Client*>(p);
   }
   return _impl_.active_window_;
 }
-inline ::Client* PROTOBUF_NONNULL Desktop::mutable_active_window()
+inline ::protos::Client* PROTOBUF_NONNULL Desktop::mutable_active_window()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
-  ::Client* _msg = _internal_mutable_active_window();
-  // @@protoc_insertion_point(field_mutable:Desktop.active_window)
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::protos::Client* _msg = _internal_mutable_active_window();
+  // @@protoc_insertion_point(field_mutable:protos.Desktop.active_window)
   return _msg;
 }
-inline void Desktop::set_allocated_active_window(::Client* PROTOBUF_NULLABLE value) {
+inline void Desktop::set_allocated_active_window(::protos::Client* PROTOBUF_NULLABLE value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.active_window_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::Message*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  }
+
+  _impl_.active_window_ = reinterpret_cast<::protos::Client*>(value);
+  // @@protoc_insertion_point(field_set_allocated:protos.Desktop.active_window)
+}
+
+// .protos.Clients clients = 2;
+inline bool Desktop::has_clients() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000002U);
+  PROTOBUF_ASSUME(!value || _impl_.clients_ != nullptr);
+  return value;
+}
+inline const ::protos::Clients& Desktop::_internal_clients() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::protos::Clients* p = _impl_.clients_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protos::Clients&>(::protos::_Clients_default_instance_);
+}
+inline const ::protos::Clients& Desktop::clients() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:protos.Desktop.clients)
+  return _internal_clients();
+}
+inline void Desktop::unsafe_arena_set_allocated_clients(
+    ::protos::Clients* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.clients_);
+  }
+  _impl_.clients_ = reinterpret_cast<::protos::Clients*>(value);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protos.Desktop.clients)
+}
+inline ::protos::Clients* PROTOBUF_NULLABLE Desktop::release_clients() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::protos::Clients* released = _impl_.clients_;
+  _impl_.clients_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::protos::Clients* PROTOBUF_NULLABLE Desktop::unsafe_arena_release_clients() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:protos.Desktop.clients)
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::protos::Clients* temp = _impl_.clients_;
+  _impl_.clients_ = nullptr;
+  return temp;
+}
+inline ::protos::Clients* PROTOBUF_NONNULL Desktop::_internal_mutable_clients() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.clients_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::protos::Clients>(GetArena());
+    _impl_.clients_ = reinterpret_cast<::protos::Clients*>(p);
+  }
+  return _impl_.clients_;
+}
+inline ::protos::Clients* PROTOBUF_NONNULL Desktop::mutable_clients()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ::protos::Clients* _msg = _internal_mutable_clients();
+  // @@protoc_insertion_point(field_mutable:protos.Desktop.clients)
+  return _msg;
+}
+inline void Desktop::set_allocated_clients(::protos::Clients* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.clients_);
   }
 
   if (value != nullptr) {
@@ -477,8 +480,8 @@ inline void Desktop::set_allocated_active_window(::Client* PROTOBUF_NULLABLE val
     ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
   }
 
-  _impl_.active_window_ = reinterpret_cast<::Client*>(value);
-  // @@protoc_insertion_point(field_set_allocated:Desktop.active_window)
+  _impl_.clients_ = reinterpret_cast<::protos::Clients*>(value);
+  // @@protoc_insertion_point(field_set_allocated:protos.Desktop.clients)
 }
 
 #ifdef __GNUC__
@@ -486,6 +489,7 @@ inline void Desktop::set_allocated_active_window(::Client* PROTOBUF_NULLABLE val
 #endif  // __GNUC__
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace protos
 
 
 // @@protoc_insertion_point(global_scope)

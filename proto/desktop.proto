@@ -2,7 +2,9 @@ syntax = "proto3";
 
 import "hyprland.proto";
 
+package protos;
+
 message Desktop {
-    Clients clients = 1;
-    Client active_window = 2;
+    Client active_window = 1;
+    Clients clients = 2;
 }

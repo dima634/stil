@@ -24,12 +24,13 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
+namespace protos {
 
 inline constexpr Desktop::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        clients_{nullptr},
-        active_window_{nullptr} {}
+        active_window_{nullptr},
+        clients_{nullptr} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR Desktop::Desktop(::_pbi::ConstantInitialized)
@@ -50,6 +51,7 @@ struct DesktopDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DesktopDefaultTypeInternal _Desktop_default_instance_;
+}  // namespace protos
 static constexpr const ::_pb::EnumDescriptor* PROTOBUF_NONNULL* PROTOBUF_NULLABLE
     file_level_enum_descriptors_desktop_2eproto = nullptr;
 static constexpr const ::_pb::ServiceDescriptor* PROTOBUF_NONNULL* PROTOBUF_NULLABLE
@@ -58,26 +60,27 @@ const ::uint32_t
     TableStruct_desktop_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::Desktop, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::protos::Desktop, _impl_._has_bits_),
         5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::Desktop, _impl_.clients_),
-        PROTOBUF_FIELD_OFFSET(::Desktop, _impl_.active_window_),
+        PROTOBUF_FIELD_OFFSET(::protos::Desktop, _impl_.active_window_),
+        PROTOBUF_FIELD_OFFSET(::protos::Desktop, _impl_.clients_),
         0,
         1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::Desktop)},
+        {0, sizeof(::protos::Desktop)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::_Desktop_default_instance_._instance,
+    &::protos::_Desktop_default_instance_._instance,
 };
 const char descriptor_table_protodef_desktop_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\rdesktop.proto\032\016hyprland.proto\"D\n\007Deskt"
-    "op\022\031\n\007clients\030\001 \001(\0132\010.Clients\022\036\n\ractive_"
-    "window\030\002 \001(\0132\007.Clientb\006proto3"
+    "\n\rdesktop.proto\022\006protos\032\016hyprland.proto\""
+    "R\n\007Desktop\022%\n\ractive_window\030\001 \001(\0132\016.prot"
+    "os.Client\022 \n\007clients\030\002 \001(\0132\017.protos.Clie"
+    "ntsb\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_desktop_2eproto_deps[1] = {
@@ -87,7 +90,7 @@ static ::absl::once_flag descriptor_table_desktop_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_desktop_2eproto = {
     false,
     false,
-    109,
+    131,
     descriptor_table_protodef_desktop_2eproto,
     "desktop.proto",
     &descriptor_table_desktop_2eproto_once,
@@ -100,6 +103,7 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_desktop_2eprot
     file_level_enum_descriptors_desktop_2eproto,
     file_level_service_descriptors_desktop_2eproto,
 };
+namespace protos {
 // ===================================================================
 
 class Desktop::_Internal {
@@ -110,15 +114,15 @@ class Desktop::_Internal {
       8 * PROTOBUF_FIELD_OFFSET(Desktop, _impl_._has_bits_);
 };
 
-void Desktop::clear_clients() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.clients_ != nullptr) _impl_.clients_->Clear();
-  ClearHasBit(_impl_._has_bits_[0],
-                  0x00000001U);
-}
 void Desktop::clear_active_window() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.active_window_ != nullptr) _impl_.active_window_->Clear();
+  ClearHasBit(_impl_._has_bits_[0],
+                  0x00000001U);
+}
+void Desktop::clear_clients() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.clients_ != nullptr) _impl_.clients_->Clear();
   ClearHasBit(_impl_._has_bits_[0],
                   0x00000002U);
 }
@@ -129,12 +133,12 @@ Desktop::Desktop(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Desktop)
+  // @@protoc_insertion_point(arena_constructor:protos.Desktop)
 }
 PROTOBUF_NDEBUG_INLINE Desktop::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::Desktop& from_msg)
+    [[maybe_unused]] const ::protos::Desktop& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0} {}
 
@@ -152,14 +156,14 @@ Desktop::Desktop(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.clients_ = (CheckHasBit(cached_has_bits, 0x00000001U))
-                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.clients_)
-                : nullptr;
-  _impl_.active_window_ = (CheckHasBit(cached_has_bits, 0x00000002U))
+  _impl_.active_window_ = (CheckHasBit(cached_has_bits, 0x00000001U))
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.active_window_)
                 : nullptr;
+  _impl_.clients_ = (CheckHasBit(cached_has_bits, 0x00000002U))
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.clients_)
+                : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:Desktop)
+  // @@protoc_insertion_point(copy_constructor:protos.Desktop)
 }
 PROTOBUF_NDEBUG_INLINE Desktop::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
@@ -169,14 +173,14 @@ PROTOBUF_NDEBUG_INLINE Desktop::Impl_::Impl_(
 inline void Desktop::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char*>(&_impl_) +
-               offsetof(Impl_, clients_),
+               offsetof(Impl_, active_window_),
            0,
-           offsetof(Impl_, active_window_) -
-               offsetof(Impl_, clients_) +
-               sizeof(Impl_::active_window_));
+           offsetof(Impl_, clients_) -
+               offsetof(Impl_, active_window_) +
+               sizeof(Impl_::clients_));
 }
 Desktop::~Desktop() {
-  // @@protoc_insertion_point(destructor:Desktop)
+  // @@protoc_insertion_point(destructor:protos.Desktop)
   SharedDtor(*this);
 }
 inline void Desktop::SharedDtor(MessageLite& self) {
@@ -186,8 +190,8 @@ inline void Desktop::SharedDtor(MessageLite& self) {
   }
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  delete this_._impl_.clients_;
   delete this_._impl_.active_window_;
+  delete this_._impl_.clients_;
   this_._impl_.~Impl_();
 }
 
@@ -250,34 +254,34 @@ Desktop::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Desktop>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::protos::Desktop>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .Client active_window = 2;
+    // .protos.Clients clients = 2;
     {::_pbi::TcParser::FastMtS1,
      {18, 1, 1,
-      PROTOBUF_FIELD_OFFSET(Desktop, _impl_.active_window_)}},
-    // .Clients clients = 1;
+      PROTOBUF_FIELD_OFFSET(Desktop, _impl_.clients_)}},
+    // .protos.Client active_window = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0,
-      PROTOBUF_FIELD_OFFSET(Desktop, _impl_.clients_)}},
+      PROTOBUF_FIELD_OFFSET(Desktop, _impl_.active_window_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .Clients clients = 1;
-    {PROTOBUF_FIELD_OFFSET(Desktop, _impl_.clients_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .Client active_window = 2;
-    {PROTOBUF_FIELD_OFFSET(Desktop, _impl_.active_window_), _Internal::kHasBitsOffset + 1, 1, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .protos.Client active_window = 1;
+    {PROTOBUF_FIELD_OFFSET(Desktop, _impl_.active_window_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .protos.Clients clients = 2;
+    {PROTOBUF_FIELD_OFFSET(Desktop, _impl_.clients_), _Internal::kHasBitsOffset + 1, 1, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::Clients>()},
-      {::_pbi::TcParser::GetTable<::Client>()},
+      {::_pbi::TcParser::GetTable<::protos::Client>()},
+      {::_pbi::TcParser::GetTable<::protos::Clients>()},
   }},
   {{
   }},
 };
 PROTOBUF_NOINLINE void Desktop::Clear() {
-// @@protoc_insertion_point(message_clear_start:Desktop)
+// @@protoc_insertion_point(message_clear_start:protos.Desktop)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -286,12 +290,12 @@ PROTOBUF_NOINLINE void Desktop::Clear() {
   cached_has_bits = _impl_._has_bits_[0];
   if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      ABSL_DCHECK(_impl_.clients_ != nullptr);
-      _impl_.clients_->Clear();
-    }
-    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
       ABSL_DCHECK(_impl_.active_window_ != nullptr);
       _impl_.active_window_->Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(_impl_.clients_ != nullptr);
+      _impl_.clients_->Clear();
     }
   }
   _impl_._has_bits_.Clear();
@@ -312,22 +316,22 @@ PROTOBUF_NOINLINE void Desktop::Clear() {
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:Desktop)
+  // @@protoc_insertion_point(serialize_to_array_start:protos.Desktop)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = this_._impl_._has_bits_[0];
-  // .Clients clients = 1;
+  // .protos.Client active_window = 1;
   if (CheckHasBit(cached_has_bits, 0x00000001U)) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-        1, *this_._impl_.clients_, this_._impl_.clients_->GetCachedSize(), target,
+        1, *this_._impl_.active_window_, this_._impl_.active_window_->GetCachedSize(), target,
         stream);
   }
 
-  // .Client active_window = 2;
+  // .protos.Clients clients = 2;
   if (CheckHasBit(cached_has_bits, 0x00000002U)) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-        2, *this_._impl_.active_window_, this_._impl_.active_window_->GetCachedSize(), target,
+        2, *this_._impl_.clients_, this_._impl_.clients_->GetCachedSize(), target,
         stream);
   }
 
@@ -336,7 +340,7 @@ PROTOBUF_NOINLINE void Desktop::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Desktop)
+  // @@protoc_insertion_point(serialize_to_array_end:protos.Desktop)
   return target;
 }
 
@@ -347,7 +351,7 @@ PROTOBUF_NOINLINE void Desktop::Clear() {
 ::size_t Desktop::ByteSizeLong() const {
   const Desktop& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Desktop)
+  // @@protoc_insertion_point(message_byte_size_start:protos.Desktop)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -357,15 +361,15 @@ PROTOBUF_NOINLINE void Desktop::Clear() {
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
   cached_has_bits = this_._impl_._has_bits_[0];
   if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
-    // .Clients clients = 1;
+    // .protos.Client active_window = 1;
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       total_size += 1 +
-                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.clients_);
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.active_window_);
     }
-    // .Client active_window = 2;
+    // .protos.Clients clients = 2;
     if (CheckHasBit(cached_has_bits, 0x00000002U)) {
       total_size += 1 +
-                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.active_window_);
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.clients_);
     }
   }
   return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -381,7 +385,7 @@ void Desktop::MergeImpl(::google::protobuf::MessageLite& to_msg,
     from.CheckHasBitConsistency();
   }
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:Desktop)
+  // @@protoc_insertion_point(class_specific_merge_from_start:protos.Desktop)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -389,19 +393,19 @@ void Desktop::MergeImpl(::google::protobuf::MessageLite& to_msg,
   cached_has_bits = from._impl_._has_bits_[0];
   if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      ABSL_DCHECK(from._impl_.clients_ != nullptr);
-      if (_this->_impl_.clients_ == nullptr) {
-        _this->_impl_.clients_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.clients_);
-      } else {
-        _this->_impl_.clients_->MergeFrom(*from._impl_.clients_);
-      }
-    }
-    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
       ABSL_DCHECK(from._impl_.active_window_ != nullptr);
       if (_this->_impl_.active_window_ == nullptr) {
         _this->_impl_.active_window_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.active_window_);
       } else {
         _this->_impl_.active_window_->MergeFrom(*from._impl_.active_window_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(from._impl_.clients_ != nullptr);
+      if (_this->_impl_.clients_ == nullptr) {
+        _this->_impl_.clients_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.clients_);
+      } else {
+        _this->_impl_.clients_->MergeFrom(*from._impl_.clients_);
       }
     }
   }
@@ -411,7 +415,7 @@ void Desktop::MergeImpl(::google::protobuf::MessageLite& to_msg,
 }
 
 void Desktop::CopyFrom(const Desktop& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:Desktop)
+  // @@protoc_insertion_point(class_specific_copy_from_start:protos.Desktop)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -423,17 +427,18 @@ void Desktop::InternalSwap(Desktop* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Desktop, _impl_.active_window_)
-      + sizeof(Desktop::_impl_.active_window_)
-      - PROTOBUF_FIELD_OFFSET(Desktop, _impl_.clients_)>(
-          reinterpret_cast<char*>(&_impl_.clients_),
-          reinterpret_cast<char*>(&other->_impl_.clients_));
+      PROTOBUF_FIELD_OFFSET(Desktop, _impl_.clients_)
+      + sizeof(Desktop::_impl_.clients_)
+      - PROTOBUF_FIELD_OFFSET(Desktop, _impl_.active_window_)>(
+          reinterpret_cast<char*>(&_impl_.active_window_),
+          reinterpret_cast<char*>(&other->_impl_.active_window_));
 }
 
 ::google::protobuf::Metadata Desktop::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace protos
 namespace google {
 namespace protobuf {
 }  // namespace protobuf

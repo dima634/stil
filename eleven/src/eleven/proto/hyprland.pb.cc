@@ -24,6 +24,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
+namespace protos {
 
 inline constexpr Workspace::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -160,6 +161,7 @@ struct ClientsDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ClientsDefaultTypeInternal _Clients_default_instance_;
+}  // namespace protos
 static constexpr const ::_pb::EnumDescriptor* PROTOBUF_NONNULL* PROTOBUF_NULLABLE
     file_level_enum_descriptors_hyprland_2eproto = nullptr;
 static constexpr const ::_pb::ServiceDescriptor* PROTOBUF_NONNULL* PROTOBUF_NULLABLE
@@ -168,68 +170,69 @@ const ::uint32_t
     TableStruct_hyprland_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::Workspace, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::protos::Workspace, _impl_._has_bits_),
         5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::Workspace, _impl_.id_),
-        PROTOBUF_FIELD_OFFSET(::Workspace, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::protos::Workspace, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::protos::Workspace, _impl_.name_),
         1,
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::Client, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::protos::Client, _impl_._has_bits_),
         6, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::Client, _impl_.address_),
-        PROTOBUF_FIELD_OFFSET(::Client, _impl_.class__),
-        PROTOBUF_FIELD_OFFSET(::Client, _impl_.workspace_),
+        PROTOBUF_FIELD_OFFSET(::protos::Client, _impl_.address_),
+        PROTOBUF_FIELD_OFFSET(::protos::Client, _impl_.class__),
+        PROTOBUF_FIELD_OFFSET(::protos::Client, _impl_.workspace_),
         0,
         1,
         2,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::Clients, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::protos::Clients, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::Clients, _impl_.clients_),
+        PROTOBUF_FIELD_OFFSET(::protos::Clients, _impl_.clients_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::OpenWindowEvent, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::protos::OpenWindowEvent, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::OpenWindowEvent, _impl_.window_),
+        PROTOBUF_FIELD_OFFSET(::protos::OpenWindowEvent, _impl_.window_),
         0,
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::CloseWindowEvent, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::protos::CloseWindowEvent, _impl_._has_bits_),
         4, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::CloseWindowEvent, _impl_.address_),
+        PROTOBUF_FIELD_OFFSET(::protos::CloseWindowEvent, _impl_.address_),
         0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::Workspace)},
-        {7, sizeof(::Client)},
-        {16, sizeof(::Clients)},
-        {21, sizeof(::OpenWindowEvent)},
-        {26, sizeof(::CloseWindowEvent)},
+        {0, sizeof(::protos::Workspace)},
+        {7, sizeof(::protos::Client)},
+        {16, sizeof(::protos::Clients)},
+        {21, sizeof(::protos::OpenWindowEvent)},
+        {26, sizeof(::protos::CloseWindowEvent)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
-    &::_Workspace_default_instance_._instance,
-    &::_Client_default_instance_._instance,
-    &::_Clients_default_instance_._instance,
-    &::_OpenWindowEvent_default_instance_._instance,
-    &::_CloseWindowEvent_default_instance_._instance,
+    &::protos::_Workspace_default_instance_._instance,
+    &::protos::_Client_default_instance_._instance,
+    &::protos::_Clients_default_instance_._instance,
+    &::protos::_OpenWindowEvent_default_instance_._instance,
+    &::protos::_CloseWindowEvent_default_instance_._instance,
 };
 const char descriptor_table_protodef_hyprland_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\016hyprland.proto\"%\n\tWorkspace\022\n\n\002id\030\001 \001("
-    "\r\022\014\n\004name\030\002 \001(\t\"G\n\006Client\022\017\n\007address\030\001 \001"
-    "(\t\022\r\n\005class\030\002 \001(\t\022\035\n\tworkspace\030\003 \001(\0132\n.W"
-    "orkspace\"#\n\007Clients\022\030\n\007clients\030\001 \003(\0132\007.C"
-    "lient\"*\n\017OpenWindowEvent\022\027\n\006window\030\001 \001(\013"
-    "2\007.Client\"#\n\020CloseWindowEvent\022\017\n\007address"
-    "\030\001 \001(\tb\006proto3"
+    "\n\016hyprland.proto\022\006protos\"%\n\tWorkspace\022\n\n"
+    "\002id\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\"N\n\006Client\022\017\n\007add"
+    "ress\030\001 \001(\t\022\r\n\005class\030\002 \001(\t\022$\n\tworkspace\030\003"
+    " \001(\0132\021.protos.Workspace\"*\n\007Clients\022\037\n\007cl"
+    "ients\030\001 \003(\0132\016.protos.Client\"1\n\017OpenWindo"
+    "wEvent\022\036\n\006window\030\001 \001(\0132\016.protos.Client\"#"
+    "\n\020CloseWindowEvent\022\017\n\007address\030\001 \001(\tb\006pro"
+    "to3"
 };
 static ::absl::once_flag descriptor_table_hyprland_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_hyprland_2eproto = {
     false,
     false,
-    254,
+    283,
     descriptor_table_protodef_hyprland_2eproto,
     "hyprland.proto",
     &descriptor_table_hyprland_2eproto_once,
@@ -242,6 +245,7 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_hyprland_2epro
     file_level_enum_descriptors_hyprland_2eproto,
     file_level_service_descriptors_hyprland_2eproto,
 };
+namespace protos {
 // ===================================================================
 
 class Workspace::_Internal {
@@ -259,12 +263,12 @@ Workspace::Workspace(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Workspace)
+  // @@protoc_insertion_point(arena_constructor:protos.Workspace)
 }
 PROTOBUF_NDEBUG_INLINE Workspace::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::Workspace& from_msg)
+    [[maybe_unused]] const ::protos::Workspace& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         name_(arena, from.name_) {}
@@ -284,7 +288,7 @@ Workspace::Workspace(
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   _impl_.id_ = from._impl_.id_;
 
-  // @@protoc_insertion_point(copy_constructor:Workspace)
+  // @@protoc_insertion_point(copy_constructor:protos.Workspace)
 }
 PROTOBUF_NDEBUG_INLINE Workspace::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
@@ -297,7 +301,7 @@ inline void Workspace::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   _impl_.id_ = {};
 }
 Workspace::~Workspace() {
-  // @@protoc_insertion_point(destructor:Workspace)
+  // @@protoc_insertion_point(destructor:protos.Workspace)
   SharedDtor(*this);
 }
 inline void Workspace::SharedDtor(MessageLite& self) {
@@ -354,7 +358,7 @@ Workspace::GetClassData() const {
   return Workspace_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 22, 2>
+const ::_pbi::TcParseTable<1, 2, 0, 29, 2>
 Workspace::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(Workspace, _impl_._has_bits_),
@@ -370,7 +374,7 @@ Workspace::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Workspace>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::protos::Workspace>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string name = 2;
@@ -391,13 +395,13 @@ Workspace::_table_ = {
   }},
   // no aux_entries
   {{
-    "\11\0\4\0\0\0\0\0"
-    "Workspace"
+    "\20\0\4\0\0\0\0\0"
+    "protos.Workspace"
     "name"
   }},
 };
 PROTOBUF_NOINLINE void Workspace::Clear() {
-// @@protoc_insertion_point(message_clear_start:Workspace)
+// @@protoc_insertion_point(message_clear_start:protos.Workspace)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -426,7 +430,7 @@ PROTOBUF_NOINLINE void Workspace::Clear() {
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:Workspace)
+  // @@protoc_insertion_point(serialize_to_array_start:protos.Workspace)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -445,7 +449,7 @@ PROTOBUF_NOINLINE void Workspace::Clear() {
     if (!this_._internal_name().empty()) {
       const ::std::string& _s = this_._internal_name();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Workspace.name");
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "protos.Workspace.name");
       target = stream->WriteStringMaybeAliased(2, _s, target);
     }
   }
@@ -455,7 +459,7 @@ PROTOBUF_NOINLINE void Workspace::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Workspace)
+  // @@protoc_insertion_point(serialize_to_array_end:protos.Workspace)
   return target;
 }
 
@@ -466,7 +470,7 @@ PROTOBUF_NOINLINE void Workspace::Clear() {
 ::size_t Workspace::ByteSizeLong() const {
   const Workspace& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Workspace)
+  // @@protoc_insertion_point(message_byte_size_start:protos.Workspace)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -503,7 +507,7 @@ void Workspace::MergeImpl(::google::protobuf::MessageLite& to_msg,
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     from.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(class_specific_merge_from_start:Workspace)
+  // @@protoc_insertion_point(class_specific_merge_from_start:protos.Workspace)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -531,7 +535,7 @@ void Workspace::MergeImpl(::google::protobuf::MessageLite& to_msg,
 }
 
 void Workspace::CopyFrom(const Workspace& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:Workspace)
+  // @@protoc_insertion_point(class_specific_copy_from_start:protos.Workspace)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -568,12 +572,12 @@ Client::Client(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Client)
+  // @@protoc_insertion_point(arena_constructor:protos.Client)
 }
 PROTOBUF_NDEBUG_INLINE Client::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::Client& from_msg)
+    [[maybe_unused]] const ::protos::Client& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         address_(arena, from.address_),
@@ -597,7 +601,7 @@ Client::Client(
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.workspace_)
                 : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:Client)
+  // @@protoc_insertion_point(copy_constructor:protos.Client)
 }
 PROTOBUF_NDEBUG_INLINE Client::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
@@ -611,7 +615,7 @@ inline void Client::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   _impl_.workspace_ = {};
 }
 Client::~Client() {
-  // @@protoc_insertion_point(destructor:Client)
+  // @@protoc_insertion_point(destructor:protos.Client)
   SharedDtor(*this);
 }
 inline void Client::SharedDtor(MessageLite& self) {
@@ -670,7 +674,7 @@ Client::GetClassData() const {
   return Client_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 1, 27, 2>
+const ::_pbi::TcParseTable<2, 3, 1, 34, 2>
 Client::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(Client, _impl_._has_bits_),
@@ -686,7 +690,7 @@ Client::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Client>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::protos::Client>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
@@ -698,7 +702,7 @@ Client::_table_ = {
     {::_pbi::TcParser::FastUS1,
      {18, 1, 0,
       PROTOBUF_FIELD_OFFSET(Client, _impl_.class__)}},
-    // .Workspace workspace = 3;
+    // .protos.Workspace workspace = 3;
     {::_pbi::TcParser::FastMtS1,
      {26, 2, 0,
       PROTOBUF_FIELD_OFFSET(Client, _impl_.workspace_)}},
@@ -709,21 +713,21 @@ Client::_table_ = {
     {PROTOBUF_FIELD_OFFSET(Client, _impl_.address_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // string class = 2;
     {PROTOBUF_FIELD_OFFSET(Client, _impl_.class__), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // .Workspace workspace = 3;
+    // .protos.Workspace workspace = 3;
     {PROTOBUF_FIELD_OFFSET(Client, _impl_.workspace_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::Workspace>()},
+      {::_pbi::TcParser::GetTable<::protos::Workspace>()},
   }},
   {{
-    "\6\7\5\0\0\0\0\0"
-    "Client"
+    "\15\7\5\0\0\0\0\0"
+    "protos.Client"
     "address"
     "class"
   }},
 };
 PROTOBUF_NOINLINE void Client::Clear() {
-// @@protoc_insertion_point(message_clear_start:Client)
+// @@protoc_insertion_point(message_clear_start:protos.Client)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -760,7 +764,7 @@ PROTOBUF_NOINLINE void Client::Clear() {
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:Client)
+  // @@protoc_insertion_point(serialize_to_array_start:protos.Client)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -770,7 +774,7 @@ PROTOBUF_NOINLINE void Client::Clear() {
     if (!this_._internal_address().empty()) {
       const ::std::string& _s = this_._internal_address();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Client.address");
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "protos.Client.address");
       target = stream->WriteStringMaybeAliased(1, _s, target);
     }
   }
@@ -780,12 +784,12 @@ PROTOBUF_NOINLINE void Client::Clear() {
     if (!this_._internal_class_().empty()) {
       const ::std::string& _s = this_._internal_class_();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Client.class");
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "protos.Client.class");
       target = stream->WriteStringMaybeAliased(2, _s, target);
     }
   }
 
-  // .Workspace workspace = 3;
+  // .protos.Workspace workspace = 3;
   if (CheckHasBit(cached_has_bits, 0x00000004U)) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
         3, *this_._impl_.workspace_, this_._impl_.workspace_->GetCachedSize(), target,
@@ -797,7 +801,7 @@ PROTOBUF_NOINLINE void Client::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Client)
+  // @@protoc_insertion_point(serialize_to_array_end:protos.Client)
   return target;
 }
 
@@ -808,7 +812,7 @@ PROTOBUF_NOINLINE void Client::Clear() {
 ::size_t Client::ByteSizeLong() const {
   const Client& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Client)
+  // @@protoc_insertion_point(message_byte_size_start:protos.Client)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -832,7 +836,7 @@ PROTOBUF_NOINLINE void Client::Clear() {
                                         this_._internal_class_());
       }
     }
-    // .Workspace workspace = 3;
+    // .protos.Workspace workspace = 3;
     if (CheckHasBit(cached_has_bits, 0x00000004U)) {
       total_size += 1 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.workspace_);
@@ -851,7 +855,7 @@ void Client::MergeImpl(::google::protobuf::MessageLite& to_msg,
     from.CheckHasBitConsistency();
   }
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:Client)
+  // @@protoc_insertion_point(class_specific_merge_from_start:protos.Client)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -891,7 +895,7 @@ void Client::MergeImpl(::google::protobuf::MessageLite& to_msg,
 }
 
 void Client::CopyFrom(const Client& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:Client)
+  // @@protoc_insertion_point(class_specific_copy_from_start:protos.Client)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -929,12 +933,12 @@ Clients::Clients(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Clients)
+  // @@protoc_insertion_point(arena_constructor:protos.Clients)
 }
 PROTOBUF_NDEBUG_INLINE Clients::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::Clients& from_msg)
+    [[maybe_unused]] const ::protos::Clients& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         clients_{visibility, arena, from.clients_} {}
@@ -953,7 +957,7 @@ Clients::Clients(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
 
-  // @@protoc_insertion_point(copy_constructor:Clients)
+  // @@protoc_insertion_point(copy_constructor:protos.Clients)
 }
 PROTOBUF_NDEBUG_INLINE Clients::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
@@ -965,7 +969,7 @@ inline void Clients::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
 }
 Clients::~Clients() {
-  // @@protoc_insertion_point(destructor:Clients)
+  // @@protoc_insertion_point(destructor:protos.Clients)
   SharedDtor(*this);
 }
 inline void Clients::SharedDtor(MessageLite& self) {
@@ -1049,27 +1053,27 @@ Clients::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Clients>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::protos::Clients>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated .Client clients = 1;
+    // repeated .protos.Client clients = 1;
     {::_pbi::TcParser::FastMtR1,
      {10, 0, 0,
       PROTOBUF_FIELD_OFFSET(Clients, _impl_.clients_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // repeated .Client clients = 1;
+    // repeated .protos.Client clients = 1;
     {PROTOBUF_FIELD_OFFSET(Clients, _impl_.clients_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::Client>()},
+      {::_pbi::TcParser::GetTable<::protos::Client>()},
   }},
   {{
   }},
 };
 PROTOBUF_NOINLINE void Clients::Clear() {
-// @@protoc_insertion_point(message_clear_start:Clients)
+// @@protoc_insertion_point(message_clear_start:protos.Clients)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1097,12 +1101,12 @@ PROTOBUF_NOINLINE void Clients::Clear() {
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:Clients)
+  // @@protoc_insertion_point(serialize_to_array_start:protos.Clients)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = this_._impl_._has_bits_[0];
-  // repeated .Client clients = 1;
+  // repeated .protos.Client clients = 1;
   if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
     for (unsigned i = 0, n = static_cast<unsigned>(
                              this_._internal_clients_size());
@@ -1120,7 +1124,7 @@ PROTOBUF_NOINLINE void Clients::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Clients)
+  // @@protoc_insertion_point(serialize_to_array_end:protos.Clients)
   return target;
 }
 
@@ -1131,7 +1135,7 @@ PROTOBUF_NOINLINE void Clients::Clear() {
 ::size_t Clients::ByteSizeLong() const {
   const Clients& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:Clients)
+  // @@protoc_insertion_point(message_byte_size_start:protos.Clients)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -1140,7 +1144,7 @@ PROTOBUF_NOINLINE void Clients::Clear() {
 
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
    {
-    // repeated .Client clients = 1;
+    // repeated .protos.Client clients = 1;
     cached_has_bits = this_._impl_._has_bits_[0];
     if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
       total_size += 1UL * this_._internal_clients_size();
@@ -1162,7 +1166,7 @@ void Clients::MergeImpl(::google::protobuf::MessageLite& to_msg,
     from.CheckHasBitConsistency();
   }
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:Clients)
+  // @@protoc_insertion_point(class_specific_merge_from_start:protos.Clients)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -1179,7 +1183,7 @@ void Clients::MergeImpl(::google::protobuf::MessageLite& to_msg,
 }
 
 void Clients::CopyFrom(const Clients& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:Clients)
+  // @@protoc_insertion_point(class_specific_copy_from_start:protos.Clients)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1213,12 +1217,12 @@ OpenWindowEvent::OpenWindowEvent(::google::protobuf::Arena* PROTOBUF_NULLABLE ar
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:OpenWindowEvent)
+  // @@protoc_insertion_point(arena_constructor:protos.OpenWindowEvent)
 }
 PROTOBUF_NDEBUG_INLINE OpenWindowEvent::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::OpenWindowEvent& from_msg)
+    [[maybe_unused]] const ::protos::OpenWindowEvent& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0} {}
 
@@ -1240,7 +1244,7 @@ OpenWindowEvent::OpenWindowEvent(
                 ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.window_)
                 : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:OpenWindowEvent)
+  // @@protoc_insertion_point(copy_constructor:protos.OpenWindowEvent)
 }
 PROTOBUF_NDEBUG_INLINE OpenWindowEvent::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
@@ -1252,7 +1256,7 @@ inline void OpenWindowEvent::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   _impl_.window_ = {};
 }
 OpenWindowEvent::~OpenWindowEvent() {
-  // @@protoc_insertion_point(destructor:OpenWindowEvent)
+  // @@protoc_insertion_point(destructor:protos.OpenWindowEvent)
   SharedDtor(*this);
 }
 inline void OpenWindowEvent::SharedDtor(MessageLite& self) {
@@ -1325,27 +1329,27 @@ OpenWindowEvent::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::OpenWindowEvent>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::protos::OpenWindowEvent>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .Client window = 1;
+    // .protos.Client window = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0,
       PROTOBUF_FIELD_OFFSET(OpenWindowEvent, _impl_.window_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .Client window = 1;
+    // .protos.Client window = 1;
     {PROTOBUF_FIELD_OFFSET(OpenWindowEvent, _impl_.window_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
-      {::_pbi::TcParser::GetTable<::Client>()},
+      {::_pbi::TcParser::GetTable<::protos::Client>()},
   }},
   {{
   }},
 };
 PROTOBUF_NOINLINE void OpenWindowEvent::Clear() {
-// @@protoc_insertion_point(message_clear_start:OpenWindowEvent)
+// @@protoc_insertion_point(message_clear_start:protos.OpenWindowEvent)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1374,12 +1378,12 @@ PROTOBUF_NOINLINE void OpenWindowEvent::Clear() {
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:OpenWindowEvent)
+  // @@protoc_insertion_point(serialize_to_array_start:protos.OpenWindowEvent)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = this_._impl_._has_bits_[0];
-  // .Client window = 1;
+  // .protos.Client window = 1;
   if (CheckHasBit(cached_has_bits, 0x00000001U)) {
     target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
         1, *this_._impl_.window_, this_._impl_.window_->GetCachedSize(), target,
@@ -1391,7 +1395,7 @@ PROTOBUF_NOINLINE void OpenWindowEvent::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:OpenWindowEvent)
+  // @@protoc_insertion_point(serialize_to_array_end:protos.OpenWindowEvent)
   return target;
 }
 
@@ -1402,7 +1406,7 @@ PROTOBUF_NOINLINE void OpenWindowEvent::Clear() {
 ::size_t OpenWindowEvent::ByteSizeLong() const {
   const OpenWindowEvent& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:OpenWindowEvent)
+  // @@protoc_insertion_point(message_byte_size_start:protos.OpenWindowEvent)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -1410,7 +1414,7 @@ PROTOBUF_NOINLINE void OpenWindowEvent::Clear() {
   (void)cached_has_bits;
 
    {
-    // .Client window = 1;
+    // .protos.Client window = 1;
     cached_has_bits = this_._impl_._has_bits_[0];
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       total_size += 1 +
@@ -1430,7 +1434,7 @@ void OpenWindowEvent::MergeImpl(::google::protobuf::MessageLite& to_msg,
     from.CheckHasBitConsistency();
   }
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:OpenWindowEvent)
+  // @@protoc_insertion_point(class_specific_merge_from_start:protos.OpenWindowEvent)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -1450,7 +1454,7 @@ void OpenWindowEvent::MergeImpl(::google::protobuf::MessageLite& to_msg,
 }
 
 void OpenWindowEvent::CopyFrom(const OpenWindowEvent& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:OpenWindowEvent)
+  // @@protoc_insertion_point(class_specific_copy_from_start:protos.OpenWindowEvent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1484,12 +1488,12 @@ CloseWindowEvent::CloseWindowEvent(::google::protobuf::Arena* PROTOBUF_NULLABLE 
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:CloseWindowEvent)
+  // @@protoc_insertion_point(arena_constructor:protos.CloseWindowEvent)
 }
 PROTOBUF_NDEBUG_INLINE CloseWindowEvent::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::CloseWindowEvent& from_msg)
+    [[maybe_unused]] const ::protos::CloseWindowEvent& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         address_(arena, from.address_) {}
@@ -1508,7 +1512,7 @@ CloseWindowEvent::CloseWindowEvent(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
 
-  // @@protoc_insertion_point(copy_constructor:CloseWindowEvent)
+  // @@protoc_insertion_point(copy_constructor:protos.CloseWindowEvent)
 }
 PROTOBUF_NDEBUG_INLINE CloseWindowEvent::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
@@ -1520,7 +1524,7 @@ inline void CloseWindowEvent::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) 
   new (&_impl_) Impl_(internal_visibility(), arena);
 }
 CloseWindowEvent::~CloseWindowEvent() {
-  // @@protoc_insertion_point(destructor:CloseWindowEvent)
+  // @@protoc_insertion_point(destructor:protos.CloseWindowEvent)
   SharedDtor(*this);
 }
 inline void CloseWindowEvent::SharedDtor(MessageLite& self) {
@@ -1577,7 +1581,7 @@ CloseWindowEvent::GetClassData() const {
   return CloseWindowEvent_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 32, 2>
+const ::_pbi::TcParseTable<0, 1, 0, 39, 2>
 CloseWindowEvent::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(CloseWindowEvent, _impl_._has_bits_),
@@ -1593,7 +1597,7 @@ CloseWindowEvent::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::CloseWindowEvent>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::protos::CloseWindowEvent>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string address = 1;
@@ -1608,13 +1612,13 @@ CloseWindowEvent::_table_ = {
   }},
   // no aux_entries
   {{
-    "\20\7\0\0\0\0\0\0"
-    "CloseWindowEvent"
+    "\27\7\0\0\0\0\0\0"
+    "protos.CloseWindowEvent"
     "address"
   }},
 };
 PROTOBUF_NOINLINE void CloseWindowEvent::Clear() {
-// @@protoc_insertion_point(message_clear_start:CloseWindowEvent)
+// @@protoc_insertion_point(message_clear_start:protos.CloseWindowEvent)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1642,7 +1646,7 @@ PROTOBUF_NOINLINE void CloseWindowEvent::Clear() {
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:CloseWindowEvent)
+  // @@protoc_insertion_point(serialize_to_array_start:protos.CloseWindowEvent)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -1652,7 +1656,7 @@ PROTOBUF_NOINLINE void CloseWindowEvent::Clear() {
     if (!this_._internal_address().empty()) {
       const ::std::string& _s = this_._internal_address();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "CloseWindowEvent.address");
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "protos.CloseWindowEvent.address");
       target = stream->WriteStringMaybeAliased(1, _s, target);
     }
   }
@@ -1662,7 +1666,7 @@ PROTOBUF_NOINLINE void CloseWindowEvent::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:CloseWindowEvent)
+  // @@protoc_insertion_point(serialize_to_array_end:protos.CloseWindowEvent)
   return target;
 }
 
@@ -1673,7 +1677,7 @@ PROTOBUF_NOINLINE void CloseWindowEvent::Clear() {
 ::size_t CloseWindowEvent::ByteSizeLong() const {
   const CloseWindowEvent& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:CloseWindowEvent)
+  // @@protoc_insertion_point(message_byte_size_start:protos.CloseWindowEvent)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -1702,7 +1706,7 @@ void CloseWindowEvent::MergeImpl(::google::protobuf::MessageLite& to_msg,
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     from.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(class_specific_merge_from_start:CloseWindowEvent)
+  // @@protoc_insertion_point(class_specific_merge_from_start:protos.CloseWindowEvent)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -1723,7 +1727,7 @@ void CloseWindowEvent::MergeImpl(::google::protobuf::MessageLite& to_msg,
 }
 
 void CloseWindowEvent::CopyFrom(const CloseWindowEvent& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:CloseWindowEvent)
+  // @@protoc_insertion_point(class_specific_copy_from_start:protos.CloseWindowEvent)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1743,6 +1747,7 @@ void CloseWindowEvent::InternalSwap(CloseWindowEvent* PROTOBUF_RESTRICT PROTOBUF
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace protos
 namespace google {
 namespace protobuf {
 }  // namespace protobuf

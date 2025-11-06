@@ -6,10 +6,17 @@
 class Desktop: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name MEMBER m_name)
+    Q_PROPERTY(QString name READ default WRITE default BINDABLE bindableName)
     QML_ELEMENT
     QML_SINGLETON
 
+    public:
+    QBindable<QString> bindableName() { return &m_name; }
+    void setName(const QString &name) { m_name = name; }
+
+    signals:
+    void nameChanged();
+
     private:
-    QString m_name = "Hello, Eleven Desktop!";
+    Q_OBJECT_BINDABLE_PROPERTY_WITH_ARGS(Desktop, QString, m_name, "Hello, from plugin", &Desktop::nameChanged);
 };
