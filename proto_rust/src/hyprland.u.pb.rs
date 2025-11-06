@@ -1,7 +1,7 @@
 const _: () = ::protobuf::__internal::assert_compatible_gencode_version("4.33.0-release");
 // This variable must not be referenced except by protobuf generated
 // code.
-pub(crate) static mut Workspace_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+pub(crate) static mut protos__Workspace_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
     ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
 #[allow(non_camel_case_types)]
 pub struct Workspace {
@@ -403,11 +403,11 @@ unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for Workspace {
         ::std::sync::OnceLock::new();
     unsafe {
       ONCE_LOCK.get_or_init(|| {
-        super::Workspace_msg_init.0 =
+        super::protos__Workspace_msg_init.0 =
             ::protobuf::__internal::runtime::build_mini_table("$)P1X");
         ::protobuf::__internal::runtime::link_mini_table(
-            super::Workspace_msg_init.0, &[], &[]);
-        ::protobuf::__internal::runtime::MiniTableInitPtr(super::Workspace_msg_init.0)
+            super::protos__Workspace_msg_init.0, &[], &[]);
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::protos__Workspace_msg_init.0)
       }).0
     }
   }
@@ -459,7 +459,7 @@ unsafe impl ::protobuf::__internal::runtime::UpbGetArena for WorkspaceMut<'_> {
 
 // This variable must not be referenced except by protobuf generated
 // code.
-pub(crate) static mut Client_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+pub(crate) static mut protos__Client_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
     ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
 #[allow(non_camel_case_types)]
 pub struct Client {
@@ -559,7 +559,7 @@ impl<'msg> ClientView<'msg> {
     unsafe { ::protobuf::ProtoStr::from_utf8_unchecked(str_view.as_ref()) }
   }
 
-  // workspace: optional message Workspace
+  // workspace: optional message protos.Workspace
   pub fn has_workspace(self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(2)
@@ -723,7 +723,7 @@ impl<'msg> ClientMut<'msg> {
     }
   }
 
-  // workspace: optional message Workspace
+  // workspace: optional message protos.Workspace
   pub fn has_workspace(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(2)
@@ -889,7 +889,7 @@ impl Client {
     }
   }
 
-  // workspace: optional message Workspace
+  // workspace: optional message protos.Workspace
   pub fn has_workspace(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(2)
@@ -969,12 +969,12 @@ unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for Client {
         ::std::sync::OnceLock::new();
     unsafe {
       ONCE_LOCK.get_or_init(|| {
-        super::Client_msg_init.0 =
+        super::protos__Client_msg_init.0 =
             ::protobuf::__internal::runtime::build_mini_table("$1X1X3");
         ::protobuf::__internal::runtime::link_mini_table(
-            super::Client_msg_init.0, &[<super::Workspace as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
+            super::protos__Client_msg_init.0, &[<super::Workspace as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
             ], &[]);
-        ::protobuf::__internal::runtime::MiniTableInitPtr(super::Client_msg_init.0)
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::protos__Client_msg_init.0)
       }).0
     }
   }
@@ -1026,7 +1026,7 @@ unsafe impl ::protobuf::__internal::runtime::UpbGetArena for ClientMut<'_> {
 
 // This variable must not be referenced except by protobuf generated
 // code.
-pub(crate) static mut Clients_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+pub(crate) static mut protos__Clients_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
     ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
 #[allow(non_camel_case_types)]
 pub struct Clients {
@@ -1104,7 +1104,7 @@ impl<'msg> ClientsView<'msg> {
     ::protobuf::IntoProxied::into_proxied(*self, ::protobuf::__internal::Private)
   }
 
-  // clients: repeated message Client
+  // clients: repeated message protos.Client
   pub fn clients(self) -> ::protobuf::RepeatedView<'msg, super::Client> {
     unsafe {
       self.inner.ptr().get_array_at_index(
@@ -1212,7 +1212,7 @@ impl<'msg> ClientsMut<'msg> {
     ::protobuf::AsView::as_view(self).to_owned()
   }
 
-  // clients: repeated message Client
+  // clients: repeated message protos.Client
   pub fn clients(&self) -> ::protobuf::RepeatedView<'_, super::Client> {
     unsafe {
       self.inner.ptr().get_array_at_index(
@@ -1319,7 +1319,7 @@ impl Clients {
     ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner).into()
   }
 
-  // clients: repeated message Client
+  // clients: repeated message protos.Client
   pub fn clients(&self) -> ::protobuf::RepeatedView<'_, super::Client> {
     unsafe {
       self.inner.ptr().get_array_at_index(
@@ -1392,12 +1392,12 @@ unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for Clients {
         ::std::sync::OnceLock::new();
     unsafe {
       ONCE_LOCK.get_or_init(|| {
-        super::Clients_msg_init.0 =
+        super::protos__Clients_msg_init.0 =
             ::protobuf::__internal::runtime::build_mini_table("$G");
         ::protobuf::__internal::runtime::link_mini_table(
-            super::Clients_msg_init.0, &[<super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
+            super::protos__Clients_msg_init.0, &[<super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
             ], &[]);
-        ::protobuf::__internal::runtime::MiniTableInitPtr(super::Clients_msg_init.0)
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::protos__Clients_msg_init.0)
       }).0
     }
   }
@@ -1449,7 +1449,7 @@ unsafe impl ::protobuf::__internal::runtime::UpbGetArena for ClientsMut<'_> {
 
 // This variable must not be referenced except by protobuf generated
 // code.
-pub(crate) static mut OpenWindowEvent_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+pub(crate) static mut protos__OpenWindowEvent_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
     ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
 #[allow(non_camel_case_types)]
 pub struct OpenWindowEvent {
@@ -1527,7 +1527,7 @@ impl<'msg> OpenWindowEventView<'msg> {
     ::protobuf::IntoProxied::into_proxied(*self, ::protobuf::__internal::Private)
   }
 
-  // window: optional message Client
+  // window: optional message protos.Client
   pub fn has_window(self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(0)
@@ -1639,7 +1639,7 @@ impl<'msg> OpenWindowEventMut<'msg> {
     ::protobuf::AsView::as_view(self).to_owned()
   }
 
-  // window: optional message Client
+  // window: optional message protos.Client
   pub fn has_window(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(0)
@@ -1753,7 +1753,7 @@ impl OpenWindowEvent {
     ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner).into()
   }
 
-  // window: optional message Client
+  // window: optional message protos.Client
   pub fn has_window(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(0)
@@ -1833,12 +1833,12 @@ unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for OpenWindowE
         ::std::sync::OnceLock::new();
     unsafe {
       ONCE_LOCK.get_or_init(|| {
-        super::OpenWindowEvent_msg_init.0 =
+        super::protos__OpenWindowEvent_msg_init.0 =
             ::protobuf::__internal::runtime::build_mini_table("$3");
         ::protobuf::__internal::runtime::link_mini_table(
-            super::OpenWindowEvent_msg_init.0, &[<super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
+            super::protos__OpenWindowEvent_msg_init.0, &[<super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
             ], &[]);
-        ::protobuf::__internal::runtime::MiniTableInitPtr(super::OpenWindowEvent_msg_init.0)
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::protos__OpenWindowEvent_msg_init.0)
       }).0
     }
   }
@@ -1890,7 +1890,7 @@ unsafe impl ::protobuf::__internal::runtime::UpbGetArena for OpenWindowEventMut<
 
 // This variable must not be referenced except by protobuf generated
 // code.
-pub(crate) static mut CloseWindowEvent_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+pub(crate) static mut protos__CloseWindowEvent_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
     ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
 #[allow(non_camel_case_types)]
 pub struct CloseWindowEvent {
@@ -2225,11 +2225,11 @@ unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for CloseWindow
         ::std::sync::OnceLock::new();
     unsafe {
       ONCE_LOCK.get_or_init(|| {
-        super::CloseWindowEvent_msg_init.0 =
+        super::protos__CloseWindowEvent_msg_init.0 =
             ::protobuf::__internal::runtime::build_mini_table("$M1P");
         ::protobuf::__internal::runtime::link_mini_table(
-            super::CloseWindowEvent_msg_init.0, &[], &[]);
-        ::protobuf::__internal::runtime::MiniTableInitPtr(super::CloseWindowEvent_msg_init.0)
+            super::protos__CloseWindowEvent_msg_init.0, &[], &[]);
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::protos__CloseWindowEvent_msg_init.0)
       }).0
     }
   }

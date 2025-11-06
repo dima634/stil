@@ -1,7 +1,7 @@
 const _: () = ::protobuf::__internal::assert_compatible_gencode_version("4.33.0-release");
 // This variable must not be referenced except by protobuf generated
 // code.
-pub(crate) static mut Desktop_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
+pub(crate) static mut protos__Desktop_msg_init: ::protobuf::__internal::runtime::MiniTableInitPtr =
     ::protobuf::__internal::runtime::MiniTableInitPtr(::protobuf::__internal::runtime::MiniTablePtr::dangling());
 #[allow(non_camel_case_types)]
 pub struct Desktop {
@@ -79,28 +79,10 @@ impl<'msg> DesktopView<'msg> {
     ::protobuf::IntoProxied::into_proxied(*self, ::protobuf::__internal::Private)
   }
 
-  // clients: optional message Clients
-  pub fn has_clients(self) -> bool {
-    unsafe {
-      self.inner.ptr().has_field_at_index(0)
-    }
-  }
-  pub fn clients_opt(self) -> ::protobuf::Optional<super::ClientsView<'msg>> {
-        ::protobuf::Optional::new(self.clients(), self.has_clients())
-  }
-  pub fn clients(self) -> super::ClientsView<'msg> {
-    let submsg = unsafe {
-      self.inner.ptr().get_message_at_index(0)
-    };
-    submsg
-        .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
-       .unwrap_or(super::ClientsView::default())
-  }
-
-  // active_window: optional message Client
+  // active_window: optional message protos.Client
   pub fn has_active_window(self) -> bool {
     unsafe {
-      self.inner.ptr().has_field_at_index(1)
+      self.inner.ptr().has_field_at_index(0)
     }
   }
   pub fn active_window_opt(self) -> ::protobuf::Optional<super::ClientView<'msg>> {
@@ -108,11 +90,29 @@ impl<'msg> DesktopView<'msg> {
   }
   pub fn active_window(self) -> super::ClientView<'msg> {
     let submsg = unsafe {
-      self.inner.ptr().get_message_at_index(1)
+      self.inner.ptr().get_message_at_index(0)
     };
     submsg
         .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
        .unwrap_or(super::ClientView::default())
+  }
+
+  // clients: optional message protos.Clients
+  pub fn has_clients(self) -> bool {
+    unsafe {
+      self.inner.ptr().has_field_at_index(1)
+    }
+  }
+  pub fn clients_opt(self) -> ::protobuf::Optional<super::ClientsView<'msg>> {
+        ::protobuf::Optional::new(self.clients(), self.has_clients())
+  }
+  pub fn clients(self) -> super::ClientsView<'msg> {
+    let submsg = unsafe {
+      self.inner.ptr().get_message_at_index(1)
+    };
+    submsg
+        .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
+       .unwrap_or(super::ClientsView::default())
   }
 
 }
@@ -209,31 +209,31 @@ impl<'msg> DesktopMut<'msg> {
     ::protobuf::AsView::as_view(self).to_owned()
   }
 
-  // clients: optional message Clients
-  pub fn has_clients(&self) -> bool {
+  // active_window: optional message protos.Client
+  pub fn has_active_window(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(0)
     }
   }
-  pub fn clear_clients(&mut self) {
+  pub fn clear_active_window(&mut self) {
     unsafe {
       self.inner.ptr().clear_field_at_index(
         0
       );
     }
   }
-  pub fn clients_opt(&self) -> ::protobuf::Optional<super::ClientsView<'_>> {
-        ::protobuf::Optional::new(self.clients(), self.has_clients())
+  pub fn active_window_opt(&self) -> ::protobuf::Optional<super::ClientView<'_>> {
+        ::protobuf::Optional::new(self.active_window(), self.has_active_window())
   }
-  pub fn clients(&self) -> super::ClientsView<'_> {
+  pub fn active_window(&self) -> super::ClientView<'_> {
     let submsg = unsafe {
       self.inner.ptr().get_message_at_index(0)
     };
     submsg
         .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
-       .unwrap_or(super::ClientsView::default())
+       .unwrap_or(super::ClientView::default())
   }
-  pub fn clients_mut(&mut self) -> super::ClientsMut<'_> {
+  pub fn active_window_mut(&mut self) -> super::ClientMut<'_> {
      let ptr = unsafe {
        self.inner.ptr_mut().get_or_create_mutable_message_at_index(
          0, self.inner.arena()
@@ -244,8 +244,8 @@ impl<'msg> DesktopMut<'msg> {
          ptr
      ).into()
   }
-  pub fn set_clients(&mut self,
-    val: impl ::protobuf::IntoProxied<super::Clients>) {
+  pub fn set_active_window(&mut self,
+    val: impl ::protobuf::IntoProxied<super::Client>) {
 
     unsafe {
       ::protobuf::__internal::runtime::message_set_sub_message(
@@ -256,31 +256,31 @@ impl<'msg> DesktopMut<'msg> {
     }
   }
 
-  // active_window: optional message Client
-  pub fn has_active_window(&self) -> bool {
+  // clients: optional message protos.Clients
+  pub fn has_clients(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(1)
     }
   }
-  pub fn clear_active_window(&mut self) {
+  pub fn clear_clients(&mut self) {
     unsafe {
       self.inner.ptr().clear_field_at_index(
         1
       );
     }
   }
-  pub fn active_window_opt(&self) -> ::protobuf::Optional<super::ClientView<'_>> {
-        ::protobuf::Optional::new(self.active_window(), self.has_active_window())
+  pub fn clients_opt(&self) -> ::protobuf::Optional<super::ClientsView<'_>> {
+        ::protobuf::Optional::new(self.clients(), self.has_clients())
   }
-  pub fn active_window(&self) -> super::ClientView<'_> {
+  pub fn clients(&self) -> super::ClientsView<'_> {
     let submsg = unsafe {
       self.inner.ptr().get_message_at_index(1)
     };
     submsg
         .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
-       .unwrap_or(super::ClientView::default())
+       .unwrap_or(super::ClientsView::default())
   }
-  pub fn active_window_mut(&mut self) -> super::ClientMut<'_> {
+  pub fn clients_mut(&mut self) -> super::ClientsMut<'_> {
      let ptr = unsafe {
        self.inner.ptr_mut().get_or_create_mutable_message_at_index(
          1, self.inner.arena()
@@ -291,8 +291,8 @@ impl<'msg> DesktopMut<'msg> {
          ptr
      ).into()
   }
-  pub fn set_active_window(&mut self,
-    val: impl ::protobuf::IntoProxied<super::Client>) {
+  pub fn set_clients(&mut self,
+    val: impl ::protobuf::IntoProxied<super::Clients>) {
 
     unsafe {
       ::protobuf::__internal::runtime::message_set_sub_message(
@@ -370,31 +370,31 @@ impl Desktop {
     ::protobuf::__internal::runtime::MessageMutInner::mut_of_owned(&mut self.inner).into()
   }
 
-  // clients: optional message Clients
-  pub fn has_clients(&self) -> bool {
+  // active_window: optional message protos.Client
+  pub fn has_active_window(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(0)
     }
   }
-  pub fn clear_clients(&mut self) {
+  pub fn clear_active_window(&mut self) {
     unsafe {
       self.inner.ptr().clear_field_at_index(
         0
       );
     }
   }
-  pub fn clients_opt(&self) -> ::protobuf::Optional<super::ClientsView<'_>> {
-        ::protobuf::Optional::new(self.clients(), self.has_clients())
+  pub fn active_window_opt(&self) -> ::protobuf::Optional<super::ClientView<'_>> {
+        ::protobuf::Optional::new(self.active_window(), self.has_active_window())
   }
-  pub fn clients(&self) -> super::ClientsView<'_> {
+  pub fn active_window(&self) -> super::ClientView<'_> {
     let submsg = unsafe {
       self.inner.ptr().get_message_at_index(0)
     };
     submsg
         .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
-       .unwrap_or(super::ClientsView::default())
+       .unwrap_or(super::ClientView::default())
   }
-  pub fn clients_mut(&mut self) -> super::ClientsMut<'_> {
+  pub fn active_window_mut(&mut self) -> super::ClientMut<'_> {
      let ptr = unsafe {
        self.inner.ptr_mut().get_or_create_mutable_message_at_index(
          0, self.inner.arena()
@@ -405,8 +405,8 @@ impl Desktop {
          ptr
      ).into()
   }
-  pub fn set_clients(&mut self,
-    val: impl ::protobuf::IntoProxied<super::Clients>) {
+  pub fn set_active_window(&mut self,
+    val: impl ::protobuf::IntoProxied<super::Client>) {
 
     unsafe {
       ::protobuf::__internal::runtime::message_set_sub_message(
@@ -417,31 +417,31 @@ impl Desktop {
     }
   }
 
-  // active_window: optional message Client
-  pub fn has_active_window(&self) -> bool {
+  // clients: optional message protos.Clients
+  pub fn has_clients(&self) -> bool {
     unsafe {
       self.inner.ptr().has_field_at_index(1)
     }
   }
-  pub fn clear_active_window(&mut self) {
+  pub fn clear_clients(&mut self) {
     unsafe {
       self.inner.ptr().clear_field_at_index(
         1
       );
     }
   }
-  pub fn active_window_opt(&self) -> ::protobuf::Optional<super::ClientView<'_>> {
-        ::protobuf::Optional::new(self.active_window(), self.has_active_window())
+  pub fn clients_opt(&self) -> ::protobuf::Optional<super::ClientsView<'_>> {
+        ::protobuf::Optional::new(self.clients(), self.has_clients())
   }
-  pub fn active_window(&self) -> super::ClientView<'_> {
+  pub fn clients(&self) -> super::ClientsView<'_> {
     let submsg = unsafe {
       self.inner.ptr().get_message_at_index(1)
     };
     submsg
         .map(|ptr| unsafe { ::protobuf::__internal::runtime::MessageViewInner::wrap(ptr).into() })
-       .unwrap_or(super::ClientView::default())
+       .unwrap_or(super::ClientsView::default())
   }
-  pub fn active_window_mut(&mut self) -> super::ClientMut<'_> {
+  pub fn clients_mut(&mut self) -> super::ClientsMut<'_> {
      let ptr = unsafe {
        self.inner.ptr_mut().get_or_create_mutable_message_at_index(
          1, self.inner.arena()
@@ -452,8 +452,8 @@ impl Desktop {
          ptr
      ).into()
   }
-  pub fn set_active_window(&mut self,
-    val: impl ::protobuf::IntoProxied<super::Client>) {
+  pub fn set_clients(&mut self,
+    val: impl ::protobuf::IntoProxied<super::Clients>) {
 
     unsafe {
       ::protobuf::__internal::runtime::message_set_sub_message(
@@ -497,13 +497,13 @@ unsafe impl ::protobuf::__internal::runtime::AssociatedMiniTable for Desktop {
         ::std::sync::OnceLock::new();
     unsafe {
       ONCE_LOCK.get_or_init(|| {
-        super::Desktop_msg_init.0 =
+        super::protos__Desktop_msg_init.0 =
             ::protobuf::__internal::runtime::build_mini_table("$33");
         ::protobuf::__internal::runtime::link_mini_table(
-            super::Desktop_msg_init.0, &[<super::Clients as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
-            <super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
+            super::protos__Desktop_msg_init.0, &[<super::Client as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
+            <super::Clients as ::protobuf::__internal::runtime::AssociatedMiniTable>::mini_table(),
             ], &[]);
-        ::protobuf::__internal::runtime::MiniTableInitPtr(super::Desktop_msg_init.0)
+        ::protobuf::__internal::runtime::MiniTableInitPtr(super::protos__Desktop_msg_init.0)
       }).0
     }
   }
