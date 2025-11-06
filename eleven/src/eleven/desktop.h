@@ -1,22 +1,29 @@
 #pragma once
 
+#include "window.h"
+#include <ipc/ipc.h>
 #include <QtCore/QObject>
 #include <QtQmlIntegration/QtQmlIntegration>
+#include <QtQml/QQmlListProperty>
 
 class Desktop: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ default WRITE default BINDABLE bindableName)
+    Q_PROPERTY(QQmlListProperty<Window> windows READ getWindows NOTIFY windowsChanged)
+
     QML_ELEMENT
     QML_SINGLETON
 
     public:
-    QBindable<QString> bindableName() { return &m_name; }
-    void setName(const QString &name) { m_name = name; }
+    Desktop();
+    QQmlListProperty<Window> getWindows() { return QQmlListProperty<Window>(this, &m_windows); }
+    void addWindow(Window* window);
+    void removeWindow(const QString& address);
 
     signals:
-    void nameChanged();
+    void windowsChanged();
 
     private:
-    Q_OBJECT_BINDABLE_PROPERTY_WITH_ARGS(Desktop, QString, m_name, "Hello, from plugin", &Desktop::nameChanged);
+    QList<Window*> m_windows;
+    Ipc m_ipc;
 };

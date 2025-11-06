@@ -7,6 +7,8 @@ qt_add_qml_module(eleven
     VERSION 1.0
     SOURCES
         desktop.h desktop.cpp
+        window.h window.cpp
+        ipc/ipc.h ipc/ipc.cpp
         proto/desktop.pb.cc proto/desktop.pb.h
         proto/hyprland.pb.cc proto/hyprland.pb.h
 )
