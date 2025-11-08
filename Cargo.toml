@@ -1,3 +1,3 @@
 [workspace]
-members = ["src/plugin"]
+members = ["src/core"]
 resolver = "3"

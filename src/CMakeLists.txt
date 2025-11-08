@@ -16,13 +16,13 @@ if(NOT CxxQt_FOUND)
 endif()
     
 cxx_qt_import_crate(
-    MANIFEST_PATH plugin/Cargo.toml 
-    CRATES plugin 
+    MANIFEST_PATH core/Cargo.toml 
+    CRATES core 
     QT_MODULES Qt::Core Qt::Gui Qt::Qml Qt::QuickControls2
 )
 
-cxx_qt_import_qml_module(qml_minimal_qml_module
-    URI "myplugin"
-    SOURCE_CRATE plugin)
+cxx_qt_import_qml_module(core_qml_module
+    URI "core"
+    SOURCE_CRATE core)
 
 add_subdirectory(eleven)

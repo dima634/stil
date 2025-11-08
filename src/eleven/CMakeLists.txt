@@ -11,7 +11,7 @@ qt_add_qml_module(eleven
         reexport.h
 )
 
-target_link_libraries(eleven PRIVATE plugin)
+target_link_libraries(eleven PRIVATE core)
 qt_import_qml_plugins(eleven)
 
 
