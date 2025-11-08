@@ -18,11 +18,3 @@ impl TryFrom<&str> for CloseWindow {
         })
     }
 }
-
-impl Into<proto_rust::CloseWindowEvent> for CloseWindow {
-    fn into(self) -> proto_rust::CloseWindowEvent {
-        let mut close_window_event = proto_rust::CloseWindowEvent::default();
-        close_window_event.set_address(self.window_address);
-        close_window_event
-    }
-}

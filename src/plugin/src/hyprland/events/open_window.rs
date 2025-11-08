@@ -26,15 +26,3 @@ impl TryFrom<&str> for OpenWindow {
         })
     }
 }
-
-impl Into<proto_rust::OpenWindowEvent> for OpenWindow {
-    fn into(self) -> proto_rust::OpenWindowEvent {
-        let mut window_dto = proto_rust::Client::default();
-        window_dto.set_address(self.window_address);
-        window_dto.set_class(self.window_class);
-
-        let mut open_window_event = proto_rust::OpenWindowEvent::default();
-        open_window_event.set_window(window_dto);
-        open_window_event
-    }
-}
