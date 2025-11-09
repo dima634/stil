@@ -25,5 +25,13 @@
                 "CMAKE_BUILD_TYPE": "Release"
             }
         }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "displayName": "Lib Debug Build",
+            "configurePreset": "debug",
+            "configuration": "Debug"
+        }
     ]
 }

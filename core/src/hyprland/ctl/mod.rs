@@ -1,8 +1,10 @@
 mod active_window;
 mod clients;
+mod workspaces;
 
 pub use active_window::*;
 pub use clients::*;
+pub use workspaces::*;
 
 use super::Hyprland;
 use std::{
@@ -20,6 +22,7 @@ pub struct HyprCtl {
 }
 
 impl HyprCtl {
+    // TODO: batching
     pub fn run<T: HyprCtlCmd>(&mut self, cmd: T) -> Option<T::Response<'_>> {
         let socket_path = Hyprland::ctl_socket_path()?;
         let mut socket = UnixStream::connect(socket_path).ok()?;

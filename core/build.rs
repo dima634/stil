@@ -1,5 +1,4 @@
 fn main() {
-    cxx_build::bridge("src/lib.rs")
-        .std("c++11")
-        .compile("cxxbridge-demo");
+    cxx_build::bridge("src/ffi/mod.rs")
+        .std("c++17");
 }

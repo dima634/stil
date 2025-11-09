@@ -5,16 +5,11 @@ use serde::Deserialize;
 pub struct Workspace {
     pub id: i32,
     pub name: String,
+    #[serde(alias = "ispersistent")]
+    pub is_persistent: bool,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct Client {
-    pub address: String,
-    pub class: String,
-    pub workspace: Workspace,
-}
-
-impl TryFrom<&str> for Client {
+impl TryFrom<&str> for Workspace {
     type Error = ();
 
     #[inline]
@@ -24,9 +19,9 @@ impl TryFrom<&str> for Client {
 }
 
 #[derive(Debug, Default, Deserialize)]
-pub struct Clients(pub Vec<Client>);
+pub struct Workspaces(pub Vec<Workspace>);
 
-impl TryFrom<&str> for Clients {
+impl TryFrom<&str> for Workspaces {
     type Error = ();
 
     #[inline]
@@ -36,15 +31,15 @@ impl TryFrom<&str> for Clients {
 }
 
 #[derive(Debug)]
-pub struct GetClientsCmd;
+pub struct GetWorkspacesCmd;
 
-impl ToString for GetClientsCmd {
+impl ToString for GetWorkspacesCmd {
     #[inline]
     fn to_string(&self) -> String {
-        "-j/clients".to_string()
+        "-j/workspaces".to_string()
     }
 }
 
-impl HyprCtlCmd for GetClientsCmd {
-    type Response<'str> = Clients;
+impl HyprCtlCmd for GetWorkspacesCmd {
+    type Response<'str> = Workspaces;
 }

@@ -1,5 +1,7 @@
 mod hyprland;
 mod freedesktop;
+mod workspaces;
+mod ffi;
 
 fn setup_logging() {
     use tracing::Level;
