@@ -1,6 +1,5 @@
 mod hyprland;
 mod freedesktop;
-mod qobjects;
 
 fn setup_logging() {
     use tracing::Level;
