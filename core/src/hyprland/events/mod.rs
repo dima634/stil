@@ -1,21 +1,15 @@
 mod active_window;
 mod close_window;
 mod open_window;
+mod workspace_v2;
 
 pub use active_window::ActiveWindow;
 pub use close_window::CloseWindow;
 pub use open_window::OpenWindow;
+pub use workspace_v2::*;
 
 use super::Hyprland;
-use std::{
-    collections::HashMap,
-    io::Read,
-    os::unix::net::UnixStream,
-    sync::{
-        Mutex,
-        mpsc::{Receiver, Sender},
-    },
-};
+use std::{io::Read, os::unix::net::UnixStream};
 use tracing::warn;
 
 #[derive(Debug)]
@@ -48,23 +42,11 @@ impl TryFrom<&String> for Event {
 }
 
 #[derive(Debug, Default)]
-pub struct HyprEvents {
-    next_listener_id: Mutex<u32>,
-    subs: Mutex<HashMap<u32, Sender<Event>>>,
-}
+pub struct HyprEvents;
 
 impl HyprEvents {
-    pub fn add_listener(&self) -> Option<Receiver<Event>> {
-        let (tx, rx) = std::sync::mpsc::channel();
-        let mut subs = self.subs.lock().ok()?;
-        let mut id = self.next_listener_id.lock().ok()?;
-        subs.insert(*id, tx);
-        *id += 1;
-        Some(rx)
-    }
-
     /// Start listening for Hyprland events. This operation is blocking.
-    pub fn listen(&self) -> Option<()> {
+    pub fn listen(mut callback: impl FnMut(Event)) -> Option<()> {
         let mut buffer = [0u8; 1024];
         let mut raw_event = String::new();
 
@@ -90,18 +72,7 @@ impl HyprEvents {
             for char in event_part.chars() {
                 if char == '\n' {
                     if let Ok(event) = Event::try_from(&raw_event) {
-                        let Ok(mut subs) = self.subs.lock() else { return None };
-                        let mut closed_channels = Vec::new();
-
-                        for (&id, tx) in subs.iter() {
-                            if let Err(_) = tx.send(event.clone()) {
-                                closed_channels.push(id);
-                            }
-                        }
-
-                        for id in closed_channels {
-                            subs.remove(&id);
-                        }
+                        callback(event);
                     }
 
                     raw_event.clear();

@@ -2,7 +2,7 @@ use super::HyprCtlCmd;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-pub struct Workspace {
+pub struct ClientWorkspace {
     pub id: i32,
     pub name: String,
 }
@@ -11,7 +11,7 @@ pub struct Workspace {
 pub struct Client {
     pub address: String,
     pub class: String,
-    pub workspace: Workspace,
+    pub workspace: ClientWorkspace,
 }
 
 impl TryFrom<&str> for Client {

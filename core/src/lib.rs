@@ -2,6 +2,8 @@ mod hyprland;
 mod freedesktop;
 mod workspaces;
 mod ffi;
+mod services;
+mod system_events;
 
 fn setup_logging() {
     use tracing::Level;

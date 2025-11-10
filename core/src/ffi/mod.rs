@@ -1,4 +1,4 @@
-use crate::workspaces::{Workspace, WorkspaceRegistry, get_workspace_registry};
+use crate::workspaces::{Workspace, WorkspaceRegistry, workspace_registry};
 
 #[cxx::bridge]
 mod workspaces {
@@ -13,6 +13,7 @@ mod workspaces {
         type WorkspaceRegistry;
 
         fn workspaces(&self) -> &[Workspace];
-        fn get_workspace_registry() -> &'static WorkspaceRegistry;
+        fn current_workspace_id(&self) -> i32;
+        fn workspace_registry() -> &'static WorkspaceRegistry;
     }
 }
