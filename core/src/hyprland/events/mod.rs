@@ -24,6 +24,8 @@ pub enum Event {
     OpenWindow(OpenWindow),
     CloseWindow(CloseWindow),
     ActiveWindow(ActiveWindow),
+    CreateWorkspace(CreateWorkspaceV2),
+    DestroyWorkspace(DestroyWorkspaceV2),
 }
 
 impl TryFrom<&String> for Event {
@@ -46,7 +48,7 @@ pub struct HyprEvents;
 
 impl HyprEvents {
     /// Start listening for Hyprland events. This operation is blocking.
-    pub fn listen(mut callback: impl FnMut(Event)) -> Option<()> {
+    pub fn listen(mut callback: impl FnMut(Event) -> bool) -> Option<()> {
         let mut buffer = [0u8; 1024];
         let mut raw_event = String::new();
 
@@ -72,7 +74,11 @@ impl HyprEvents {
             for char in event_part.chars() {
                 if char == '\n' {
                     if let Ok(event) = Event::try_from(&raw_event) {
-                        callback(event);
+                        if !callback(event) {
+                            return Some(());
+                        }
+                    } else {
+                        warn!("Failed to parse Hyprland event: {}", raw_event);
                     }
 
                     raw_event.clear();

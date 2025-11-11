@@ -1,7 +1,14 @@
-use std::sync::{Arc, LazyLock, Mutex, mpsc};
+use crate::{hyprland, services::workspace_registry};
+use std::sync::{Mutex, mpsc};
 
-#[derive(Debug, Copy, Clone)]
-pub enum SystemEvent {}
+pub trait SystemEventConsumer {
+    fn consume(&mut self, event: &SystemEvent);
+}
+
+#[derive(Debug, Clone)]
+pub enum SystemEvent {
+    Hyprland(hyprland::Event),
+}
 
 pub struct SystemEventDispatcher {
     in_tx: mpsc::Sender<SystemEvent>,
@@ -9,6 +16,16 @@ pub struct SystemEventDispatcher {
 }
 
 impl SystemEventDispatcher {
+    pub fn new() -> (Self, mpsc::Receiver<SystemEvent>) {
+        let (in_tx, in_rx) = mpsc::channel();
+        (
+            Self {
+                in_tx,
+                out_txs: Mutex::new(Vec::new()),
+            },
+            in_rx,
+        )
+    }
 
     #[inline]
     pub fn tx(&self) -> mpsc::Sender<SystemEvent> {
@@ -22,36 +39,13 @@ impl SystemEventDispatcher {
         rx
     }
 
-    fn new() -> (Self, mpsc::Receiver<SystemEvent>) {
-        let (in_tx, in_rx) = mpsc::channel();
-        (
-            Self {
-                in_tx,
-                out_txs: Mutex::new(Vec::new()),
-            },
-            in_rx,
-        )
-    }
-
-    fn listen(&self, rx: mpsc::Receiver<SystemEvent>) {
+    pub fn listen(&self, rx: mpsc::Receiver<SystemEvent>) {
         for event in rx.iter() {
-            // Handle different system events here
+            // Delegate handling of event to corresponding services
+            workspace_registry().consume(&event);
 
             let mut out_txs = self.out_txs.lock().expect("should not be poisoned");
             out_txs.retain(|tx| tx.send(event.clone()).is_ok());
         }
     }
 }
-
-pub const SYSTEM_EVENT_DISPATCHER: LazyLock<Arc<SystemEventDispatcher>> =
-    LazyLock::new(|| {
-        let (dispatcher, rx) = SystemEventDispatcher::new();
-        let dispatcher = Arc::new(dispatcher);
-        let dispatcher_listener = Arc::clone(&dispatcher);
-
-        std::thread::spawn(move || {
-            dispatcher_listener.listen(rx);
-        });
-
-        dispatcher
-    });

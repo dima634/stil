@@ -1,6 +1,6 @@
 use super::EventParseErr;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct WorkspaceV2 {
     pub id: i32,
     pub name: String,
@@ -25,7 +25,7 @@ impl TryFrom<&str> for WorkspaceV2 {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CreateWorkspaceV2(pub WorkspaceV2);
 
 impl TryFrom<&str> for CreateWorkspaceV2 {
@@ -36,7 +36,7 @@ impl TryFrom<&str> for CreateWorkspaceV2 {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct DestroyWorkspaceV2(pub WorkspaceV2);
 
 impl TryFrom<&str> for DestroyWorkspaceV2 {

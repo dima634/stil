@@ -5,12 +5,13 @@
 
 QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
 {
-    auto workspaces = get_workspace_registry().workspaces();
-    std::size_t currentId = get_workspace_registry().current_workspace_id();
+    auto workspaces = Workspaces::lock();
+    std::size_t currentId = workspaces->current_workspace_id();
+    const auto &allWorkspaces = workspaces->all();
 
-    for (std::size_t i = 0; i < workspaces.size(); ++i)
+    for (std::size_t i = 0; i < allWorkspaces.size(); ++i)
     {
-        const auto &ws = workspaces[i];
+        const auto &ws = allWorkspaces[i];
         const auto &name = QString::fromUtf8(ws.name().cbegin(), ws.name().size());
         auto qws = new QWorkspace(ws.id(), name, this);
         m_workspaces.append(qws);

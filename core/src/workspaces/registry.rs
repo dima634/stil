@@ -1,8 +1,7 @@
 use super::Workspace;
-use crate::hyprland::{GetActiveWorkspaceCmd, GetWorkspacesCmd, HyprCtl, Workspaces};
-use std::sync::{
-    LazyLock, Mutex, MutexGuard,
-    atomic::{AtomicI32, Ordering},
+use crate::{
+    hyprland::{self, GetActiveWorkspaceCmd, GetWorkspacesCmd, HyprCtl, Workspaces},
+    system_events::{SystemEvent, SystemEventConsumer},
 };
 
 pub struct WorkspaceRegistry {
@@ -31,7 +30,7 @@ impl Default for WorkspaceRegistry {
             .into_iter()
             .map(|workspace| Workspace::new(workspace.id, workspace.name))
             .collect();
-        
+
         Self {
             workspaces,
             current_workspace_id,
@@ -39,8 +38,20 @@ impl Default for WorkspaceRegistry {
     }
 }
 
-static WORKSPACE_REGISTRY: LazyLock<WorkspaceRegistry> = LazyLock::new(|| WorkspaceRegistry::default());
+impl SystemEventConsumer for WorkspaceRegistry {
+    fn consume(&mut self, event: &SystemEvent) {
+        use hyprland::Event as HyprEvent;
 
-pub fn workspace_registry() -> &'static WorkspaceRegistry {
-    &WORKSPACE_REGISTRY
+        match event {
+            SystemEvent::Hyprland(HyprEvent::ActiveWindow(_)) => {}
+            SystemEvent::Hyprland(HyprEvent::CloseWindow(_)) => {}
+            SystemEvent::Hyprland(HyprEvent::OpenWindow(_)) => {}
+            SystemEvent::Hyprland(HyprEvent::CreateWorkspace(hyprland::CreateWorkspaceV2(workspace))) => {
+                self.workspaces.push(Workspace::new(workspace.id, workspace.name.clone()));
+            }
+            SystemEvent::Hyprland(HyprEvent::DestroyWorkspace(hyprland::DestroyWorkspaceV2(workspace))) => {
+                self.workspaces.retain(|w| w.id() != workspace.id);
+            }
+        }
+    }
 }
