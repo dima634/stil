@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct Workspace {
     id: i32,
     name: String,

@@ -10,6 +10,7 @@ qt_add_qml_module(eleven
     SOURCES
         workspace.h workspace.cpp
         workspaces.h workspaces.cpp
+        system_events.h system_events.cpp
         ../target/cxxbridge/core/src/ffi/mod.rs.cc
 )
 

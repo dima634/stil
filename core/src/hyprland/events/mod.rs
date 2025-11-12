@@ -38,6 +38,8 @@ impl TryFrom<&String> for Event {
             "openwindow" => Ok(Event::OpenWindow(OpenWindow::try_from(data)?)),
             "closewindow" => Ok(Event::CloseWindow(CloseWindow::try_from(data)?)),
             "activewindow" => Ok(Event::ActiveWindow(ActiveWindow::try_from(data)?)),
+            "createworkspacev2" => Ok(Event::CreateWorkspace(CreateWorkspaceV2::try_from(data)?)),
+            "destroyworkspacev2" => Ok(Event::DestroyWorkspace(DestroyWorkspaceV2::try_from(data)?)),
             _ => Err(EventParseErr::UnknownEvent(name.to_string())),
         }
     }
@@ -77,8 +79,6 @@ impl HyprEvents {
                         if !callback(event) {
                             return Some(());
                         }
-                    } else {
-                        warn!("Failed to parse Hyprland event: {}", raw_event);
                     }
 
                     raw_event.clear();

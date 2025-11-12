@@ -10,19 +10,22 @@ class QWorkspaces : public QObject
     QML_ELEMENT
     QML_SINGLETON
     QML_UNCREATABLE("Workspaces are managed by Hyprland")
-    Q_PROPERTY(QQmlListProperty<QWorkspace> all READ getAllWorkspaces CONSTANT)
-    Q_PROPERTY(QWorkspace* current READ getCurrentWorkspace NOTIFY currentChanged)
+    Q_PROPERTY(QList<QWorkspace *> all READ getAll NOTIFY allChanged)
+    Q_PROPERTY(QWorkspace *current READ getCurrentWorkspace NOTIFY currentChanged)
 
   public:
     explicit QWorkspaces(QObject *parent = nullptr);
 
-    QQmlListProperty<QWorkspace> getAllWorkspaces();
+    const QList<QWorkspace *> &getAll() const;
     QWorkspace *getCurrentWorkspace() const;
 
   signals:
     void currentChanged();
+    void allChanged();
 
   private:
     QList<QWorkspace *> m_workspaces;
     QWorkspace *m_currentWorkspace = nullptr;
+
+    void updateWorkspaces();
 };

@@ -50,7 +50,10 @@ impl SystemEventConsumer for WorkspaceRegistry {
                 self.workspaces.push(Workspace::new(workspace.id, workspace.name.clone()));
             }
             SystemEvent::Hyprland(HyprEvent::DestroyWorkspace(hyprland::DestroyWorkspaceV2(workspace))) => {
-                self.workspaces.retain(|w| w.id() != workspace.id);
+                let idx = self.workspaces.iter().position(|w| w.id() == workspace.id);
+                if let Some(idx) = idx {
+                    self.workspaces.swap_remove(idx);
+                }
             }
         }
     }
