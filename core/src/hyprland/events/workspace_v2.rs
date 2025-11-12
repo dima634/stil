@@ -24,25 +24,3 @@ impl TryFrom<&str> for WorkspaceV2 {
         })
     }
 }
-
-#[derive(Debug, Clone)]
-pub struct CreateWorkspaceV2(pub WorkspaceV2);
-
-impl TryFrom<&str> for CreateWorkspaceV2 {
-    type Error = EventParseErr;
-
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
-        Ok(CreateWorkspaceV2(WorkspaceV2::try_from(value)?))
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct DestroyWorkspaceV2(pub WorkspaceV2);
-
-impl TryFrom<&str> for DestroyWorkspaceV2 {
-    type Error = EventParseErr;
-
-    fn try_from(value: &str) -> Result<Self, Self::Error> {
-        Ok(DestroyWorkspaceV2(WorkspaceV2::try_from(value)?))
-    }
-}

@@ -3,18 +3,16 @@
 #include <algorithm>
 #include <core/src/ffi/mod.rs.h>
 #include <iostream>
-#include <unordered_set>
 
 QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
 {
     updateWorkspaces();
 
-    connect(QSystemEvents::instance(), &QSystemEvents::workspaceCreated, this, [this]() {
-        updateWorkspaces();
-        Q_EMIT currentChanged();
-    });
+    connect(QSystemEvents::instance(), &QSystemEvents::workspaceCreated, this, [this]() { updateWorkspaces(); });
 
-    connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this, [this]() {
+    connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this, [this]() { updateWorkspaces(); });
+
+    connect(QSystemEvents::instance(), &QSystemEvents::workspaceFocused, this, [this]() {
         updateWorkspaces();
         Q_EMIT currentChanged();
     });
@@ -54,6 +52,8 @@ void QWorkspaces::updateWorkspaces()
 
     std::sort(m_workspaces.begin(), m_workspaces.end(),
               [](QWorkspace *a, QWorkspace *b) { return a->getId() < b->getId(); });
+
+    std::cout << "Focused workspace ID: " << (m_currentWorkspace ? m_currentWorkspace->getId() : -1) << std::endl;
 
     Q_EMIT allChanged();
 }

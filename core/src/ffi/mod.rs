@@ -26,6 +26,7 @@ mod workspaces {
     pub enum EventKind {
         WorkspaceCreated,
         WorkspaceDestroyed,
+        WorkspaceFocused,
         Unknown,
     }
 
@@ -70,6 +71,7 @@ impl Event {
         match &self.0 {
             SystemEvent::Hyprland(HyprEvent::DestroyWorkspace(_)) => EventKind::WorkspaceDestroyed,
             SystemEvent::Hyprland(HyprEvent::CreateWorkspace(_)) => EventKind::WorkspaceCreated,
+            SystemEvent::Hyprland(HyprEvent::FocusWorkspace(_)) => EventKind::WorkspaceFocused,
             _ => EventKind::Unknown,
         }
     }

@@ -46,14 +46,17 @@ impl SystemEventConsumer for WorkspaceRegistry {
             SystemEvent::Hyprland(HyprEvent::ActiveWindow(_)) => {}
             SystemEvent::Hyprland(HyprEvent::CloseWindow(_)) => {}
             SystemEvent::Hyprland(HyprEvent::OpenWindow(_)) => {}
-            SystemEvent::Hyprland(HyprEvent::CreateWorkspace(hyprland::CreateWorkspaceV2(workspace))) => {
+            SystemEvent::Hyprland(HyprEvent::CreateWorkspace(workspace)) => {
                 self.workspaces.push(Workspace::new(workspace.id, workspace.name.clone()));
             }
-            SystemEvent::Hyprland(HyprEvent::DestroyWorkspace(hyprland::DestroyWorkspaceV2(workspace))) => {
+            SystemEvent::Hyprland(HyprEvent::DestroyWorkspace(workspace)) => {
                 let idx = self.workspaces.iter().position(|w| w.id() == workspace.id);
                 if let Some(idx) = idx {
                     self.workspaces.swap_remove(idx);
                 }
+            }
+            SystemEvent::Hyprland(HyprEvent::FocusWorkspace(workspace)) => {
+                self.current_workspace_id = workspace.id;
             }
         }
     }

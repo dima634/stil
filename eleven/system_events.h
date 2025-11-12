@@ -13,4 +13,5 @@ class QSystemEvents : public QObject
   signals:
     void workspaceCreated();
     void workspaceRemoved();
+    void workspaceFocused();
 };

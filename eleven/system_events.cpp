@@ -1,7 +1,6 @@
 #include "system_events.h"
 #include <QThread>
 #include <core/src/ffi/mod.rs.h>
-#include <iostream>
 
 QSystemEvents::QSystemEvents()
 {
@@ -17,6 +16,9 @@ QSystemEvents::QSystemEvents()
                 break;
             case EventKind::WorkspaceDestroyed:
                 Q_EMIT QSystemEvents::instance()->workspaceRemoved();
+                break;
+            case EventKind::WorkspaceFocused:
+                Q_EMIT QSystemEvents::instance()->workspaceFocused();
                 break;
             default:
                 break;

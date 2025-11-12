@@ -24,8 +24,9 @@ pub enum Event {
     OpenWindow(OpenWindow),
     CloseWindow(CloseWindow),
     ActiveWindow(ActiveWindow),
-    CreateWorkspace(CreateWorkspaceV2),
-    DestroyWorkspace(DestroyWorkspaceV2),
+    CreateWorkspace(WorkspaceV2),
+    DestroyWorkspace(WorkspaceV2),
+    FocusWorkspace(WorkspaceV2),
 }
 
 impl TryFrom<&String> for Event {
@@ -34,14 +35,17 @@ impl TryFrom<&String> for Event {
     fn try_from(value: &String) -> Result<Self, Self::Error> {
         let (name, data) = value.split_once(">>").ok_or(EventParseErr::Malformed)?;
 
-        match name {
-            "openwindow" => Ok(Event::OpenWindow(OpenWindow::try_from(data)?)),
-            "closewindow" => Ok(Event::CloseWindow(CloseWindow::try_from(data)?)),
-            "activewindow" => Ok(Event::ActiveWindow(ActiveWindow::try_from(data)?)),
-            "createworkspacev2" => Ok(Event::CreateWorkspace(CreateWorkspaceV2::try_from(data)?)),
-            "destroyworkspacev2" => Ok(Event::DestroyWorkspace(DestroyWorkspaceV2::try_from(data)?)),
-            _ => Err(EventParseErr::UnknownEvent(name.to_string())),
-        }
+        let event = match name {
+            "openwindow" => Event::OpenWindow(OpenWindow::try_from(data)?),
+            "closewindow" => Event::CloseWindow(CloseWindow::try_from(data)?),
+            "activewindow" => Event::ActiveWindow(ActiveWindow::try_from(data)?),
+            "workspacev2" => Event::FocusWorkspace(WorkspaceV2::try_from(data)?),
+            "createworkspacev2" => Event::CreateWorkspace(WorkspaceV2::try_from(data)?),
+            "destroyworkspacev2" => Event::DestroyWorkspace(WorkspaceV2::try_from(data)?),
+            _ => return Err(EventParseErr::UnknownEvent(name.to_string())),
+        };
+
+        Ok(event)
     }
 }
 
