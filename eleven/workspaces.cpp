@@ -2,7 +2,6 @@
 #include "system_events.h"
 #include <algorithm>
 #include <core/src/ffi/mod.rs.h>
-#include <iostream>
 
 QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
 {
@@ -52,8 +51,6 @@ void QWorkspaces::updateWorkspaces()
 
     std::sort(m_workspaces.begin(), m_workspaces.end(),
               [](QWorkspace *a, QWorkspace *b) { return a->getId() < b->getId(); });
-
-    std::cout << "Focused workspace ID: " << (m_currentWorkspace ? m_currentWorkspace->getId() : -1) << std::endl;
 
     Q_EMIT allChanged();
 }
