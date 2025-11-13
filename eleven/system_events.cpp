@@ -11,13 +11,13 @@ QSystemEvents::QSystemEvents()
             switch (event->kind())
             {
             case core::EventKind::WorkspaceCreated:
-                Q_EMIT QSystemEvents::instance()->workspaceCreated(std::move(event));
+                Q_EMIT QSystemEvents::instance()->workspaceCreated(event.into_raw()); // TODO: memory leak
                 break;
             case core::EventKind::WorkspaceDestroyed:
                 Q_EMIT QSystemEvents::instance()->workspaceRemoved(event->workspace_destroyed());
                 break;
             case core::EventKind::WorkspaceFocused:
-                Q_EMIT QSystemEvents::instance()->workspaceFocused();
+                Q_EMIT QSystemEvents::instance()->workspaceFocused(event->workspace_focused());
                 break;
             default:
                 break;

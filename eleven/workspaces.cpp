@@ -27,32 +27,37 @@ QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
     std::sort(m_workspaces.begin(), m_workspaces.end(),
               [](QWorkspace *a, QWorkspace *b) { return a->getId() < b->getId(); });
 
-    // connect(QSystemEvents::instance(), &QSystemEvents::workspaceCreated, this,
-    //         [this](auto event) {
-    //             auto workspace = event->workspace_created();
+    connect(QSystemEvents::instance(), &QSystemEvents::workspaceCreated, this, [this](const core::Event *event) {
+        auto &workspace = event->workspace_created();
+        if (removeWorkspace(workspace.id()))
+        {
+            qWarning("workspace with id %d already exists, removing...", workspace.id());
+        }
 
-    //             if (&workspace == nullptr)
-    //             {
-    //                 qWarning("received null workspace");
-    //                 return;
-    //             }
+        const auto &name = QString::fromUtf8(workspace.name().cbegin(), workspace.name().size());
+        auto qws = new QWorkspace(workspace.id(), name, this);
+        m_workspaces.append(qws);
 
-    //             if (removeWorkspace(workspace.id()))
-    //             {    
-    //                 qWarning("workspace with id %d already exists, removing...", workspace.id());
-    //             }
+        Q_EMIT allChanged();
+    });
 
-    //             qInfo("adding workspace with id %d", workspace.id());
+    connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this, [this](std::int32_t workspaceId) {
+        removeWorkspace(workspaceId);
+        Q_EMIT allChanged();
+    });
 
-    //             const auto &name = QString::fromUtf8(workspace.name().cbegin(), workspace.name().size());
-    //             auto qws = new QWorkspace(workspace.id(), name, this);
-    //             m_workspaces.append(qws);
-    //         });
+    connect(QSystemEvents::instance(), &QSystemEvents::workspaceFocused, this, [this](std::int32_t workspaceId) {
+        auto it = std::find_if(m_workspaces.cbegin(), m_workspaces.cend(),
+                               [workspaceId](QWorkspace *ws) { return ws->getId() == workspaceId; });
+        if (it == m_workspaces.cend())
+        {
+            qWarning("could not find workspace with id %d", workspaceId);
+            return;
+        }
 
-    connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this,
-            [this](std::int32_t workspaceId) { removeWorkspace(workspaceId); });
-
-    connect(QSystemEvents::instance(), &QSystemEvents::workspaceFocused, this, [this]() {});
+        m_currentWorkspace = *it;
+        Q_EMIT currentChanged();
+    });
 }
 
 const QList<QWorkspace *> &QWorkspaces::getAll() const
@@ -67,7 +72,6 @@ QWorkspace *QWorkspaces::getCurrentWorkspace() const
 
 bool QWorkspaces::removeWorkspace(std::int32_t workspaceId)
 {
-    qInfo("removing workspace with id");
     auto it = std::find_if(m_workspaces.cbegin(), m_workspaces.cend(),
                            [workspaceId](QWorkspace *ws) { return ws->getId() == workspaceId; });
 

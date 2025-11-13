@@ -12,7 +12,7 @@ class QSystemEvents : public QObject
     static QSystemEvents *instance();
 
   signals:
-    void workspaceCreated(rust::Box<core::Event> event);
+    void workspaceCreated(const core::Event *event);
     void workspaceRemoved(std::int32_t workspaceId);
-    void workspaceFocused();
+    void workspaceFocused(std::int32_t workspaceId);
 };

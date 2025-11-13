@@ -25,6 +25,7 @@ mod ffi {
         fn kind(&self) -> EventKind;
         unsafe fn workspace_created<'ev>(&'ev self) -> Result<&'ev WorkspaceV2>;
         fn workspace_destroyed(&self) -> Result<i32>;
+        fn workspace_focused(&self) -> Result<i32>;
     }
 
     extern "Rust" {
@@ -71,6 +72,13 @@ impl Event {
     pub fn workspace_created(&self) -> Result<&WorkspaceV2, &'static str> {
         match &self.0 {
             SystemEvent::Hyprland(HyprEvent::CreateWorkspace(event)) => Ok(event),
+            _ => Err("wrong event kind"),
+        }
+    }
+
+    pub fn workspace_focused(&self) -> Result<i32, &'static str> {
+        match &self.0 {
+            SystemEvent::Hyprland(HyprEvent::FocusWorkspace(event)) => Ok(event.id()),
             _ => Err("wrong event kind"),
         }
     }
