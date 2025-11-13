@@ -2,8 +2,20 @@ use super::EventParseErr;
 
 #[derive(Debug, Clone)]
 pub struct WorkspaceV2 {
-    pub id: i32,
-    pub name: String,
+    id: i32,
+    name: String,
+}
+
+impl WorkspaceV2 {
+    #[inline]
+    pub fn id(&self) -> i32 {
+        self.id
+    }
+
+    #[inline]
+    pub fn name(&self) -> &String {
+        &self.name
+    }
 }
 
 impl TryFrom<&str> for WorkspaceV2 {
@@ -14,9 +26,7 @@ impl TryFrom<&str> for WorkspaceV2 {
             return Err(EventParseErr::InvalidData);
         }
 
-        let (id, name) = value
-            .split_once(',')
-            .ok_or(EventParseErr::InvalidData)?;
+        let (id, name) = value.split_once(',').ok_or(EventParseErr::InvalidData)?;
 
         Ok(WorkspaceV2 {
             id: id.parse().map_err(|_| EventParseErr::InvalidData)?,

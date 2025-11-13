@@ -1,9 +1,5 @@
-use crate::{hyprland, services::workspace_registry};
+use crate::hyprland;
 use std::sync::{Mutex, mpsc};
-
-pub trait SystemEventConsumer {
-    fn consume(&mut self, event: &SystemEvent);
-}
 
 #[derive(Debug, Clone)]
 pub enum SystemEvent {
@@ -42,7 +38,7 @@ impl SystemEventDispatcher {
     pub fn listen(&self, rx: mpsc::Receiver<SystemEvent>) {
         for event in rx.iter() {
             // Delegate handling of event to corresponding services
-            workspace_registry().consume(&event);
+            // TODO ...
 
             let mut out_txs = self.out_txs.lock().expect("should not be poisoned");
             out_txs.retain(|tx| tx.send(event.clone()).is_ok());

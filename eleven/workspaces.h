@@ -27,5 +27,5 @@ class QWorkspaces : public QObject
     QList<QWorkspace *> m_workspaces;
     QWorkspace *m_currentWorkspace = nullptr;
 
-    void updateWorkspaces();
+    bool removeWorkspace(std::int32_t workspaceId);
 };

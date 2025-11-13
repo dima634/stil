@@ -107,7 +107,7 @@ mod tests {
     #[test]
     fn test_parse_desktop_entry_file() {
         for ent in find_application_desktop_entries() {
-            println!("{:?}\n", ent);// TODO: remove
+            println!("{:?}\n", ent); // TODO: remove
         }
     }
 }

@@ -1,12 +1,12 @@
 mod active_window;
+mod active_workspace;
 mod clients;
 mod workspaces;
-mod active_workspace;
 
 pub use active_window::*;
+pub use active_workspace::*;
 pub use clients::*;
 pub use workspaces::*;
-pub use active_workspace::*;
 
 use super::Hyprland;
 use std::{

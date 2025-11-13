@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <core/src/ffi/system_events.rs.h>
 
 class QSystemEvents : public QObject
 {
@@ -11,7 +12,7 @@ class QSystemEvents : public QObject
     static QSystemEvents *instance();
 
   signals:
-    void workspaceCreated();
-    void workspaceRemoved();
+    void workspaceCreated(rust::Box<core::Event> event);
+    void workspaceRemoved(std::int32_t workspaceId);
     void workspaceFocused();
 };

@@ -1,9 +1,8 @@
 use crate::{
     hyprland::HyprEvents,
     system_events::{SystemEvent, SystemEventDispatcher},
-    workspaces::WorkspaceRegistry,
 };
-use std::sync::{Arc, LazyLock, Mutex, MutexGuard, Once};
+use std::sync::{Arc, LazyLock, Once};
 use tracing::{error, warn};
 
 static INIT: Once = Once::new();
@@ -12,13 +11,6 @@ pub fn global_init() {
         setup_logging();
         listen_for_hyprland_events();
     });
-}
-
-static WORKSPACE_REGISTRY: LazyLock<Mutex<WorkspaceRegistry>> = LazyLock::new(|| Mutex::new(WorkspaceRegistry::default()));
-
-#[inline]
-pub fn workspace_registry() -> MutexGuard<'static, WorkspaceRegistry> {
-    WORKSPACE_REGISTRY.lock().expect("should not be poisoned")
 }
 
 static SYSTEM_EVENT_DISPATCHER: LazyLock<Arc<SystemEventDispatcher>> = LazyLock::new(|| {

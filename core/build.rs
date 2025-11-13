@@ -1,4 +1,4 @@
 fn main() {
-    cxx_build::bridge("src/ffi/mod.rs")
+    cxx_build::bridges(["src/ffi/mod.rs", "src/ffi/system_events.rs"])
         .std("c++17");
 }

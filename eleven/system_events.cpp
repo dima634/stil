@@ -1,23 +1,22 @@
 #include "system_events.h"
 #include <QThread>
-#include <core/src/ffi/mod.rs.h>
 
 QSystemEvents::QSystemEvents()
 {
     QThread *systemEventListenerThread = QThread::create([]() {
-        auto dispatcher = SystemEvents::create();
+        auto dispatcher = core::SystemEvents::create();
         while (true)
         {
             auto event = dispatcher->next();
             switch (event->kind())
             {
-            case EventKind::WorkspaceCreated:
-                Q_EMIT QSystemEvents::instance()->workspaceCreated();
+            case core::EventKind::WorkspaceCreated:
+                Q_EMIT QSystemEvents::instance()->workspaceCreated(std::move(event));
                 break;
-            case EventKind::WorkspaceDestroyed:
-                Q_EMIT QSystemEvents::instance()->workspaceRemoved();
+            case core::EventKind::WorkspaceDestroyed:
+                Q_EMIT QSystemEvents::instance()->workspaceRemoved(event->workspace_destroyed());
                 break;
-            case EventKind::WorkspaceFocused:
+            case core::EventKind::WorkspaceFocused:
                 Q_EMIT QSystemEvents::instance()->workspaceFocused();
                 break;
             default:
