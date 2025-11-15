@@ -14,9 +14,11 @@ mod ffi {
         Unknown,
     }
 
-    extern "Rust" {
-        type WindowOpened;
-        type WorkspaceCreated;
+    #[namespace = "core"]
+    extern "C++" {
+        include!("core/src/system_events.rs.h");
+        type WindowOpened = crate::system_events::WindowOpened;
+        type WorkspaceCreated = crate::system_events::WorkspaceCreated;
     }
 
     extern "Rust" {
@@ -27,8 +29,8 @@ mod ffi {
         fn workspace_created(&mut self) -> Result<WorkspaceCreated>;
         fn workspace_destroyed(&mut self) -> Result<i32>;
         fn workspace_focused(&mut self) -> Result<i32>;
-        fn window_open(&mut self) -> Result<WindowOpened>;
-        fn window_close(&mut self) -> Result<usize>;
+        fn window_opened(&mut self) -> Result<WindowOpened>;
+        fn window_closed(&mut self) -> Result<usize>;
     }
 
     extern "Rust" {

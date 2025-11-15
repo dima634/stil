@@ -1,11 +1,5 @@
 use std::sync::{Mutex, mpsc};
 
-mod window_events;
-mod workspace_events;
-
-pub use window_events::*;
-pub use workspace_events::*;
-
 #[derive(Debug, Clone)]
 pub enum SystemEvent {
     WorkspaceCreated(WorkspaceCreated),
@@ -56,3 +50,21 @@ impl SystemEventDispatcher {
         }
     }
 }
+
+#[cxx::bridge(namespace = "core")]
+mod ffi {
+    #[derive(Debug, Clone)]
+    pub struct WindowOpened {
+        pub address: usize,
+        pub workspace: i32,
+        pub className: String,
+    }
+
+    #[derive(Debug, Clone)]
+    pub struct WorkspaceCreated {
+        pub id: i32,
+        pub name: String,
+    }
+}
+
+pub use ffi::*;

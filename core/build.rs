@@ -1,3 +1,9 @@
 fn main() {
-    cxx_build::bridges(["src/ffi/mod.rs", "src/ffi/system_events.rs", "src/ffi/hyprland.rs"]).std("c++17");
+    cxx_build::bridges([
+        "src/system_events.rs",
+        "src/ffi/mod.rs",
+        "src/ffi/system_events.rs",
+        "src/ffi/hyprland.rs",
+    ])
+    .std("c++17");
 }

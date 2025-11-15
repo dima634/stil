@@ -15,8 +15,9 @@ QClients::QClients(QObject *parent) : QObject(parent)
         m_clients.append(qclient);
     }
 
-    connect(QSystemEvents::instance(), &QSystemEvents::windowOpen, this, [this](const WindowOpen &event) {
-        auto client = new QClient(event.address, event.className, -1, this); // TODO: find workspace ID
+    connect(QSystemEvents::instance(), &QSystemEvents::windowOpen, this, [this](core::WindowOpened window) {
+        QString className = window.className.c_str();
+        auto client = new QClient(window.address, className, window.workspace, this);
         m_clients.append(client);
         Q_EMIT allChanged();
     });

@@ -1,9 +1,9 @@
 #include "workspaces.h"
 #include "system_events.h"
 #include <QtLogging>
+#include <algorithm>
 #include <core/src/ffi/mod.rs.h>
 #include <core/src/ffi/system_events.rs.h>
-#include <algorithm>
 
 QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
 {
@@ -27,21 +27,21 @@ QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
     std::sort(m_workspaces.begin(), m_workspaces.end(),
               [](QWorkspace *a, QWorkspace *b) { return a->getId() < b->getId(); });
 
-    connect(QSystemEvents::instance(), &QSystemEvents::workspaceCreated, this, [this](const core::Event *event) {
-        auto &workspace = event->workspace_created();
-        if (removeWorkspace(workspace.id()))
-        {
-            qWarning("workspace with id %d already exists, removing...", workspace.id());
-        }
+    connect(
+        QSystemEvents::instance(), &QSystemEvents::workspaceCreated, this, [this](core::WorkspaceCreated workspace) {
+            if (removeWorkspace(workspace.id))
+            {
+                qWarning("workspace with id %d already exists, removing...", workspace.id);
+            }
 
-        QString name = QString::fromUtf8(workspace.name().cbegin(), workspace.name().size());
-        auto qws = new QWorkspace(workspace.id(), name, this);
-        auto insertPos = std::lower_bound(m_workspaces.cbegin(), m_workspaces.cend(), workspace.id(),
-                                          [](const QWorkspace *ws, std::int32_t id) { return ws->getId() < id; });
-        m_workspaces.insert(insertPos, qws);
+            QString name = workspace.name.c_str();
+            auto qws = new QWorkspace(workspace.id, name, this);
+            auto insertPos = std::lower_bound(m_workspaces.cbegin(), m_workspaces.cend(), workspace.id,
+                                              [](const QWorkspace *ws, std::int32_t id) { return ws->getId() < id; });
+            m_workspaces.insert(insertPos, qws);
 
-        Q_EMIT allChanged();
-    });
+            Q_EMIT allChanged();
+        });
 
     connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this, [this](std::int32_t workspaceId) {
         removeWorkspace(workspaceId);
