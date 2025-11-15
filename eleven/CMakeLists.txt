@@ -10,9 +10,12 @@ qt_add_qml_module(eleven
     SOURCES
         workspace.h workspace.cpp
         workspaces.h workspaces.cpp
+        client.h client.cpp
+        clients.h clients.cpp
         system_events.h system_events.cpp
         ../target/cxxbridge/core/src/ffi/mod.rs.cc
         ../target/cxxbridge/core/src/ffi/system_events.rs.cc
+        ../target/cxxbridge/core/src/ffi/hyprland.rs.cc
 )
 
 target_link_libraries(eleven PRIVATE libcore.a)

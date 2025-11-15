@@ -34,7 +34,7 @@ QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
             qWarning("workspace with id %d already exists, removing...", workspace.id());
         }
 
-        const auto &name = QString::fromUtf8(workspace.name().cbegin(), workspace.name().size());
+        QString name = QString::fromUtf8(workspace.name().cbegin(), workspace.name().size());
         auto qws = new QWorkspace(workspace.id(), name, this);
         auto insertPos = std::lower_bound(m_workspaces.cbegin(), m_workspaces.cend(), workspace.id(),
                                           [](const QWorkspace *ws, std::int32_t id) { return ws->getId() < id; });
@@ -87,6 +87,7 @@ bool QWorkspaces::removeWorkspace(std::int32_t workspaceId)
         m_currentWorkspace = nullptr;
     }
 
+    (*it)->deleteLater();
     m_workspaces.erase(it);
 
     return true;

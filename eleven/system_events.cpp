@@ -1,6 +1,14 @@
 #include "system_events.h"
 #include <QThread>
 
+WindowOpen::WindowOpen(core::OpenWindow const &window)
+    : address(window.address()),
+      workspaceName(QString::fromUtf8(window.workspace_name().cbegin(), window.workspace_name().size())),
+      title(QString::fromUtf8(window.title().cbegin(), window.title().size())),
+      className(QString::fromUtf8(window.class_().cbegin(), window.class_().size()))
+{
+}
+
 QSystemEvents::QSystemEvents()
 {
     QThread *systemEventListenerThread = QThread::create([]() {
@@ -19,6 +27,15 @@ QSystemEvents::QSystemEvents()
             case core::EventKind::WorkspaceFocused:
                 Q_EMIT QSystemEvents::instance()->workspaceFocused(event->workspace_focused());
                 break;
+            case core::EventKind::WindowOpen: {
+                WindowOpen windowOpen(*event->window_open());
+                Q_EMIT QSystemEvents::instance()->windowOpen(windowOpen);
+                break;
+            }
+            case core::EventKind::WindowClose: {
+                Q_EMIT QSystemEvents::instance()->windowClose(event->window_close());
+                break;
+            }
             default:
                 break;
             }

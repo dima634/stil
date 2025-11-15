@@ -4,6 +4,7 @@ use crate::{
 };
 
 mod system_events;
+mod hyprland;
 
 #[cxx::bridge(namespace = "core")]
 mod ffi {

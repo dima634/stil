@@ -2,7 +2,7 @@ use super::EventParseErr;
 
 #[derive(Debug, Clone)]
 pub struct CloseWindow {
-    pub window_address: String,
+    pub window_address: usize,
 }
 
 impl TryFrom<&str> for CloseWindow {
@@ -14,7 +14,7 @@ impl TryFrom<&str> for CloseWindow {
         }
 
         Ok(CloseWindow {
-            window_address: value.to_string(),
+            window_address: usize::from_str_radix(value, 16).map_err(|_| EventParseErr::InvalidData)?,
         })
     }
 }
