@@ -23,8 +23,8 @@ impl Workspace {
 impl From<&super::hyprland::WorkspaceV2> for Workspace {
     fn from(ws: &super::hyprland::WorkspaceV2) -> Self {
         Workspace {
-            id: ws.id(),
-            name: ws.name().clone(),
+            id: ws.id,
+            name: ws.name.clone(),
         }
     }
 }

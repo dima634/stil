@@ -2,20 +2,8 @@ use super::EventParseErr;
 
 #[derive(Debug, Clone)]
 pub struct WorkspaceV2 {
-    id: i32,
-    name: String,
-}
-
-impl WorkspaceV2 {
-    #[inline]
-    pub fn id(&self) -> i32 {
-        self.id
-    }
-
-    #[inline]
-    pub fn name(&self) -> &String {
-        &self.name
-    }
+    pub id: i32,
+    pub name: String,
 }
 
 impl TryFrom<&str> for WorkspaceV2 {

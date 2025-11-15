@@ -1,6 +1,6 @@
 use crate::{
-    hyprland::HyprEvents,
-    system_events::{SystemEvent, SystemEventDispatcher},
+    hyprland::{Event, HyprEvents},
+    system_events::{SystemEvent, SystemEventDispatcher, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{Arc, LazyLock, Once};
 use tracing::{error, warn};
@@ -41,7 +41,23 @@ fn listen_for_hyprland_events() {
             let tx = systems_events.tx();
 
             HyprEvents::listen(|event| {
-                if tx.send(SystemEvent::Hyprland(event)).is_err() {
+                let system_event = match event {
+                    Event::OpenWindow(open_window) => SystemEvent::WindowOpened(WindowOpened {
+                        address: open_window.window_address,
+                        workspace: -1, // TODO: get workspace id
+                        class: open_window.window_class,
+                    }),
+                    Event::CloseWindow(close_window) => SystemEvent::WindowClosed(close_window.window_address),
+                    Event::ActiveWindow(active_window) => SystemEvent::WindowFocused(active_window.address),
+                    Event::CreateWorkspace(workspace_v2) => SystemEvent::WorkspaceCreated(WorkspaceCreated {
+                        id: workspace_v2.id,
+                        name: workspace_v2.name,
+                    }),
+                    Event::DestroyWorkspace(workspace_v2) => SystemEvent::WorkspaceDestroyed(workspace_v2.id),
+                    Event::FocusWorkspace(workspace_v2) => SystemEvent::WorkspaceFocused(workspace_v2.id),
+                };
+
+                if tx.send(system_event).is_err() {
                     warn!("Cannot send Hyprland event to System Event Dispatcher. Aborting listener.");
                     return false;
                 }

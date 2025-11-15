@@ -8,28 +8,6 @@ pub struct OpenWindow {
     pub window_title: String,
 }
 
-impl OpenWindow {
-    #[inline]
-    pub fn address(&self) -> usize {
-        self.window_address
-    }
-
-    #[inline]
-    pub fn workspace_name(&self) -> &str {
-        &self.workspace_name
-    }
-
-    #[inline]
-    pub fn class(&self) -> &str {
-        &self.window_class
-    }
-
-    #[inline]
-    pub fn title(&self) -> &str {
-        &self.window_title
-    }
-}
-
 impl TryFrom<&str> for OpenWindow {
     type Error = EventParseErr;
 

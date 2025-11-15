@@ -1,9 +1,20 @@
-use crate::hyprland;
 use std::sync::{Mutex, mpsc};
+
+mod window_events;
+mod workspace_events;
+
+pub use window_events::*;
+pub use workspace_events::*;
 
 #[derive(Debug, Clone)]
 pub enum SystemEvent {
-    Hyprland(hyprland::Event),
+    WorkspaceCreated(WorkspaceCreated),
+    WorkspaceDestroyed(i32),
+    WorkspaceFocused(i32),
+    WindowOpened(WindowOpened),
+    WindowClosed(usize),
+    WindowFocused(usize),
+    Invalid,
 }
 
 pub struct SystemEventDispatcher {

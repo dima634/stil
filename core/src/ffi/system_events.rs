@@ -1,12 +1,10 @@
 use crate::{
-    hyprland::{Event as HyprEvent, WorkspaceV2, OpenWindow},
     services::{global_init, system_event_dispatcher},
-    system_events::SystemEvent,
+    system_events::{SystemEvent, WindowOpened, WorkspaceCreated},
 };
 
 #[cxx::bridge(namespace = "core")]
 mod ffi {
-
     pub enum EventKind {
         WorkspaceCreated,
         WorkspaceDestroyed,
@@ -17,27 +15,20 @@ mod ffi {
     }
 
     extern "Rust" {
-        type WorkspaceV2;
-        fn id(self: &WorkspaceV2) -> i32;
-        fn name(self: &WorkspaceV2) -> &String;
-
-        type OpenWindow;
-        fn address(self: &OpenWindow) -> usize;
-        fn workspace_name(self: &OpenWindow) -> &str;
-        fn title(self: &OpenWindow) -> &str;
-        #[cxx_name = "class_"]
-        fn class(self: &OpenWindow) -> &str;
+        type WindowOpened;
+        type WorkspaceCreated;
     }
 
     extern "Rust" {
+
         type Event;
 
         fn kind(&self) -> EventKind;
-        unsafe fn workspace_created<'ev>(&'ev self) -> Result<&'ev WorkspaceV2>;
-        fn workspace_destroyed(&self) -> Result<i32>;
-        fn workspace_focused(&self) -> Result<i32>;
-        fn window_open(&self) -> Result<Box<OpenWindow>>;
-        fn window_close(&self) -> Result<usize>;
+        fn workspace_created(&mut self) -> Result<WorkspaceCreated>;
+        fn workspace_destroyed(&mut self) -> Result<i32>;
+        fn workspace_focused(&mut self) -> Result<i32>;
+        fn window_open(&mut self) -> Result<WindowOpened>;
+        fn window_close(&mut self) -> Result<usize>;
     }
 
     extern "Rust" {
@@ -49,16 +40,16 @@ mod ffi {
     }
 }
 
-impl From<&HyprEvent> for ffi::EventKind {
-    fn from(event: &HyprEvent) -> Self {
+impl From<&SystemEvent> for ffi::EventKind {
+    fn from(event: &SystemEvent) -> Self {
         use ffi::EventKind;
 
         match event {
-            HyprEvent::DestroyWorkspace(_) => EventKind::WorkspaceDestroyed,
-            HyprEvent::CreateWorkspace(_) => EventKind::WorkspaceCreated,
-            HyprEvent::FocusWorkspace(_) => EventKind::WorkspaceFocused,
-            HyprEvent::OpenWindow(_) => EventKind::WindowOpen,
-            HyprEvent::CloseWindow(_) => EventKind::WindowClose,
+            SystemEvent::WorkspaceDestroyed(_) => EventKind::WorkspaceDestroyed,
+            SystemEvent::WorkspaceCreated(_) => EventKind::WorkspaceCreated,
+            SystemEvent::WorkspaceFocused(_) => EventKind::WorkspaceFocused,
+            SystemEvent::WindowOpened(_) => EventKind::WindowOpen,
+            SystemEvent::WindowClosed(_) => EventKind::WindowClose,
             _ => EventKind::Unknown,
         }
     }
@@ -66,50 +57,32 @@ impl From<&HyprEvent> for ffi::EventKind {
 
 struct Event(SystemEvent);
 
+macro_rules! event_accessor {
+    ($name: ident, $result: ident, $ev: ident) => {
+        pub fn $name(&mut self) -> Result<$result, &'static str> {
+            let mut invalid = SystemEvent::Invalid;
+            std::mem::swap(&mut invalid, &mut self.0);
+
+            if let SystemEvent::$ev(payload) = invalid {
+                Ok(payload)
+            } else {
+                Err("wrong event kind")
+            }
+        }
+    };
+}
+
 impl Event {
+    #[inline]
     pub fn kind(&self) -> ffi::EventKind {
-        use ffi::EventKind;
-
-        match &self.0 {
-            SystemEvent::Hyprland(event) => event.into(),
-            _ => EventKind::Unknown,
-        }
+        (&self.0).into()
     }
 
-    pub fn workspace_destroyed(&self) -> Result<i32, &'static str> {
-        match &self.0 {
-            SystemEvent::Hyprland(HyprEvent::DestroyWorkspace(event)) => Ok(event.id()),
-            _ => Err("wrong event kind"),
-        }
-    }
-
-    pub fn workspace_created(&self) -> Result<&WorkspaceV2, &'static str> {
-        match &self.0 {
-            SystemEvent::Hyprland(HyprEvent::CreateWorkspace(event)) => Ok(event),
-            _ => Err("wrong event kind"),
-        }
-    }
-
-    pub fn workspace_focused(&self) -> Result<i32, &'static str> {
-        match &self.0 {
-            SystemEvent::Hyprland(HyprEvent::FocusWorkspace(event)) => Ok(event.id()),
-            _ => Err("wrong event kind"),
-        }
-    }
-
-    pub fn window_open(&self) -> Result<Box<OpenWindow>, &'static str> {
-        match &self.0 {
-            SystemEvent::Hyprland(HyprEvent::OpenWindow(event)) => Ok(Box::new(event.clone())),
-            _ => Err("wrong event kind"),
-        }
-    }
-
-    pub fn window_close(&self) -> Result<usize, &'static str> {
-        match &self.0 {
-            SystemEvent::Hyprland(HyprEvent::CloseWindow(event)) => Ok(event.window_address),
-            _ => Err("wrong event kind"),
-        }
-    }
+    event_accessor!(workspace_destroyed, i32, WorkspaceDestroyed);
+    event_accessor!(workspace_created, WorkspaceCreated, WorkspaceCreated);
+    event_accessor!(workspace_focused, i32, WorkspaceFocused);
+    event_accessor!(window_opened, WindowOpened, WindowOpened);
+    event_accessor!(window_closed, usize, WindowClosed);
 }
 
 struct SystemEvents {
