@@ -1,6 +1,6 @@
 #include "clients.h"
 #include "system_events.h"
-#include <core/src/ffi/hyprland.rs.h>
+#include <stil_core/src/ffi/hyprland.rs.h>
 
 QClients::QClients(QObject *parent) : QObject(parent)
 {

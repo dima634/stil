@@ -2,8 +2,8 @@
 #include "system_events.h"
 #include <QtLogging>
 #include <algorithm>
-#include <core/src/ffi/mod.rs.h>
-#include <core/src/ffi/system_events.rs.h>
+#include <stil_core/src/ffi/mod.rs.h>
+#include <stil_core/src/ffi/system_events.rs.h>
 
 QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
 {
