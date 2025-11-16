@@ -16,7 +16,7 @@ mod ffi {
 
     #[namespace = "core"]
     extern "C++" {
-        include!("core/src/system_events.rs.h");
+        include!("stil_core/src/system_events.rs.h");
         type WindowOpened = crate::system_events::WindowOpened;
         type WorkspaceCreated = crate::system_events::WorkspaceCreated;
     }
