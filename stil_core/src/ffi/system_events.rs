@@ -1,6 +1,6 @@
 use crate::{
     services::{global_init, system_event_dispatcher},
-    system_events::{CpuUsage, SystemEvent, WindowOpened, WorkspaceCreated},
+    system_events::{SystemEvent, WindowOpened, WorkspaceCreated},
 };
 
 #[cxx::bridge(namespace = "core")]
@@ -11,8 +11,6 @@ mod ffi {
         WorkspaceFocused,
         WindowOpen,
         WindowClose,
-        CpuUsageUpdated,
-        SystemTimeUpdated,
         Empty,
     }
 
@@ -21,7 +19,6 @@ mod ffi {
         include!("stil_core/src/system_events.rs.h");
         type WindowOpened = crate::system_events::WindowOpened;
         type WorkspaceCreated = crate::system_events::WorkspaceCreated;
-        type CpuUsage = crate::system_events::CpuUsage;
     }
 
     extern "Rust" {
@@ -33,9 +30,6 @@ mod ffi {
         fn workspace_focused(&mut self) -> Result<i32>;
         fn window_opened(&mut self) -> Result<WindowOpened>;
         fn window_closed(&mut self) -> Result<usize>;
-
-        fn cpu_usage_updated(&mut self) -> Result<CpuUsage>;
-        fn system_time_updated(&mut self) -> Result<u64>;
     }
 
     extern "Rust" {
@@ -57,8 +51,6 @@ impl From<&SystemEvent> for ffi::EventKind {
             SystemEvent::WorkspaceFocused(_) => EventKind::WorkspaceFocused,
             SystemEvent::WindowOpened(_) => EventKind::WindowOpen,
             SystemEvent::WindowClosed(_) => EventKind::WindowClose,
-            SystemEvent::CpuUsageUpdated(_) => EventKind::CpuUsageUpdated,
-            SystemEvent::SystemTimeUpdated(_) => EventKind::SystemTimeUpdated,
             _ => EventKind::Empty,
         }
     }
@@ -92,9 +84,6 @@ impl Event {
     event_accessor!(workspace_focused, i32, WorkspaceFocused);
     event_accessor!(window_opened, WindowOpened, WindowOpened);
     event_accessor!(window_closed, usize, WindowClosed);
-
-    event_accessor!(cpu_usage_updated, CpuUsage, CpuUsageUpdated);
-    event_accessor!(system_time_updated, u64, SystemTimeUpdated);
 }
 
 struct SystemEvents {

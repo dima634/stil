@@ -12,7 +12,11 @@ qt_add_qml_module(eleven
         workspaces.h workspaces.cpp
         client.h client.cpp
         clients.h clients.cpp
+        wallclock.h wallclock.cpp
+        cpu.h cpu.cpp
         system_events.h system_events.cpp
+        ../target/cxxbridge/stil_core/src/system.rs.cc
+        ../target/cxxbridge/stil_core/src/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/mod.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/hyprland.rs.cc

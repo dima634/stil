@@ -1,6 +1,5 @@
 use crate::{
     hyprland::{Event, HyprEvents},
-    scheduled_events,
     system_events::{SystemEvent, SystemEventDispatcher, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{Arc, LazyLock, Once};
@@ -11,7 +10,6 @@ pub fn global_init() {
     INIT.call_once(|| {
         setup_logging();
         listen_for_hyprland_events();
-        run_events_scheduler();
     });
 }
 
@@ -72,18 +70,6 @@ fn listen_for_hyprland_events() {
     if res.is_err() {
         error!("Failed to spawn Hyprland Events Listener thread. Workspaces API may not function correctly.");
     }
-}
-
-fn run_events_scheduler() {
-    std::thread::Builder::new()
-        .name("Scheduled Events Runner".to_string())
-        .spawn(|| {
-            scheduled_events::TaskScheduler::new(system_event_dispatcher().tx())
-                .add_task(scheduled_events::SystemTimeTask)
-                .add_task(scheduled_events::CpuTask)
-                .run();
-        })
-        .expect("should create thread for scheduled events runner");
 }
 
 fn setup_logging() {

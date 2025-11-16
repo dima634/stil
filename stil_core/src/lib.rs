@@ -1,8 +1,8 @@
 mod ffi;
 mod freedesktop;
 mod hyprland;
-mod scheduled_events;
 mod services;
+mod system;
 mod system_events;
 mod workspaces;
 
