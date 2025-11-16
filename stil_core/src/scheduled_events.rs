@@ -1,20 +1,17 @@
-use sysinfo::CpuRefreshKind;
-use tracing::info;
-
-use crate::system_events::SystemEvent;
+use crate::system_events::{CpuUsage, SystemEvent};
 use std::sync::{LazyLock, Mutex, mpsc::Sender};
 
-pub trait ScheduledEvent {
+pub trait ScheduledTask {
     fn update(&mut self, tx: &Sender<SystemEvent>) -> bool;
 }
 
-pub struct Scheduler {
+pub struct TaskScheduler {
     tx: Sender<SystemEvent>,
     interval: std::time::Duration,
-    events: Vec<Box<dyn ScheduledEvent>>,
+    events: Vec<Box<dyn ScheduledTask>>,
 }
 
-impl Scheduler {
+impl TaskScheduler {
     #[inline]
     pub fn new(tx: Sender<SystemEvent>) -> Self {
         Self {
@@ -31,39 +28,54 @@ impl Scheduler {
     }
 
     #[inline]
-    pub fn add_event<T: ScheduledEvent + 'static>(mut self, event: T) -> Self {
-        self.events.push(Box::new(event));
+    pub fn add_task<T: ScheduledTask + 'static>(mut self, task: T) -> Self {
+        self.events.push(Box::new(task));
         self
     }
 
-    pub fn run(self) {
-        for mut event in self.events {
-            event.update(&self.tx);
-        }
+    pub fn run(mut self) {
+        loop {
+            for event in self.events.iter_mut() {
+                if !event.update(&self.tx) {
+                    return;
+                }
+            }
 
-        std::thread::sleep(self.interval);
+            std::thread::sleep(self.interval);
+        }
     }
 }
 
 #[derive(Debug)]
-pub struct SystemTimeEvent;
+pub struct SystemTimeTask;
 
-impl ScheduledEvent for SystemTimeEvent {
+impl ScheduledTask for SystemTimeTask {
     fn update(&mut self, tx: &Sender<SystemEvent>) -> bool {
         let now = std::time::SystemTime::now();
-        tx.send(SystemEvent::SystemTimeUpdated(now)).is_ok()
+        let secs_since_unix = now.duration_since(std::time::UNIX_EPOCH).unwrap().as_secs();
+        tx.send(SystemEvent::SystemTimeUpdated(secs_since_unix)).is_ok()
     }
 }
 
 #[derive(Debug)]
-pub struct CpuEvent;
+pub struct CpuTask;
 
-impl ScheduledEvent for CpuEvent {
+impl ScheduledTask for CpuTask {
     fn update(&mut self, tx: &Sender<SystemEvent>) -> bool {
         let mut system = system();
         system.refresh_cpu_usage();
-        info!("CPU usage: {:?}", system.global_cpu_usage());
-        tx.send(SystemEvent::Empty).is_ok()
+
+        let mut usage = CpuUsage {
+            cores: [0.0; _],
+            num_cores: system.cpus().len(),
+            total: system.global_cpu_usage(),
+        };
+
+        for (i, cpu) in system.cpus().iter().enumerate() {
+            usage.cores[i] = cpu.cpu_usage();
+        }
+
+        tx.send(SystemEvent::CpuUsageUpdated(usage)).is_ok()
     }
 }
 

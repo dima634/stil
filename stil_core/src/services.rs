@@ -78,9 +78,9 @@ fn run_events_scheduler() {
     std::thread::Builder::new()
         .name("Scheduled Events Runner".to_string())
         .spawn(|| {
-            scheduled_events::Scheduler::new(system_event_dispatcher().tx())
-                .add_event(scheduled_events::SystemTimeEvent)
-                .add_event(scheduled_events::CpuEvent)
+            scheduled_events::TaskScheduler::new(system_event_dispatcher().tx())
+                .add_task(scheduled_events::SystemTimeTask)
+                .add_task(scheduled_events::CpuTask)
                 .run();
         })
         .expect("should create thread for scheduled events runner");

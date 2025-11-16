@@ -11,7 +11,8 @@ pub enum SystemEvent {
     WindowFocused(usize),
 
     // Scheduled events
-    SystemTimeUpdated(std::time::SystemTime),
+    SystemTimeUpdated(u64), // seconds since the beginning of time
+    CpuUsageUpdated(CpuUsage),
 
     Empty,
 }
@@ -69,6 +70,13 @@ mod ffi {
     pub struct WorkspaceCreated {
         pub id: i32,
         pub name: String,
+    }
+
+    #[derive(Debug, Clone)]
+    pub struct CpuUsage {
+        pub cores: [f32; 64], // to avoid allocation, bet you don't have 64 cores
+        pub num_cores: usize,
+        pub total: f32,
     }
 }
 
