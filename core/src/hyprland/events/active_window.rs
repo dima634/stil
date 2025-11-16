@@ -10,9 +10,7 @@ impl TryFrom<&str> for ActiveWindow {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let address = usize::from_str_radix(value, 16).map_err(|_| EventParseErr::InvalidData)?;
-        
-        Ok(ActiveWindow {
-            address,
-        })
+
+        Ok(ActiveWindow { address })
     }
 }

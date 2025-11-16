@@ -14,7 +14,8 @@ class QClient : public QObject
     Q_PROPERTY(QString workspaceName READ getWorkspace CONSTANT)
 
   public:
-    explicit QClient(std::size_t address, const QString &className, const QString &workspaceName, QObject *parent = nullptr);
+    explicit QClient(std::size_t address, const QString &className, const QString &workspaceName,
+                     QObject *parent = nullptr);
 
     std::size_t getAddress() const;
     const QString &getClass() const;

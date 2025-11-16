@@ -3,8 +3,8 @@ use crate::{
     workspaces::{Workspace, WorkspacesState, get_workspaces_state as get_workspaces_state_rs},
 };
 
-mod system_events;
 mod hyprland;
+mod system_events;
 
 #[cxx::bridge(namespace = "core")]
 mod ffi {
