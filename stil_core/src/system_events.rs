@@ -2,12 +2,17 @@ use std::sync::{Mutex, mpsc};
 
 #[derive(Debug, Clone)]
 pub enum SystemEvent {
+    // Hyprland related events
     WorkspaceCreated(WorkspaceCreated),
     WorkspaceDestroyed(i32),
     WorkspaceFocused(i32),
     WindowOpened(WindowOpened),
     WindowClosed(usize),
     WindowFocused(usize),
+
+    // Scheduled events
+    SystemTimeUpdated(std::time::SystemTime),
+
     Empty,
 }
 

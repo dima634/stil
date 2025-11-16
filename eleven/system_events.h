@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include <core/src/ffi/system_events.rs.h>
+#include <stil_core/src/ffi/system_events.rs.h>
 
 class QSystemEvents : public QObject
 {
