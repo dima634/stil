@@ -8,7 +8,7 @@ pub enum SystemEvent {
     WindowOpened(WindowOpened),
     WindowClosed(usize),
     WindowFocused(usize),
-    Invalid,
+    Empty,
 }
 
 pub struct SystemEventDispatcher {
@@ -56,8 +56,8 @@ mod ffi {
     #[derive(Debug, Clone)]
     pub struct WindowOpened {
         pub address: usize,
-        pub workspace: i32,
-        pub className: String,
+        pub workspace_name: String,
+        pub class_name: String,
     }
 
     #[derive(Debug, Clone)]

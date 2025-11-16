@@ -11,13 +11,15 @@ QClients::QClients(QObject *parent) : QObject(parent)
         const auto &client = clients[i];
         const std::size_t address = client.address();
         const auto className = QString::fromUtf8(client.class_().cbegin(), client.class_().size());
-        auto qclient = new QClient(address, className, client.workspace(), this);
+        const auto workspaceName = QString::fromUtf8(client.workspace_name().cbegin(), client.workspace_name().size());
+        auto qclient = new QClient(address, className, workspaceName, this);
         m_clients.append(qclient);
     }
 
     connect(QSystemEvents::instance(), &QSystemEvents::windowOpen, this, [this](core::WindowOpened window) {
-        QString className = window.className.c_str();
-        auto client = new QClient(window.address, className, window.workspace, this);
+        const QString className = window.class_name.c_str();
+        const QString workspaceName = window.workspace_name.c_str();
+        auto client = new QClient(window.address, className, workspaceName, this);
         m_clients.append(client);
         Q_EMIT allChanged();
     });

@@ -15,7 +15,7 @@ impl TryFrom<&str> for OpenWindow {
         let mut parts = value.split(',');
         let window_address = parts
             .next()
-            .map(|v| v.parse().ok())
+            .map(|v| usize::from_str_radix(&v, 16).ok())
             .flatten()
             .ok_or_else(|| EventParseErr::InvalidData)?;
         let workspace_name = parts.next().ok_or(EventParseErr::InvalidData)?.to_string();

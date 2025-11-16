@@ -53,6 +53,11 @@ impl Client {
     }
 
     #[inline]
+    pub fn workspace_name(&self) -> &str {
+        self.workspace.name()
+    }
+
+    #[inline]
     pub fn class(&self) -> &str {
         &self.class
     }

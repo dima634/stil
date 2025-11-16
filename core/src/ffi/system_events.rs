@@ -11,7 +11,7 @@ mod ffi {
         WorkspaceFocused,
         WindowOpen,
         WindowClose,
-        Unknown,
+        Empty,
     }
 
     #[namespace = "core"]
@@ -52,7 +52,7 @@ impl From<&SystemEvent> for ffi::EventKind {
             SystemEvent::WorkspaceFocused(_) => EventKind::WorkspaceFocused,
             SystemEvent::WindowOpened(_) => EventKind::WindowOpen,
             SystemEvent::WindowClosed(_) => EventKind::WindowClose,
-            _ => EventKind::Unknown,
+            _ => EventKind::Empty,
         }
     }
 }
@@ -62,10 +62,10 @@ struct Event(SystemEvent);
 macro_rules! event_accessor {
     ($name: ident, $result: ident, $ev: ident) => {
         pub fn $name(&mut self) -> Result<$result, &'static str> {
-            let mut invalid = SystemEvent::Invalid;
-            std::mem::swap(&mut invalid, &mut self.0);
+            let mut empty = SystemEvent::Empty;
+            std::mem::swap(&mut empty, &mut self.0);
 
-            if let SystemEvent::$ev(payload) = invalid {
+            if let SystemEvent::$ev(payload) = empty {
                 Ok(payload)
             } else {
                 Err("wrong event kind")

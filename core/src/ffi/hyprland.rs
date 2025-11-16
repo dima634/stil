@@ -11,6 +11,7 @@ mod ffi {
         #[cxx_name = "class_"]
         fn class(&self) -> &str;
         fn workspace(&self) -> i32;
+        fn workspace_name(&self) -> &str;
 
         fn get_hyprland_clients() -> Vec<Client>;
     }

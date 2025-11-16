@@ -44,8 +44,8 @@ fn listen_for_hyprland_events() {
                 let system_event = match event {
                     Event::OpenWindow(open_window) => SystemEvent::WindowOpened(WindowOpened {
                         address: open_window.window_address,
-                        workspace: -1, // TODO: get workspace id
-                        className: open_window.window_class,
+                        workspace_name: open_window.workspace_name,
+                        class_name: open_window.window_class,
                     }),
                     Event::CloseWindow(close_window) => SystemEvent::WindowClosed(close_window.window_address),
                     Event::ActiveWindow(active_window) => SystemEvent::WindowFocused(active_window.address),
