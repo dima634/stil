@@ -14,6 +14,7 @@ qt_add_qml_module(eleven
         clients.h clients.cpp
         wallclock.h wallclock.cpp
         cpu.h cpu.cpp
+        memory.h memory.cpp
         system_events.h system_events.cpp
         ../target/cxxbridge/stil_core/src/system.rs.cc
         ../target/cxxbridge/stil_core/src/system_events.rs.cc

@@ -21,7 +21,9 @@ mod cpu {
     }
 
     pub fn get_brand() -> String {
-        system()
+        let mut system = system();
+        system.refresh_cpu_usage();
+        system
             .cpus()
             .first()
             .map_or("Unknown".to_string(), |cpu| cpu.brand().to_string())
@@ -38,6 +40,42 @@ mod cpu {
         extern "Rust" {
             fn get_usage() -> CpuUsage;
             fn get_brand() -> String;
+        }
+    }
+}
+
+mod memory {
+    use super::system;
+
+    pub fn get_memory_usage() -> ffi::MemoryUsage {
+        let mut system = system();
+        system.refresh_memory();
+
+        ffi::MemoryUsage {
+            totalRam: system.total_memory(),
+            usedRam: system.used_memory(),
+            freeRam: system.free_memory(),
+            availableRam: system.available_memory(),
+            totalSwap: system.total_swap(),
+            usedSwap: system.used_swap(),
+            freeSwap: system.free_swap(),
+        }
+    }
+
+    #[cxx::bridge(namespace = "core::memory")]
+    mod ffi {
+        pub struct MemoryUsage {
+            pub totalRam: u64,
+            pub usedRam: u64,
+            pub freeRam: u64,
+            pub availableRam: u64,
+            pub totalSwap: u64,
+            pub usedSwap: u64,
+            pub freeSwap: u64,
+        }
+
+        extern "Rust" {
+            fn get_memory_usage() -> MemoryUsage;
         }
     }
 }
