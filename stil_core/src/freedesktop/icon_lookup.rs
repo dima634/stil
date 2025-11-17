@@ -2,24 +2,41 @@
 //!
 //! This module implements the [Icon Theme Specification](https://specifications.freedesktop.org/icon-theme/latest/)
 //! for locating icon files across multiple themes with size and scale support.
-//!
 //! # Examples
 //!
-//! Basic icon lookup:
+//! Basic icon lookup using the current theme:
 //!
 //! ```no_run
 //! use stil_core::freedesktop::icon_lookup::IconLookup;
 //!
-//! let mut lookup = IconLookup::new();
+//! let mut lookup = IconLookup::default();
 //!
-//! // Find a 48x48 icon in the "Papirus" theme
-//! if let Some(path) = lookup.find_icon("firefox", 48, 1, "Papirus") {
+//! // Find a 48x48 icon in the current theme (auto-detected or hicolor)
+//! if let Some(path) = lookup.find_icon("firefox", 48, 1) {
 //!     println!("Found icon at: {:?}", path);
 //! }
 //!
 //! // Find a HiDPI icon (48x48 at 2x scale = 96x96 physical pixels)
-//! if let Some(path) = lookup.find_icon("firefox", 48, 2, "Papirus") {
+//! if let Some(path) = lookup.find_icon("firefox", 48, 2) {
 //!     println!("Found HiDPI icon at: {:?}", path);
+//! }
+//! ```
+//!
+//! Using a specific theme:
+//!
+//! ```no_run
+//! use stil_core::freedesktop::icon_lookup::IconLookup;
+//!
+//! // Create lookup with a specific theme
+//! let mut lookup = IconLookup::with_theme("Papirus");
+//!
+//! if let Some(path) = lookup.find_icon("folder", 48, 1) {
+//!     println!("Found icon at: {:?}", path);
+//! }
+//!
+//! // Or look up in a different theme without changing the current theme
+//! if let Some(path) = lookup.find_icon_in_theme("folder", 48, 1, "Adwaita") {
+//!     println!("Found icon in Adwaita: {:?}", path);
 //! }
 //! ```
 //!
@@ -28,11 +45,11 @@
 //! ```no_run
 //! use stil_core::freedesktop::icon_lookup::IconLookup;
 //!
-//! let mut lookup = IconLookup::new();
+//! let mut lookup = IconLookup::default();
 //!
 //! // Try multiple icon names in order of preference
 //! let candidates = ["text-x-python", "text-x-script", "text-plain"];
-//! if let Some(path) = lookup.find_best_icon(&candidates, 48, 1, "Papirus") {
+//! if let Some(path) = lookup.find_best_icon(&candidates, 48, 1) {
 //!     println!("Found icon at: {:?}", path);
 //! }
 //! ```
@@ -294,19 +311,47 @@ fn directory_size_distance(dir: &IconThemeDirectory, icon_size: u32, icon_scale:
 pub struct IconLookup {
     base_directories: Vec<PathBuf>,
     theme_cache: HashMap<String, IconTheme>,
+    current_theme: String,
 }
 
 impl IconLookup {
-    /// Create with custom base directories
-    pub fn with_base_directories(base_directories: Vec<PathBuf>) -> Self {
+    /// Create with a specific theme name
+    pub fn with_theme(theme_name: impl Into<String>) -> Self {
+        let base_directories = get_icon_base_directories();
         Self {
             base_directories,
             theme_cache: HashMap::new(),
+            current_theme: theme_name.into(),
         }
     }
+    
+    /// Create with custom base directories and theme
+    pub fn with_base_directories(base_directories: Vec<PathBuf>, theme_name: impl Into<String>) -> Self {
+        Self {
+            base_directories,
+            theme_cache: HashMap::new(),
+            current_theme: theme_name.into(),
+        }
+    }
+    
+    /// Get the current theme name
+    pub fn current_theme(&self) -> &str {
+        &self.current_theme
+    }
+    
+    /// Set the current theme
+    pub fn set_current_theme(&mut self, theme_name: impl Into<String>) {
+        self.current_theme = theme_name.into();
+    }
 
-    /// Find an icon file
-    pub fn find_icon(&mut self, icon_name: &str, size: u32, scale: u32, theme_name: &str) -> Option<PathBuf> {
+    /// Find an icon file using the current theme
+    pub fn find_icon(&mut self, icon_name: &str, size: u32, scale: u32) -> Option<PathBuf> {
+        let theme = self.current_theme.clone();
+        self.find_icon_in_theme(icon_name, size, scale, &theme)
+    }
+
+    /// Find an icon file in a specific theme
+    pub fn find_icon_in_theme(&mut self, icon_name: &str, size: u32, scale: u32, theme_name: &str) -> Option<PathBuf> {
         // Try to find in the specified theme
         if let Some(path) = self.find_icon_helper(icon_name, size, scale, theme_name) {
             return Some(path);
@@ -349,11 +394,11 @@ impl IconLookup {
         self.load_theme(theme_name)?;
 
         // Now get the theme and clone directories to avoid holding a reference
-        let directories = self.theme_cache.get(theme_name)?.directories.clone();
+        let directories = &self.theme_cache.get(theme_name)?.directories;
         let extensions = ["png", "svg", "xpm"];
 
         // First pass: look for exact size match
-        for (subdir_name, dir_data) in &directories {
+        for (subdir_name, dir_data) in directories {
             if directory_matches_size(dir_data, size, scale) {
                 for base_dir in &self.base_directories {
                     let theme_dir = base_dir.join(theme_name).join(subdir_name);
@@ -371,7 +416,7 @@ impl IconLookup {
         let mut minimal_distance = u32::MAX;
         let mut closest_filename = None;
 
-        for (subdir_name, dir_data) in &directories {
+        for (subdir_name, dir_data) in directories {
             let distance = directory_size_distance(dir_data, size, scale);
 
             if distance < minimal_distance {
@@ -380,7 +425,7 @@ impl IconLookup {
                     for ext in &extensions {
                         let icon_path = theme_dir.join(format!("{}.{}", icon_name, ext));
                         if icon_path.exists() {
-                            closest_filename = Some(icon_path.clone());
+                            closest_filename = Some(icon_path);
                             minimal_distance = distance;
                         }
                     }
@@ -438,8 +483,14 @@ impl IconLookup {
         }
     }
 
-    /// Find the first matching icon from a list of icon names
-    pub fn find_best_icon(&mut self, icon_list: &[&str], size: u32, scale: u32, theme_name: &str) -> Option<PathBuf> {
+    /// Find the first matching icon from a list of icon names using the current theme
+    pub fn find_best_icon(&mut self, icon_list: &[&str], size: u32, scale: u32) -> Option<PathBuf> {
+        let theme = self.current_theme.clone();
+        self.find_best_icon_in_theme(icon_list, size, scale, &theme)
+    }
+
+    /// Find the first matching icon from a list of icon names in a specific theme
+    pub fn find_best_icon_in_theme(&mut self, icon_list: &[&str], size: u32, scale: u32, theme_name: &str) -> Option<PathBuf> {
         // Try to find in the specified theme
         if let Some(path) = self.find_best_icon_helper(icon_list, size, scale, theme_name) {
             return Some(path);
@@ -490,13 +541,46 @@ impl IconLookup {
 }
 
 impl Default for IconLookup {
-    fn default() -> Self {        
+    fn default() -> Self {
         let base_directories = get_icon_base_directories();
+        let current_theme = detect_current_theme();
         Self {
             base_directories,
             theme_cache: HashMap::new(),
+            current_theme,
         }
     }
+}
+
+/// Detect the current icon theme from the environment
+/// 
+/// Attempts to read from common environment variables or desktop-specific settings.
+/// Falls back to "hicolor" if no theme is detected.
+fn detect_current_theme() -> String {
+    // Try GTK settings
+    if let Ok(theme) = std::env::var("GTK_THEME") {
+        if !theme.is_empty() {
+            return theme;
+        }
+    }
+    
+    // Try reading from GTK3 settings file
+    if let Some(home) = std::env::var_os("HOME") {
+        let settings_path = PathBuf::from(home).join(".config/gtk-3.0/settings.ini");
+        if let Ok(content) = std::fs::read_to_string(settings_path) {
+            for line in content.lines() {
+                if let Some(theme) = line.strip_prefix("gtk-icon-theme-name=") {
+                    let theme = theme.trim().trim_matches('"');
+                    if !theme.is_empty() {
+                        return theme.to_string();
+                    }
+                }
+            }
+        }
+    }
+    
+    // Default to hicolor
+    "hicolor".to_string()
 }
 
 /// Get the standard icon base directories according to the XDG Base Directory spec
