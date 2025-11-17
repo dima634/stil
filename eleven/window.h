@@ -3,7 +3,7 @@
 #include <QtQmlIntegration/QtQmlIntegration>
 
 /// @brief Hyprland client
-class QClient : public QObject
+class QWindow : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -14,7 +14,7 @@ class QClient : public QObject
     Q_PROPERTY(QString workspaceName READ getWorkspace CONSTANT)
 
   public:
-    explicit QClient(std::size_t address, const QString &className, const QString &workspaceName,
+    explicit QWindow(std::size_t address, const QString &className, const QString &workspaceName,
                      QObject *parent = nullptr);
 
     std::size_t getAddress() const;

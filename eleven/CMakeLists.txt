@@ -10,8 +10,8 @@ qt_add_qml_module(eleven
     SOURCES
         workspace.h workspace.cpp
         workspaces.h workspaces.cpp
-        client.h client.cpp
-        clients.h clients.cpp
+        window.h window.cpp
+        windows.h windows.cpp
         wallclock.h wallclock.cpp
         cpu.h cpu.cpp
         memory.h memory.cpp
