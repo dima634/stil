@@ -53,9 +53,9 @@ void QWallclock::updateTime()
 {
     using namespace std::chrono;
 
-    auto now = system_clock::now();
+    auto now = zoned_time{current_zone(), system_clock::now()}.get_local_time();
     auto nowDays = floor<days>(now);
-    m_ymd = nowDays;
+    m_ymd = year_month_day{nowDays};
     m_hms = hh_mm_ss{floor<milliseconds>(now - nowDays)};
     Q_EMIT datetimeChanged();
 }
