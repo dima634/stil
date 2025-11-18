@@ -9,15 +9,15 @@ class QWindows : public QObject
     QML_ELEMENT
     QML_SINGLETON
     QML_UNCREATABLE("Clients are managed by Hyprland")
-    Q_PROPERTY(QList<QWindow *> all READ getAll NOTIFY allChanged)
+    Q_PROPERTY(QList<QHyprWindow *> all READ getAll NOTIFY allChanged)
 
   public:
     explicit QWindows(QObject *parent = nullptr);
-    const QList<QWindow *> &getAll() const;
+    const QList<QHyprWindow *> &getAll() const;
 
   signals:
     void allChanged();
 
   private:
-    QList<QWindow *> m_clients;
+    QList<QHyprWindow *> m_clients;
 };

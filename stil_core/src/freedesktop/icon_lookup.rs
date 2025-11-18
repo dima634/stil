@@ -183,10 +183,7 @@ fn parse_index_theme(path: &Path, theme_name: String) -> Option<IconTheme> {
                             .collect();
                     }
                     "Directories" | "ScaledDirectories" => {
-                        let dirs = value
-                            .split(',')
-                            .map(|s| s.trim().to_string())
-                            .filter(|s| !s.is_empty());
+                        let dirs = value.split(',').map(|s| s.trim().to_string()).filter(|s| !s.is_empty());
                         directory_names.extend(dirs);
                     }
                     _ => {}
@@ -324,7 +321,7 @@ impl IconLookup {
             current_theme: theme_name.into(),
         }
     }
-    
+
     /// Create with custom base directories and theme
     pub fn with_base_directories(base_directories: Vec<PathBuf>, theme_name: impl Into<String>) -> Self {
         Self {
@@ -333,12 +330,12 @@ impl IconLookup {
             current_theme: theme_name.into(),
         }
     }
-    
+
     /// Get the current theme name
     pub fn current_theme(&self) -> &str {
         &self.current_theme
     }
-    
+
     /// Set the current theme
     pub fn set_current_theme(&mut self, theme_name: impl Into<String>) {
         self.current_theme = theme_name.into();
@@ -490,7 +487,13 @@ impl IconLookup {
     }
 
     /// Find the first matching icon from a list of icon names in a specific theme
-    pub fn find_best_icon_in_theme(&mut self, icon_list: &[&str], size: u32, scale: u32, theme_name: &str) -> Option<PathBuf> {
+    pub fn find_best_icon_in_theme(
+        &mut self,
+        icon_list: &[&str],
+        size: u32,
+        scale: u32,
+        theme_name: &str,
+    ) -> Option<PathBuf> {
         // Try to find in the specified theme
         if let Some(path) = self.find_best_icon_helper(icon_list, size, scale, theme_name) {
             return Some(path);
@@ -553,7 +556,7 @@ impl Default for IconLookup {
 }
 
 /// Detect the current icon theme from the environment
-/// 
+///
 /// Attempts to read from common environment variables or desktop-specific settings.
 /// Falls back to "hicolor" if no theme is detected.
 fn detect_current_theme() -> String {
@@ -563,7 +566,7 @@ fn detect_current_theme() -> String {
             return theme;
         }
     }
-    
+
     // Try reading from GTK3 settings file
     if let Some(home) = std::env::var_os("HOME") {
         let settings_path = PathBuf::from(home).join(".config/gtk-3.0/settings.ini");
@@ -578,7 +581,7 @@ fn detect_current_theme() -> String {
             }
         }
     }
-    
+
     // Default to hicolor
     "hicolor".to_string()
 }

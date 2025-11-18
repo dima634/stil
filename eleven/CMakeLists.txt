@@ -18,6 +18,7 @@ qt_add_qml_module(eleven
         system_events.h system_events.cpp
         ../target/cxxbridge/stil_core/src/system.rs.cc
         ../target/cxxbridge/stil_core/src/system_events.rs.cc
+        ../target/cxxbridge/stil_core/src/application.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/mod.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/hyprland.rs.cc

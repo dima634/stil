@@ -13,7 +13,7 @@ pub struct DesktopEntry {
     pub id: String,
     pub name: String,
     pub exec: String,
-    pub icon: Option<PathBuf>,
+    pub icon: Option<String>,
 }
 
 pub fn find_application_desktop_entries() -> Vec<DesktopEntry> {
@@ -74,7 +74,7 @@ fn parse_desktop_entry_file(path: PathBuf) -> Option<DesktopEntry> {
         match key {
             "Name" => name = Some(value.to_string()),
             "Exec" => exec = Some(value.to_string()),
-            "Icon" => icon = Some(PathBuf::from(value)),
+            "Icon" => icon = Some(value.to_string()),
             "Type" => {
                 ty = Some(match value {
                     "Application" => Type::Application,

@@ -1,3 +1,4 @@
+mod application;
 mod ffi;
 mod freedesktop;
 mod hyprland;
