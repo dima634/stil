@@ -10,6 +10,7 @@ QHyprWindow::QHyprWindow(std::size_t address, const QString &className, const QS
     {
         m_name = QString::fromUtf8(app->name().data(), app->name().size());
         m_iconPath = app->icon_path().c_str();
+        m_iconPath.prepend("file://");
     }
     else
     {
