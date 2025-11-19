@@ -23,7 +23,10 @@ pub struct ApplicationManager {
 
 impl ApplicationManager {
     pub fn find_by_wmclass(&self, wmclass: &str) -> Option<&Application> {
-        self.applications.iter().find(|app| app.desktop_entry.id == wmclass) // TODO: lookup by actual wmclass
+        self.applications
+            .iter()
+            .find(|app| app.desktop_entry.wm_class.as_deref() == Some(wmclass))
+            .or_else(|| self.applications.iter().find(|app| app.desktop_entry.id == wmclass))
     }
 }
 

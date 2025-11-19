@@ -11,7 +11,7 @@ QSystemEvents::QSystemEvents()
             switch (event->kind())
             {
             case core::EventKind::WorkspaceCreated:
-                Q_EMIT QSystemEvents::instance()->workspaceCreated(event->workspace_created()); // TODO: memory leak
+                Q_EMIT QSystemEvents::instance()->workspaceCreated(event->workspace_created());
                 break;
             case core::EventKind::WorkspaceDestroyed:
                 Q_EMIT QSystemEvents::instance()->workspaceRemoved(event->workspace_destroyed());

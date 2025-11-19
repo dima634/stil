@@ -14,6 +14,7 @@ pub struct DesktopEntry {
     pub name: String,
     pub exec: String,
     pub icon: Option<String>,
+    pub wm_class: Option<String>,
 }
 
 pub fn find_application_desktop_entries() -> Vec<DesktopEntry> {
@@ -62,6 +63,7 @@ fn parse_desktop_entry_file(path: PathBuf) -> Option<DesktopEntry> {
     let mut exec = None;
     let mut icon = None;
     let mut ty = None;
+    let mut wm_class = None;
 
     for line in lines {
         if line.starts_with('[') {
@@ -83,6 +85,7 @@ fn parse_desktop_entry_file(path: PathBuf) -> Option<DesktopEntry> {
                     _ => return None,
                 })
             }
+            "StartupWMClass" => wm_class = Some(value.to_string()),
             _ => {}
         }
     }
@@ -92,6 +95,7 @@ fn parse_desktop_entry_file(path: PathBuf) -> Option<DesktopEntry> {
     Some(DesktopEntry {
         id,
         icon,
+        wm_class,
         ty: ty?,
         name: name?,
         exec: exec?,
