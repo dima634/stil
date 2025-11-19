@@ -17,8 +17,9 @@ QCpu::QCpu(QObject *parent) : QObject(parent)
             m_usagePerCore.append(usage.cores[i]);
         }
 
-        Q_EMIT usagePerCoreChanged();
-        Q_EMIT totalUsageChanged();
+        m_temperature = core::cpu::get_temp();
+
+        Q_EMIT dataChanged();
     });
 
     m_timer->start();
@@ -37,6 +38,11 @@ const QList<float> &QCpu::getUsagePerCore() const
 float QCpu::getTotalUsage() const
 {
     return m_totalUsage;
+}
+
+float QCpu::getTemperature() const
+{
+    return m_temperature;
 }
 
 int QCpu::getUpdateInterval() const

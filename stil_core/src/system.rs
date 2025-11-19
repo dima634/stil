@@ -1,7 +1,7 @@
 use std::sync::{LazyLock, Mutex};
 
 mod cpu {
-    use super::system;
+    use super::{components, system};
 
     pub fn get_usage() -> ffi::CpuUsage {
         let mut system = system();
@@ -18,6 +18,19 @@ mod cpu {
         }
 
         usage
+    }
+
+    pub fn get_temp() -> f32 {
+        components()
+            .list_mut()
+            .into_iter()
+            .find(|comp| comp.label() == "k10temp Tctl")
+            .map(|comp| {
+                comp.refresh();
+                comp.temperature()
+            })
+            .flatten()
+            .unwrap_or(0.0)
     }
 
     pub fn get_brand() -> String {
@@ -40,6 +53,7 @@ mod cpu {
         extern "Rust" {
             fn get_usage() -> CpuUsage;
             fn get_brand() -> String;
+            fn get_temp() -> f32;
         }
     }
 }
@@ -85,4 +99,14 @@ static SYSTEM: LazyLock<Mutex<sysinfo::System>> = LazyLock::new(|| Mutex::new(sy
 #[inline]
 fn system() -> std::sync::MutexGuard<'static, sysinfo::System> {
     SYSTEM.lock().expect("should not be poisoned")
+}
+
+static COMPONENTS: LazyLock<Mutex<sysinfo::Components>> = LazyLock::new(|| {
+    let components = sysinfo::Components::new_with_refreshed_list();
+    Mutex::new(components)
+});
+
+#[inline]
+fn components() -> std::sync::MutexGuard<'static, sysinfo::Components> {
+    COMPONENTS.lock().expect("should not be poisoned")
 }
