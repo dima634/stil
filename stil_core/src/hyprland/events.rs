@@ -1,16 +1,5 @@
-mod active_window;
-mod close_window;
-mod move_window_v2;
-mod open_window;
-mod workspace_v2;
-
-pub use active_window::ActiveWindow;
-pub use close_window::CloseWindow;
-pub use move_window_v2::*;
-pub use open_window::OpenWindow;
-pub use workspace_v2::*;
-
 use super::Hyprland;
+use serde::{Deserialize, de::DeserializeOwned};
 use std::{io::Read, os::unix::net::UnixStream};
 use tracing::warn;
 
@@ -22,10 +11,55 @@ pub enum EventParseErr {
 }
 
 #[derive(Debug, Clone)]
+pub struct Address(pub usize);
+
+impl<'de> Deserialize<'de> for Address {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s: &str = Deserialize::deserialize(deserializer)?;
+        let address = usize::from_str_radix(s, 16).map_err(serde::de::Error::custom)?;
+        Ok(Address(address))
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct ActiveWindowV2 {
+    pub address: Address,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct CloseWindow {
+    pub window_address: Address,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct MoveWindowV2 {
+    pub window_address: Address,
+    pub workspace_id: i32,
+    pub workspace_name: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct WorkspaceV2 {
+    pub id: i32,
+    pub name: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct OpenWindow {
+    pub window_address: Address,
+    pub workspace_name: String,
+    pub window_class: String,
+    pub window_title: String,
+}
+
+#[derive(Debug, Clone)]
 pub enum Event {
     OpenWindow(OpenWindow),
     CloseWindow(CloseWindow),
-    ActiveWindow(ActiveWindow),
+    ActiveWindowV2(ActiveWindowV2),
     CreateWorkspace(WorkspaceV2),
     DestroyWorkspace(WorkspaceV2),
     FocusWorkspace(WorkspaceV2),
@@ -39,13 +73,13 @@ impl TryFrom<&String> for Event {
         let (name, data) = value.split_once(">>").ok_or(EventParseErr::Malformed)?;
 
         let event = match name {
-            "openwindow" => Event::OpenWindow(OpenWindow::try_from(data)?),
-            "closewindow" => Event::CloseWindow(CloseWindow::try_from(data)?),
-            "activewindow" => Event::ActiveWindow(ActiveWindow::try_from(data)?),
-            "movewindowv2" => Event::MoveWindowV2(MoveWindowV2::try_from(data)?),
-            "workspacev2" => Event::FocusWorkspace(WorkspaceV2::try_from(data)?),
-            "createworkspacev2" => Event::CreateWorkspace(WorkspaceV2::try_from(data)?),
-            "destroyworkspacev2" => Event::DestroyWorkspace(WorkspaceV2::try_from(data)?),
+            "openwindow" => Event::OpenWindow(parse_event(data)?),
+            "closewindow" => Event::CloseWindow(parse_event(data)?),
+            "activewindowv2" => Event::ActiveWindowV2(parse_event(data)?),
+            "movewindowv2" => Event::MoveWindowV2(parse_event(data)?),
+            "workspacev2" => Event::FocusWorkspace(parse_event(data)?),
+            "createworkspacev2" => Event::CreateWorkspace(parse_event(data)?),
+            "destroyworkspacev2" => Event::DestroyWorkspace(parse_event(data)?),
             _ => return Err(EventParseErr::UnknownEvent(name.to_string())),
         };
 
@@ -96,4 +130,14 @@ impl HyprEvents {
             }
         }
     }
+}
+
+fn parse_event<T: DeserializeOwned>(data: &str) -> Result<T, EventParseErr> {
+    csv::ReaderBuilder::new()
+        .has_headers(false)
+        .from_reader(data.as_bytes())
+        .deserialize::<T>()
+        .next()
+        .ok_or(EventParseErr::InvalidData)?
+        .map_err(|_| EventParseErr::InvalidData)
 }
