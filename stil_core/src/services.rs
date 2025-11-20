@@ -1,6 +1,6 @@
 use crate::{
     hyprland::{Event, HyprEvents},
-    system_events::{SystemEvent, SystemEventDispatcher, WindowOpened, WorkspaceCreated},
+    system_events::{SystemEvent, SystemEventDispatcher, WindowMoved, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{Arc, LazyLock, Once};
 use tracing::{error, warn};
@@ -50,6 +50,11 @@ fn listen_for_hyprland_events() {
                     }),
                     Event::CloseWindow(close_window) => SystemEvent::WindowClosed(close_window.window_address),
                     Event::ActiveWindow(active_window) => SystemEvent::WindowFocused(active_window.address),
+                    Event::MoveWindowV2(move_window_v2) => SystemEvent::WindowMoved(WindowMoved {
+                        address: move_window_v2.window_address,
+                        workspace_id: move_window_v2.workspace_id,
+                        workspace_name: move_window_v2.workspace_name,
+                    }),
                     Event::CreateWorkspace(workspace_v2) => SystemEvent::WorkspaceCreated(WorkspaceCreated {
                         id: workspace_v2.id,
                         name: workspace_v2.name,

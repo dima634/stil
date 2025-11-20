@@ -1,4 +1,5 @@
 #include "window.h"
+#include "system_events.h"
 #include <stil_core/src/application.rs.h>
 
 QHyprWindow::QHyprWindow(std::size_t address, const QString &className, const QString &workspaceName, QObject *parent)
@@ -17,6 +18,14 @@ QHyprWindow::QHyprWindow(std::size_t address, const QString &className, const QS
         m_name = className;
         m_iconPath = "";
     }
+
+    connect(QSystemEvents::instance(), &QSystemEvents::windowMoved, this, [this, address](core::WindowMoved event) {
+        if (event.address == m_address)
+        {
+            m_workspace = event.workspace_name.c_str();
+            Q_EMIT workspaceChanged();
+        }
+    });
 }
 
 std::size_t QHyprWindow::getAddress() const

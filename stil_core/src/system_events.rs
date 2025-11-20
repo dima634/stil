@@ -9,6 +9,7 @@ pub enum SystemEvent {
     WindowOpened(WindowOpened),
     WindowClosed(usize),
     WindowFocused(usize),
+    WindowMoved(WindowMoved),
     Empty,
 }
 
@@ -65,6 +66,13 @@ mod ffi {
     pub struct WorkspaceCreated {
         pub id: i32,
         pub name: String,
+    }
+
+    #[derive(Debug, Clone)]
+    pub struct WindowMoved {
+        pub address: usize,
+        pub workspace_id: i32,
+        pub workspace_name: String,
     }
 }
 

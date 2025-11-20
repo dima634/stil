@@ -1,10 +1,12 @@
 mod active_window;
 mod close_window;
+mod move_window_v2;
 mod open_window;
 mod workspace_v2;
 
 pub use active_window::ActiveWindow;
 pub use close_window::CloseWindow;
+pub use move_window_v2::*;
 pub use open_window::OpenWindow;
 pub use workspace_v2::*;
 
@@ -27,6 +29,7 @@ pub enum Event {
     CreateWorkspace(WorkspaceV2),
     DestroyWorkspace(WorkspaceV2),
     FocusWorkspace(WorkspaceV2),
+    MoveWindowV2(MoveWindowV2),
 }
 
 impl TryFrom<&String> for Event {
@@ -39,6 +42,7 @@ impl TryFrom<&String> for Event {
             "openwindow" => Event::OpenWindow(OpenWindow::try_from(data)?),
             "closewindow" => Event::CloseWindow(CloseWindow::try_from(data)?),
             "activewindow" => Event::ActiveWindow(ActiveWindow::try_from(data)?),
+            "movewindowv2" => Event::MoveWindowV2(MoveWindowV2::try_from(data)?),
             "workspacev2" => Event::FocusWorkspace(WorkspaceV2::try_from(data)?),
             "createworkspacev2" => Event::CreateWorkspace(WorkspaceV2::try_from(data)?),
             "destroyworkspacev2" => Event::DestroyWorkspace(WorkspaceV2::try_from(data)?),

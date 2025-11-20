@@ -11,9 +11,9 @@ class QHyprWindow : public QObject
 
     Q_PROPERTY(std::size_t address READ getAddress CONSTANT)
     Q_PROPERTY(QString className READ getClass CONSTANT)
-    Q_PROPERTY(QString workspaceName READ getWorkspace CONSTANT)
     Q_PROPERTY(QString name READ getName CONSTANT)
     Q_PROPERTY(QString iconPath READ getIconPath CONSTANT)
+    Q_PROPERTY(QString workspaceName READ getWorkspace NOTIFY workspaceChanged)
 
   public:
     explicit QHyprWindow(std::size_t address, const QString &className, const QString &workspaceName,
@@ -24,6 +24,9 @@ class QHyprWindow : public QObject
     const QString &getWorkspace() const;
     const QString &getName() const;
     const QString &getIconPath() const;
+
+  signals:
+    void workspaceChanged();
 
   private:
     std::size_t m_address = 0;

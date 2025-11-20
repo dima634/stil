@@ -17,4 +17,5 @@ class QSystemEvents : public QObject
     void workspaceFocused(std::int32_t workspaceId);
     void windowOpen(core::WindowOpened event);
     void windowClose(std::size_t windowAddress);
+    void windowMoved(core::WindowMoved event);
 };

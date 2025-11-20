@@ -1,6 +1,6 @@
 use crate::{
     services::{global_init, system_event_dispatcher},
-    system_events::{SystemEvent, WindowOpened, WorkspaceCreated},
+    system_events::{SystemEvent, WindowMoved, WindowOpened, WorkspaceCreated},
 };
 
 #[cxx::bridge(namespace = "core")]
@@ -11,6 +11,7 @@ mod ffi {
         WorkspaceFocused,
         WindowOpen,
         WindowClose,
+        WindowMoved,
         Empty,
     }
 
@@ -19,6 +20,7 @@ mod ffi {
         include!("stil_core/src/system_events.rs.h");
         type WindowOpened = crate::system_events::WindowOpened;
         type WorkspaceCreated = crate::system_events::WorkspaceCreated;
+        type WindowMoved = crate::system_events::WindowMoved;
     }
 
     extern "Rust" {
@@ -30,6 +32,7 @@ mod ffi {
         fn workspace_focused(&mut self) -> Result<i32>;
         fn window_opened(&mut self) -> Result<WindowOpened>;
         fn window_closed(&mut self) -> Result<usize>;
+        fn window_moved(&mut self) -> Result<WindowMoved>;
     }
 
     extern "Rust" {
@@ -51,6 +54,7 @@ impl From<&SystemEvent> for ffi::EventKind {
             SystemEvent::WorkspaceFocused(_) => EventKind::WorkspaceFocused,
             SystemEvent::WindowOpened(_) => EventKind::WindowOpen,
             SystemEvent::WindowClosed(_) => EventKind::WindowClose,
+            SystemEvent::WindowMoved(_) => EventKind::WindowMoved,
             _ => EventKind::Empty,
         }
     }
@@ -84,6 +88,7 @@ impl Event {
     event_accessor!(workspace_focused, i32, WorkspaceFocused);
     event_accessor!(window_opened, WindowOpened, WindowOpened);
     event_accessor!(window_closed, usize, WindowClosed);
+    event_accessor!(window_moved, WindowMoved, WindowMoved);
 }
 
 struct SystemEvents {

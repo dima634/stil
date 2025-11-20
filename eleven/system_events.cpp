@@ -25,6 +25,9 @@ QSystemEvents::QSystemEvents()
             case core::EventKind::WindowClose:
                 Q_EMIT QSystemEvents::instance()->windowClose(event->window_closed());
                 break;
+            case core::EventKind::WindowMoved:
+                Q_EMIT QSystemEvents::instance()->windowMoved(event->window_moved());
+                break;
             default:
                 break;
             }
