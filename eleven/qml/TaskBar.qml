@@ -48,6 +48,7 @@ PanelWindow {
 
                 FlexboxLayout {
                     anchors.verticalCenter: parent.verticalCenter
+                    gap: 4
 
                     Repeater {
                         property var filteredClients: QWindows.all.filter(c => c.workspaceName === QWorkspaces.current?.name)
