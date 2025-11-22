@@ -32,6 +32,7 @@ qt_add_qml_module(eleven
         ../target/cxxbridge/stil_core/src/ffi/hyprland.rs.cc
     QML_FILES
         qml/TaskBar.qml
+        qml/Workspaces.qml
         qml/Theme.qml
         qml/Css.qml
 )
