@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
 import Quickshell
 import "." as Eleven
 
@@ -27,6 +26,7 @@ PanelWindow {
 
         RowLayout {
             anchors.fill: parent
+            anchors.margins: 3
             spacing: 4
 
             Item {
@@ -37,7 +37,6 @@ PanelWindow {
 
                 Workspaces {
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
                 }
             }
 

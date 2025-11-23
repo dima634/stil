@@ -5,7 +5,7 @@
 #include <stil_core/src/ffi/mod.rs.h>
 #include <stil_core/src/ffi/system_events.rs.h>
 
-QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
+QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
 {
     auto currentState = core::get_workspaces_state();
     std::size_t currentId = currentState->current_workspace_id();
@@ -34,18 +34,26 @@ QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
                 qWarning("workspace with id %d already exists, removing...", workspace.id);
             }
 
+            // Insert keeping the list ordered
+            auto insertPos = std::lower_bound(m_workspaces.begin(), m_workspaces.end(), workspace.id,
+                                              [](const QWorkspace *ws, std::int32_t id) { return ws->getId() < id; });
+            int row = std::distance(m_workspaces.begin(), insertPos);
+
+            beginInsertRows(QModelIndex(), row, row);
             QString name = workspace.name.c_str();
             auto qws = new QWorkspace(workspace.id, name, this);
-            auto insertPos = std::lower_bound(m_workspaces.cbegin(), m_workspaces.cend(), workspace.id,
-                                              [](const QWorkspace *ws, std::int32_t id) { return ws->getId() < id; });
             m_workspaces.insert(insertPos, qws);
-
-            Q_EMIT allChanged();
+            endInsertRows();
         });
 
     connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this, [this](std::int32_t workspaceId) {
-        removeWorkspace(workspaceId);
-        Q_EMIT allChanged();
+        auto it = std::find_if(m_workspaces.cbegin(), m_workspaces.cend(),
+                               [workspaceId](QWorkspace *ws) { return ws->getId() == workspaceId; });
+
+        if (!removeWorkspace(workspaceId))
+        {
+            qWarning() << "Workspace" << workspaceId << "not found for removal";
+        }
     });
 
     connect(QSystemEvents::instance(), &QSystemEvents::workspaceFocused, this, [this](std::int32_t workspaceId) {
@@ -62,9 +70,38 @@ QWorkspaces::QWorkspaces(QObject *parent) : QObject(parent)
     });
 }
 
-const QList<QWorkspace *> &QWorkspaces::getAll() const
+int QWorkspaces::rowCount(const QModelIndex &parent) const
 {
-    return m_workspaces;
+    if (parent.isValid())
+    {
+        return 0;
+    }
+    return m_workspaces.count();
+}
+
+QVariant QWorkspaces::data(const QModelIndex &index, int role) const
+{
+    if (!index.isValid() || index.row() >= m_workspaces.count())
+    {
+        return QVariant();
+    }
+
+    QWorkspace *workspace = m_workspaces.at(index.row());
+
+    switch (role)
+    {
+    case Qt::DisplayRole:
+        return QVariant::fromValue(workspace);
+    default:
+        return QVariant();
+    }
+}
+
+QHash<int, QByteArray> QWorkspaces::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[Qt::DisplayRole] = "modelData";
+    return roles;
 }
 
 QWorkspace *QWorkspaces::getCurrentWorkspace() const
@@ -82,6 +119,9 @@ bool QWorkspaces::removeWorkspace(std::int32_t workspaceId)
         return false;
     }
 
+    int row = std::distance(m_workspaces.cbegin(), it);
+    beginRemoveRows(QModelIndex(), row, row);
+
     if (m_currentWorkspace == *it)
     {
         m_currentWorkspace = nullptr;
@@ -89,6 +129,8 @@ bool QWorkspaces::removeWorkspace(std::int32_t workspaceId)
 
     (*it)->deleteLater();
     m_workspaces.erase(it);
+
+    endRemoveRows();
 
     return true;
 }
