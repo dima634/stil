@@ -46,40 +46,8 @@ PanelWindow {
                 Layout.fillHeight: true
                 implicitWidth: 2
 
-                ListView {
-                    id: windowsList
+                OpenedWindows {
                     anchors.verticalCenter: parent.verticalCenter
-                    orientation: ListView.Horizontal
-                    spacing: 2
-                    model: QWindows
-
-                    implicitWidth: contentWidth
-                    height: 24
-
-                    delegate: Rectangle {
-                        id: windowDelegate
-                        required property var window
-
-                        visible: window.workspaceName === QWorkspaces.current?.name
-                        width: visible ? childrenRect.width : 0
-                        height: 24
-                        border.color: "black"
-
-                        Row {
-                            Image {
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: 20
-                                height: 20
-                                source: windowDelegate.window.iconPath
-                            }
-
-                            Text {
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: windowDelegate.window.name
-                                font.pixelSize: 18
-                            }
-                        }
-                    }
                 }
             }
 

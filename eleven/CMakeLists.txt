@@ -33,6 +33,7 @@ qt_add_qml_module(eleven
     QML_FILES
         qml/TaskBar.qml
         qml/Workspaces.qml
+        qml/OpenedWindows.qml
         qml/Theme.qml
         qml/Css.qml
 )
