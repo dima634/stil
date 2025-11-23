@@ -20,6 +20,11 @@ const QString &QWorkspace::getName() const
     return m_name;
 }
 
+QHyprWindow *QWorkspace::getWindowByAddress(std::size_t address) const
+{
+    return m_windows.getByAddress(address);
+}
+
 QHyprWindow *QWorkspace::removeWindow(std::size_t address)
 {
     return m_windows.removeWindow(address);

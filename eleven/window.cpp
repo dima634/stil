@@ -18,6 +18,19 @@ QHyprWindow::QHyprWindow(std::size_t address, const QString &className, QObject 
         m_name = className;
         m_iconPath = "";
     }
+
+    connect(QSystemEvents::instance(), &QSystemEvents::windowFocused, this, [this](std::size_t windowAddress) {
+        if (windowAddress == m_address && !m_focused)
+        {
+            m_focused = true;
+            Q_EMIT focusChanged();
+        }
+        else if (windowAddress != m_address && m_focused)
+        {
+            m_focused = false;
+            Q_EMIT focusChanged();
+        }
+    });
 }
 
 std::size_t QHyprWindow::getAddress() const
@@ -38,4 +51,9 @@ const QString &QHyprWindow::getName() const
 const QString &QHyprWindow::getIconPath() const
 {
     return m_iconPath;
+}
+
+bool QHyprWindow::isFocused() const
+{
+    return m_focused;
 }

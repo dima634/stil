@@ -12,6 +12,7 @@ mod ffi {
         WindowOpen,
         WindowClose,
         WindowMoved,
+        WindowFocused,
         Empty,
     }
 
@@ -33,6 +34,7 @@ mod ffi {
         fn window_opened(&mut self) -> Result<WindowOpened>;
         fn window_closed(&mut self) -> Result<usize>;
         fn window_moved(&mut self) -> Result<WindowMoved>;
+        fn window_focused(&mut self) -> Result<usize>;
     }
 
     extern "Rust" {
@@ -55,6 +57,7 @@ impl From<&SystemEvent> for ffi::EventKind {
             SystemEvent::WindowOpened(_) => EventKind::WindowOpen,
             SystemEvent::WindowClosed(_) => EventKind::WindowClose,
             SystemEvent::WindowMoved(_) => EventKind::WindowMoved,
+            SystemEvent::WindowFocused(_) => EventKind::WindowFocused,
             _ => EventKind::Empty,
         }
     }
@@ -89,6 +92,7 @@ impl Event {
     event_accessor!(window_opened, WindowOpened, WindowOpened);
     event_accessor!(window_closed, usize, WindowClosed);
     event_accessor!(window_moved, WindowMoved, WindowMoved);
+    event_accessor!(window_focused, usize, WindowFocused);
 }
 
 struct SystemEvents {

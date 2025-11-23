@@ -62,6 +62,7 @@ ListView {
             width: parent.width - 12
             radius: 5
             color: Theme.windowActive
+            visible: windowDelegate.window.focused
         }
     }
 }

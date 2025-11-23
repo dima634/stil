@@ -28,6 +28,9 @@ QSystemEvents::QSystemEvents()
             case core::EventKind::WindowMoved:
                 Q_EMIT QSystemEvents::instance()->windowMoved(event->window_moved());
                 break;
+            case core::EventKind::WindowFocused:
+                Q_EMIT QSystemEvents::instance()->windowFocused(event->window_focused());
+                break;
             default:
                 break;
             }

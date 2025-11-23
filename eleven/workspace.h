@@ -20,6 +20,7 @@ class QWorkspace : public QObject
     const QString &getName() const;
     const QWindows *getWindows() const;
 
+    QHyprWindow *getWindowByAddress(std::size_t address) const;
     QHyprWindow *removeWindow(std::size_t address);
     void addWindow(QHyprWindow *window);
     bool hasWindow(std::size_t address) const;

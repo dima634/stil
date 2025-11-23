@@ -2,43 +2,6 @@
 
 QWindows::QWindows(QObject *parent) : QAbstractListModel(parent)
 {
-    // auto clients = core::get_hyprland_clients();
-
-    // for (std::size_t i = 0; i < clients.size(); ++i)
-    // {
-    //     const auto &client = clients[i];
-    //     const std::size_t address = client.address();
-    //     const auto className = QString::fromUtf8(client.class_().cbegin(), client.class_().size());
-    //     const auto workspaceName = QString::fromUtf8(client.workspace_name().cbegin(),
-    //     client.workspace_name().size()); auto qclient = new QHyprWindow(address, className, workspaceName, this);
-    //     m_windows.append(qclient);
-    // }
-
-    // connect(QSystemEvents::instance(), &QSystemEvents::windowOpen, this, [this](core::WindowOpened window) {
-    //     const QString className = window.class_name.c_str();
-    //     const QString workspaceName = window.workspace_name.c_str();
-
-    //     int row = m_windows.count();
-    //     beginInsertRows(QModelIndex(), row, row);
-    //     auto client = new QHyprWindow(window.address, className, workspaceName, this);
-    //     m_windows.append(client);
-    //     endInsertRows();
-    // });
-
-    // connect(QSystemEvents::instance(), &QSystemEvents::windowClose, this, [this](std::size_t windowAddress) {
-    //     auto it = std::find_if(m_windows.begin(), m_windows.end(), [windowAddress](const QHyprWindow *client) {
-    //         return client->getAddress() == windowAddress;
-    //     });
-
-    //     if (it != m_windows.end())
-    //     {
-    //         int row = std::distance(m_windows.begin(), it);
-    //         beginRemoveRows(QModelIndex(), row, row);
-    //         (*it)->deleteLater();
-    //         m_windows.erase(it);
-    //         endRemoveRows();
-    //     }
-    // });
 }
 
 int QWindows::rowCount(const QModelIndex &parent) const
@@ -73,6 +36,18 @@ QHash<int, QByteArray> QWindows::roleNames() const
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "window";
     return roles;
+}
+
+QHyprWindow *QWindows::getByAddress(std::size_t address) const
+{
+    for (QHyprWindow *window : m_windows)
+    {
+        if (window->getAddress() == address)
+        {
+            return window;
+        }
+    }
+    return nullptr;
 }
 
 QHyprWindow *QWindows::removeWindow(std::size_t address)

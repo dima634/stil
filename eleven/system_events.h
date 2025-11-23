@@ -18,4 +18,5 @@ class QSystemEvents : public QObject
     void windowOpen(core::WindowOpened event);
     void windowClose(std::size_t windowAddress);
     void windowMoved(core::WindowMoved event);
+    void windowFocused(std::size_t windowAddress);
 };

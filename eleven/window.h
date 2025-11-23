@@ -13,6 +13,7 @@ class QHyprWindow : public QObject
     Q_PROPERTY(QString className READ getClass CONSTANT)
     Q_PROPERTY(QString name READ getName CONSTANT)
     Q_PROPERTY(QString iconPath READ getIconPath CONSTANT)
+    Q_PROPERTY(bool focused READ isFocused NOTIFY focusChanged)
 
   public:
     explicit QHyprWindow(std::size_t address, const QString &className, QObject *parent = nullptr);
@@ -21,11 +22,13 @@ class QHyprWindow : public QObject
     const QString &getClass() const;
     const QString &getName() const;
     const QString &getIconPath() const;
+    bool isFocused() const;
 
   signals:
-    void workspaceChanged();
+    void focusChanged();
 
   private:
+    bool m_focused = false;
     std::size_t m_address = 0;
     QString m_class;
     QString m_name;
