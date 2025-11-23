@@ -6,7 +6,7 @@ ListView {
     orientation: ListView.Horizontal
     spacing: 2
     model: QWorkspaces
-    
+
     implicitWidth: contentWidth
     height: 26
 

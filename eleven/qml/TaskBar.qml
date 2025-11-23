@@ -29,10 +29,10 @@ PanelWindow {
             anchors.margins: 3
             spacing: 4
 
+            // Workspaces
             Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
                 implicitWidth: 1
 
                 Workspaces {
@@ -40,40 +40,57 @@ PanelWindow {
                 }
             }
 
+            // Windows opened in current workspace
             Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                implicitWidth: 3
+                implicitWidth: 2
+
+                ListView {
+                    id: windowsList
+                    anchors.verticalCenter: parent.verticalCenter
+                    orientation: ListView.Horizontal
+                    spacing: 2
+                    model: QWindows
+
+                    implicitWidth: contentWidth
+                    height: 24
+
+                    delegate: Rectangle {
+                        id: windowDelegate
+                        required property var window
+
+                        visible: window.workspaceName === QWorkspaces.current?.name
+                        width: visible ? childrenRect.width : 0
+                        height: 24
+                        border.color: "black"
+
+                        Row {
+                            Image {
+                                anchors.verticalCenter: parent.verticalCenter
+                                width: 20
+                                height: 20
+                                source: windowDelegate.window.iconPath
+                            }
+
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: windowDelegate.window.name
+                                font.pixelSize: 18
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                implicitWidth: 1
 
                 FlexboxLayout {
                     anchors.verticalCenter: parent.verticalCenter
                     gap: 4
-
-                    Repeater {
-                        property var filteredClients: QWindows.all.filter(c => c.workspaceName === QWorkspaces.current?.name)
-
-                        model: filteredClients
-                        Rectangle {
-                            height: 24
-                            width: childrenRect.width
-                            border.color: "black"
-
-                            Row {
-                                Image {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    width: 20
-                                    height: 20
-                                    source: modelData.iconPath
-                                }
-
-                                Text {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: modelData.name
-                                    font.pixelSize: 18
-                                }
-                            }
-                        }
-                    }
 
                     Text {
                         text: `${QCpu.totalUsage.toFixed(2)}%`
@@ -83,9 +100,9 @@ PanelWindow {
                         text: `${QCpu.temperature.toFixed(0)}°C`
                     }
 
-                    Text {
-                        text: QCpu.brand
-                    }
+                    // Text {
+                    //     text: QCpu.brand
+                    // }
 
                     Text {
                         text: `${gb(QMemory.usedRam)}G / ${gb(QMemory.totalRam)}G   aval ${gb(QMemory.availableRam)}G   free ${gb(QMemory.freeRam)}G`
