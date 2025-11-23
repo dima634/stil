@@ -2,6 +2,7 @@
 #include "system_events.h"
 #include <QtLogging>
 #include <algorithm>
+#include <stil_core/src/ffi/hyprland.rs.h>
 #include <stil_core/src/ffi/mod.rs.h>
 #include <stil_core/src/ffi/system_events.rs.h>
 
@@ -17,6 +18,8 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
         const auto &name = QString::fromUtf8(ws.name().cbegin(), ws.name().size());
         auto qws = new QWorkspace(ws.id(), name, this);
         m_workspaces.append(qws);
+        m_nameToWorkspace.insert(name, qws);
+        m_idToWorkspace.insert(ws.id(), qws);
 
         if (ws.id() == currentId)
         {
@@ -43,6 +46,8 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
             QString name = workspace.name.c_str();
             auto qws = new QWorkspace(workspace.id, name, this);
             m_workspaces.insert(insertPos, qws);
+            m_nameToWorkspace.insert(name, qws);
+            m_idToWorkspace.insert(workspace.id, qws);
             endInsertRows();
         });
 
@@ -67,6 +72,42 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
 
         m_currentWorkspace = *it;
         Q_EMIT currentChanged();
+    });
+
+    auto hyprWindows = core::get_hyprland_clients();
+
+    for (std::size_t i = 0; i < hyprWindows.size(); ++i)
+    {
+        const auto &client = hyprWindows[i];
+        QWorkspace *workspace = m_idToWorkspace.value(client.workspace());
+        Q_ASSERT(workspace != nullptr);
+        const std::size_t address = client.address();
+        const auto className = QString::fromUtf8(client.class_().cbegin(), client.class_().size());
+        auto *window = new QHyprWindow(address, className);
+        workspace->addWindow(window);
+    }
+
+    connect(QSystemEvents::instance(), &QSystemEvents::windowOpen, this, [this](core::WindowOpened window) {
+        const QString workspaceName = window.workspace_name.c_str();
+        QWorkspace *workspace = m_nameToWorkspace.value(workspaceName);
+        Q_ASSERT(workspace != nullptr);
+        const QString className = window.class_name.c_str();
+        auto *client = new QHyprWindow(window.address, className);
+        workspace->addWindow(client);
+    });
+
+    connect(QSystemEvents::instance(), &QSystemEvents::windowClose, this, [this](std::size_t windowAddress) {
+        auto *removed = removeWindow(windowAddress);
+        Q_ASSERT(removed != nullptr);
+        removed->deleteLater();
+    });
+
+    connect(QSystemEvents::instance(), &QSystemEvents::windowMoved, this, [this](core::WindowMoved event) {
+        QHyprWindow *movedWindow = removeWindow(event.address);
+        Q_ASSERT(movedWindow != nullptr);
+        QWorkspace *newWorkspace = m_idToWorkspace.value(event.workspace_id);
+        Q_ASSERT(newWorkspace != nullptr);
+        newWorkspace->addWindow(movedWindow);
     });
 }
 
@@ -122,15 +163,31 @@ bool QWorkspaces::removeWorkspace(std::int32_t workspaceId)
     int row = std::distance(m_workspaces.cbegin(), it);
     beginRemoveRows(QModelIndex(), row, row);
 
-    if (m_currentWorkspace == *it)
+    auto *workspace = *it;
+    if (m_currentWorkspace == workspace)
     {
         m_currentWorkspace = nullptr;
     }
 
-    (*it)->deleteLater();
+    workspace->deleteLater();
+    m_nameToWorkspace.remove(workspace->getName());
+    m_idToWorkspace.remove(workspaceId);
     m_workspaces.erase(it);
 
     endRemoveRows();
 
     return true;
+}
+
+QHyprWindow *QWorkspaces::removeWindow(std::size_t windowAddress)
+{
+    for (auto *workspace : m_workspaces)
+    {
+        auto *window = workspace->removeWindow(windowAddress);
+        if (window)
+        {
+            return window;
+        }
+    }
+    return nullptr;
 }

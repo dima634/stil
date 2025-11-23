@@ -8,7 +8,6 @@ class QWindows : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_SINGLETON
     QML_UNCREATABLE("Clients are managed by Hyprland")
 
   public:
@@ -19,6 +18,9 @@ class QWindows : public QAbstractListModel
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    QHyprWindow *removeWindow(std::size_t address);
+    void addWindow(QHyprWindow *window);
+
   private:
-    QList<QHyprWindow *> m_clients;
+    QList<QHyprWindow *> m_windows;
 };
