@@ -3,7 +3,6 @@ import QtQuick.Layouts
 
 ListView {
     id: windowsList
-    anchors.verticalCenter: parent.verticalCenter
     orientation: ListView.Horizontal
     spacing: 2
     model: QWindows
@@ -33,30 +32,38 @@ ListView {
     }
 
     implicitWidth: contentWidth
-    height: 24
+    height: 32
 
     delegate: Rectangle {
         id: windowDelegate
         required property var window
 
+        anchors.verticalCenter: parent?.verticalCenter
+
         visible: window.workspaceName === QWorkspaces.current?.name
-        width: visible ? childrenRect.width : 0
-        height: 24
-        border.color: "black"
+        width: visible ? 28 : 0
+        height: 28
 
-        Row {
-            Image {
-                anchors.verticalCenter: parent.verticalCenter
-                width: 20
-                height: 20
-                source: windowDelegate.window.iconPath
-            }
+        radius: 3
+        color: Theme.windowBackground
+        border.color: Theme.windowBorder
 
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: windowDelegate.window.name
-                font.pixelSize: 18
+        Image {
+            anchors.centerIn: parent
+            width: parent.width - 4
+            height: width
+            source: windowDelegate.window.iconPath
+        }
+
+        Rectangle {
+            anchors {
+                bottom: parent.bottom
             }
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: 3
+            width: parent.width - 12
+            radius: 5
+            color: Theme.windowActive
         }
     }
 }
