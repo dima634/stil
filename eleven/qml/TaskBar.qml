@@ -48,6 +48,7 @@ PanelWindow {
 
                 OpenedWindows {
                     anchors.centerIn: parent
+                    model: QWorkspaces.current ? QWorkspaces.current.windows : null
                 }
             }
 

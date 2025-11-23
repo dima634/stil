@@ -5,7 +5,6 @@ ListView {
     id: windowsList
     orientation: ListView.Horizontal
     spacing: 2
-    model: QWindows
 
     add: Transition {
         NumberAnimation {
