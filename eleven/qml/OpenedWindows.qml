@@ -40,8 +40,7 @@ ListView {
 
         anchors.verticalCenter: parent?.verticalCenter
 
-        visible: window.workspaceName === QWorkspaces.current?.name
-        width: visible ? 28 : 0
+        width: 28
         height: 28
 
         radius: 3

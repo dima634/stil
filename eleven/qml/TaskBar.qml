@@ -47,7 +47,7 @@ PanelWindow {
                 implicitWidth: 2
 
                 OpenedWindows {
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.centerIn: parent
                 }
             }
 
