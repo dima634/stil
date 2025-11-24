@@ -34,25 +34,16 @@ ListView {
         }
     }
 
-    delegate: Item {
-        id: workspaceDelegate
+    delegate: TaskbarButton {
+        id: template
         required property var modelData
 
-        anchors.verticalCenter: parent?.verticalCenter
-        width: 26
-        height: 26
+        mode: QWorkspaces.current?.id === template.modelData.id ? TaskbarButton.Mode.Focused : TaskbarButton.Mode.Default
 
-        Rectangle {
-            width: parent.width
-            height: parent.height
-            radius: 3
-            color: QWorkspaces.current?.name === workspaceDelegate.modelData.name ? Eleven.Theme.workspaceActive : Eleven.Theme.workspace
-
-            Text {
-                anchors.centerIn: parent
-                text: workspaceDelegate.modelData.name
-                font.pixelSize: 18
-            }
+        Text {
+            anchors.centerIn: parent
+            text: template.modelData.name
+            font.pixelSize: 18
         }
     }
 }
