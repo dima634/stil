@@ -3,7 +3,11 @@ import QtQuick.Controls
 
 Control {
     id: host
-    enum Mode { Focused, Active, Default }
+    enum Mode {
+        Focused,
+        Active,
+        Default
+    }
     property int mode: TaskbarButton.Mode.Default
     default property alias content: container.data
 
@@ -12,7 +16,7 @@ Control {
     height: 28
 
     background: Rectangle {
-        opacity: mouse.hovered || mode === TaskbarButton.Mode.Focused ? 1 : 0
+        opacity: mouse.hovered || host.mode === TaskbarButton.Mode.Focused ? 1 : 0
         anchors.fill: parent
         radius: 3
         color: mouse.hovered ? Theme.taskbarButtonBackgroundHovered : Theme.taskbarButtonBackground
@@ -38,10 +42,10 @@ Control {
         }
         anchors.horizontalCenter: parent.horizontalCenter
         height: 2
-        width: mode === TaskbarButton.Mode.Focused ? parent.width - 14 : parent.width - 20
+        width: host.mode === TaskbarButton.Mode.Focused ? parent.width - 14 : parent.width - 20
         radius: 5
-        color: mode === TaskbarButton.Mode.Focused ? Theme.taskbarButtonFocused : Theme.taskbarButtonActive
-        visible: mode !== TaskbarButton.Mode.Default
+        color: host.mode === TaskbarButton.Mode.Focused ? Theme.taskbarButtonFocused : Theme.taskbarButtonActive
+        visible: host.mode !== TaskbarButton.Mode.Default
 
         Behavior on width {
             NumberAnimation {
