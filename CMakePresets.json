@@ -29,9 +29,15 @@
     "buildPresets": [
         {
             "name": "debug",
-            "displayName": "Lib Debug Build",
+            "displayName": "Plugin Debug Build",
             "configurePreset": "debug",
             "configuration": "Debug"
+        },
+        {
+            "name": "release",
+            "displayName": "Plugin Release Build",
+            "configurePreset": "release",
+            "configuration": "Release"
         }
     ]
 }
