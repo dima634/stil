@@ -46,7 +46,7 @@ PanelWindow {
                 Layout.fillHeight: true
                 implicitWidth: 2
 
-                OpenedWindows {
+                WindowList {
                     x: (parent.width - width) / 2
                     anchors.verticalCenter: parent.verticalCenter
                     model: QWorkspaces.current ? QWorkspaces.current.windows : null
