@@ -38,13 +38,24 @@ ListView {
         required property var window
 
         anchors.verticalCenter: parent?.verticalCenter
-
         width: 28
         height: 28
+        color: "transparent"
 
-        radius: 3
-        color: windowDelegate.window.focused || mouse.hovered ? Theme.windowBackground : "transparent"
-        border.color: windowDelegate.window.focused || mouse.hovered ? Theme.windowBorder : "transparent"
+        Rectangle {
+            opacity: mouse.hovered || windowDelegate.window.focused ? 1 : 0
+            anchors.fill: parent
+            radius: 3
+            color: mouse.hovered ? Theme.windowBackgroundHovered : Theme.windowBackground
+            border.color: Theme.windowBorder
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 50
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
 
         Image {
             anchors.centerIn: parent
@@ -64,6 +75,13 @@ ListView {
             radius: 5
             color: windowDelegate.window.focused ? Theme.windowActive : Theme.windowRunning
             visible: windowDelegate.window.running
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: 50
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
 
         HoverHandler {

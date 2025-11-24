@@ -12,4 +12,5 @@ Singleton {
     readonly property color windowRunning: '#70353535'
     readonly property color windowBorder: '#13000000'
     readonly property color windowBackground: '#7FFFFFFF'
+    readonly property color windowBackgroundHovered: '#bbffffff'
 }
