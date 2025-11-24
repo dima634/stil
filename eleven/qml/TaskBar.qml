@@ -47,8 +47,16 @@ PanelWindow {
                 implicitWidth: 2
 
                 OpenedWindows {
-                    anchors.centerIn: parent
+                    x: (parent.width - width) / 2
+                    anchors.verticalCenter: parent.verticalCenter
                     model: QWorkspaces.current ? QWorkspaces.current.windows : null
+
+                    Behavior on x {
+                        NumberAnimation {
+                            duration: 150
+                            easing.type: Easing.OutCubic
+                        }
+                    }
                 }
             }
 
