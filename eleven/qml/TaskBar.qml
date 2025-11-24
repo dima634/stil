@@ -35,7 +35,7 @@ PanelWindow {
                 Layout.fillHeight: true
                 implicitWidth: 1
 
-                Workspaces {
+                WorkspaceList {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

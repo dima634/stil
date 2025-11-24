@@ -33,60 +33,16 @@ ListView {
     implicitWidth: contentWidth
     height: 32
 
-    delegate: Rectangle {
-        id: windowDelegate
+    delegate: TaskbarButton {
+        id: template
         required property var window
-
-        anchors.verticalCenter: parent?.verticalCenter
-        width: 28
-        height: 28
-        color: "transparent"
-
-        Rectangle {
-            opacity: mouse.hovered || windowDelegate.window.focused ? 1 : 0
-            anchors.fill: parent
-            radius: 3
-            color: mouse.hovered ? Theme.windowBackgroundHovered : Theme.windowBackground
-            border.color: Theme.windowBorder
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 50
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
+        mode: window.focused ? TaskbarButton.Mode.Focused : (window.running ? TaskbarButton.Mode.Active : TaskbarButton.Mode.Default)
 
         Image {
             anchors.centerIn: parent
-            width: parent.width - 8
+            width: parent.width - 6
             height: width
-            source: windowDelegate.window.iconPath
-        }
-
-        Rectangle {
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: 1
-            }
-            anchors.horizontalCenter: parent.horizontalCenter
-            height: 2
-            width: windowDelegate.window.focused ? parent.width - 14 : parent.width - 20
-            radius: 5
-            color: windowDelegate.window.focused ? Theme.windowActive : Theme.windowRunning
-            visible: windowDelegate.window.running
-
-            Behavior on width {
-                NumberAnimation {
-                    duration: 50
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-
-        HoverHandler {
-            id: mouse
-            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+            source: template.window.iconPath
         }
     }
 }
