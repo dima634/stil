@@ -6,6 +6,7 @@
             "displayName": "Debug",
             "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
             "binaryDir": "${sourceDir}/eleven/out/build/${presetName}",
+            "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/eleven/out/install/${presetName}",
                 "CMAKE_C_COMPILER": "/usr/bin/clang",
@@ -18,6 +19,7 @@
             "displayName": "Release",
             "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
             "binaryDir": "${sourceDir}/eleven/out/build/${presetName}",
+            "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/eleven/out/install/${presetName}",
                 "CMAKE_C_COMPILER": "/usr/bin/clang",
