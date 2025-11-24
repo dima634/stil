@@ -12,9 +12,9 @@ class QWallclock : public QObject
     Q_PROPERTY(int year READ getYear NOTIFY datetimeChanged);
     Q_PROPERTY(unsigned month READ getMonth NOTIFY datetimeChanged);
     Q_PROPERTY(unsigned day READ getDay NOTIFY datetimeChanged);
-    Q_PROPERTY(std::int64_t hour READ getHour NOTIFY datetimeChanged);
-    Q_PROPERTY(std::int64_t minute READ getMinute NOTIFY datetimeChanged);
-    Q_PROPERTY(std::int64_t second READ getSecond NOTIFY datetimeChanged);
+    Q_PROPERTY(qint64 hour READ getHour NOTIFY datetimeChanged);
+    Q_PROPERTY(qint64 minute READ getMinute NOTIFY datetimeChanged);
+    Q_PROPERTY(qint64 second READ getSecond NOTIFY datetimeChanged);
     Q_PROPERTY(int updateInterval READ getUpdateInterval WRITE setUpdateInterval NOTIFY updateIntervalChanged)
 
   public:

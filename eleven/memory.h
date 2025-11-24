@@ -9,13 +9,13 @@ class QMemory : public QObject
     QML_SINGLETON
     QML_UNCREATABLE("QMemory cannot be created in QML")
 
-    Q_PROPERTY(std::uint64_t totalRam READ totalRam NOTIFY usageChanged);
-    Q_PROPERTY(std::uint64_t usedRam READ usedRam NOTIFY usageChanged);
-    Q_PROPERTY(std::uint64_t freeRam READ freeRam NOTIFY usageChanged);
-    Q_PROPERTY(std::uint64_t availableRam READ availableRam NOTIFY usageChanged);
-    Q_PROPERTY(std::uint64_t totalSwap READ totalSwap NOTIFY usageChanged);
-    Q_PROPERTY(std::uint64_t usedSwap READ usedSwap NOTIFY usageChanged);
-    Q_PROPERTY(std::uint64_t freeSwap READ freeSwap NOTIFY usageChanged);
+    Q_PROPERTY(quint64 totalRam READ totalRam NOTIFY usageChanged);
+    Q_PROPERTY(quint64 usedRam READ usedRam NOTIFY usageChanged);
+    Q_PROPERTY(quint64 freeRam READ freeRam NOTIFY usageChanged);
+    Q_PROPERTY(quint64 availableRam READ availableRam NOTIFY usageChanged);
+    Q_PROPERTY(quint64 totalSwap READ totalSwap NOTIFY usageChanged);
+    Q_PROPERTY(quint64 usedSwap READ usedSwap NOTIFY usageChanged);
+    Q_PROPERTY(quint64 freeSwap READ freeSwap NOTIFY usageChanged);
     Q_PROPERTY(int updateInterval READ getUpdateInterval WRITE setUpdateInterval NOTIFY updateIntervalChanged);
 
   public:

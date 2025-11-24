@@ -9,7 +9,7 @@ class QWorkspace : public QObject
     QML_ELEMENT
     QML_UNCREATABLE("Workspaces are managed by Hyprland")
 
-    Q_PROPERTY(std::int32_t id READ getId CONSTANT)
+    Q_PROPERTY(qint32 id READ getId CONSTANT)
     Q_PROPERTY(QString name READ getName CONSTANT)
     Q_PROPERTY(const QWindows *windows READ getWindows CONSTANT)
 

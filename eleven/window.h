@@ -9,7 +9,7 @@ class QHyprWindow : public QObject
     QML_ELEMENT
     QML_UNCREATABLE("Windows are managed by Hyprland")
 
-    Q_PROPERTY(std::size_t address READ getAddress CONSTANT)
+    Q_PROPERTY(qsizetype address READ getAddress CONSTANT)
     Q_PROPERTY(QString className READ getClass CONSTANT)
     Q_PROPERTY(QString name READ getName CONSTANT)
     Q_PROPERTY(QString iconPath READ getIconPath CONSTANT)
