@@ -8,9 +8,9 @@ Singleton {
     readonly property color workspaceActive: '#4f003f92'
     readonly property color workspace: '#4fffffff'
 
-    readonly property color windowActive: '#FF005FB8'
-    readonly property color windowRunning: '#70353535'
-    readonly property color windowBorder: '#13000000'
-    readonly property color windowBackground: '#7FFFFFFF'
-    readonly property color windowBackgroundHovered: '#bbffffff'
+    readonly property color taskbarButtonFocused: '#FF005FB8'
+    readonly property color taskbarButtonActive: '#70353535'
+    readonly property color taskbarButtonBorder: '#13000000'
+    readonly property color taskbarButtonBackground: '#7FFFFFFF'
+    readonly property color taskbarButtonBackgroundHovered: '#bbffffff'
 }

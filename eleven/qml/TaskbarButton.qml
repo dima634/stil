@@ -15,8 +15,8 @@ Control {
         opacity: mouse.hovered || mode === TaskbarButton.Mode.Focused ? 1 : 0
         anchors.fill: parent
         radius: 3
-        color: mouse.hovered ? Theme.windowBackgroundHovered : Theme.windowBackground
-        border.color: Theme.windowBorder
+        color: mouse.hovered ? Theme.taskbarButtonBackgroundHovered : Theme.taskbarButtonBackground
+        border.color: Theme.taskbarButtonBorder
 
         Behavior on opacity {
             NumberAnimation {
@@ -40,7 +40,7 @@ Control {
         height: 2
         width: mode === TaskbarButton.Mode.Focused ? parent.width - 14 : parent.width - 20
         radius: 5
-        color: mode === TaskbarButton.Mode.Focused ? Theme.windowActive : Theme.windowRunning
+        color: mode === TaskbarButton.Mode.Focused ? Theme.taskbarButtonFocused : Theme.taskbarButtonActive
         visible: mode !== TaskbarButton.Mode.Default
 
         Behavior on width {
