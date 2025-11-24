@@ -43,8 +43,8 @@ ListView {
         height: 28
 
         radius: 3
-        color: windowDelegate.window.focused ? Theme.windowBackground : "transparent"
-        border.color: windowDelegate.window.focused ? Theme.windowBorder : "transparent"
+        color: windowDelegate.window.focused || mouse.hovered ? Theme.windowBackground : "transparent"
+        border.color: windowDelegate.window.focused || mouse.hovered ? Theme.windowBorder : "transparent"
 
         Image {
             anchors.centerIn: parent
@@ -64,6 +64,11 @@ ListView {
             radius: 5
             color: windowDelegate.window.focused ? Theme.windowActive : Theme.windowRunning
             visible: windowDelegate.window.running
+        }
+
+        HoverHandler {
+            id: mouse
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
         }
     }
 }
