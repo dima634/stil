@@ -43,12 +43,12 @@ ListView {
         height: 28
 
         radius: 3
-        color: Theme.windowBackground
-        border.color: Theme.windowBorder
+        color: windowDelegate.window.focused ? Theme.windowBackground : "transparent"
+        border.color: windowDelegate.window.focused ? Theme.windowBorder : "transparent"
 
         Image {
             anchors.centerIn: parent
-            width: parent.width - 4
+            width: parent.width - 8
             height: width
             source: windowDelegate.window.iconPath
         }
@@ -56,13 +56,14 @@ ListView {
         Rectangle {
             anchors {
                 bottom: parent.bottom
+                bottomMargin: 1
             }
             anchors.horizontalCenter: parent.horizontalCenter
-            height: 3
-            width: parent.width - 12
+            height: 2
+            width: windowDelegate.window.focused ? parent.width - 14 : parent.width - 20
             radius: 5
-            color: Theme.windowActive
-            visible: windowDelegate.window.focused
+            color: windowDelegate.window.focused ? Theme.windowActive : Theme.windowRunning
+            visible: windowDelegate.window.running
         }
     }
 }

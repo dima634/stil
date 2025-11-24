@@ -57,3 +57,8 @@ bool QHyprWindow::isFocused() const
 {
     return m_focused;
 }
+
+bool QHyprWindow::isRunning() const
+{
+    return m_running;
+}
