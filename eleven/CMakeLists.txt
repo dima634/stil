@@ -1,7 +1,7 @@
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2)
 qt_standard_project_setup(REQUIRES 6.10)
 
-link_directories(../target/debug)
+link_directories("${STIL_CORE_LIB_DIR}")
 include_directories(../target/cxxbridge)
 
 set(QT_QML_GENERATE_QMLLS_INI ON)

@@ -11,7 +11,8 @@
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/eleven/out/install/${presetName}",
                 "CMAKE_C_COMPILER": "/usr/bin/clang",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "STIL_CORE_LIB_DIR": "${sourceDir}/target/debug"
             }
         },
         {
@@ -24,7 +25,8 @@
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/eleven/out/install/${presetName}",
                 "CMAKE_C_COMPILER": "/usr/bin/clang",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "STIL_CORE_LIB_DIR": "${sourceDir}/target/release"
             }
         }
     ],
