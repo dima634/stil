@@ -11,7 +11,3 @@ else
 fi
 cmake --preset ${BUILD_TYPE}
 cmake --build --preset ${BUILD_TYPE};
-sudo cmake --build --preset ${BUILD_TYPE} --target install
-
-pkill quickshell || true
-hyprctl dispatch exec quickshell
