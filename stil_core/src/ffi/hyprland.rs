@@ -1,7 +1,4 @@
-use crate::{
-    hyprland::{Client, Clients, GetClientsCmd, HyprCtl},
-    services::global_init,
-};
+use crate::hyprland::{Client, Clients, GetClientsCmd, HyprCtl};
 
 #[cxx::bridge(namespace = "core")]
 mod ffi {
@@ -18,6 +15,5 @@ mod ffi {
 }
 
 fn get_hyprland_clients() -> Vec<Client> {
-    global_init();
     HyprCtl::default().run(GetClientsCmd).unwrap_or(Clients::default()).0
 }

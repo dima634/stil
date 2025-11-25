@@ -1,7 +1,4 @@
-use crate::{
-    services::global_init,
-    workspaces::{Workspace, WorkspacesState, get_workspaces_state as get_workspaces_state_rs},
-};
+use crate::workspaces::{Workspace, WorkspacesState, get_workspaces_state as get_workspaces_state_rs};
 
 mod hyprland;
 mod system_events;
@@ -25,6 +22,5 @@ mod ffi {
 }
 
 fn get_workspaces_state() -> Box<WorkspacesState> {
-    global_init();
     Box::new(get_workspaces_state_rs())
 }

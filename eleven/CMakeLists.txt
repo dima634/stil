@@ -16,6 +16,7 @@ qt_add_qml_module(eleven
     URI eleven
     VERSION 1.0
     SOURCES
+        init.h init.cpp
         workspace.h workspace.cpp
         workspaces.h workspaces.cpp
         window.h window.cpp
@@ -24,6 +25,7 @@ qt_add_qml_module(eleven
         cpu.h cpu.cpp
         memory.h memory.cpp
         system_events.h system_events.cpp
+        ../target/cxxbridge/stil_core/src/lib.rs.cc
         ../target/cxxbridge/stil_core/src/system.rs.cc
         ../target/cxxbridge/stil_core/src/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/application.rs.cc

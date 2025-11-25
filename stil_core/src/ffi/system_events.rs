@@ -1,5 +1,5 @@
 use crate::{
-    services::{global_init, system_event_dispatcher},
+    services::system_event_dispatcher,
     system_events::{SystemEvent, WindowMoved, WindowOpened, WorkspaceCreated},
 };
 
@@ -101,7 +101,6 @@ struct SystemEvents {
 
 impl SystemEvents {
     pub fn create() -> Box<Self> {
-        global_init();
         let rx = system_event_dispatcher().rx();
         Box::new(Self { rx })
     }

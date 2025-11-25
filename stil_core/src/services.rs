@@ -3,13 +3,14 @@ use crate::{
     system_events::{SystemEvent, SystemEventDispatcher, WindowMoved, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{Arc, LazyLock, Once};
-use tracing::{error, warn};
+use tracing::{error, info, warn};
 
 static INIT: Once = Once::new();
-pub fn global_init() {
+pub fn init() {
     INIT.call_once(|| {
         setup_logging();
         listen_for_hyprland_events();
+        info!("Stil Core initialized");
     });
 }
 

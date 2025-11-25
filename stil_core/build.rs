@@ -1,5 +1,6 @@
 fn main() {
     cxx_build::bridges([
+        "src/lib.rs",
         "src/system_events.rs",
         "src/system.rs",
         "src/application.rs",

@@ -7,4 +7,11 @@ mod system;
 mod system_events;
 mod workspaces;
 
-pub use services::global_init;
+pub use services::init;
+
+#[cxx::bridge(namespace = "core")]
+mod libffi {
+    extern "Rust" {
+        fn init();
+    }
+}
