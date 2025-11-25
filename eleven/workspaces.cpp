@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <stil_core/src/ffi/hyprland.rs.h>
 #include <stil_core/src/ffi/mod.rs.h>
-#include <stil_core/src/ffi/system_events.rs.h>
+#include <stil_core/src/system_events.rs.h>
 
 QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
 {

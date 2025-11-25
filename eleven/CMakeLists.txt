@@ -30,7 +30,6 @@ qt_add_qml_module(eleven
         ../target/cxxbridge/stil_core/src/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/application.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/mod.rs.cc
-        ../target/cxxbridge/stil_core/src/ffi/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/hyprland.rs.cc
     QML_FILES
         qml/TaskBar.qml
