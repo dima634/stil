@@ -65,35 +65,8 @@ PanelWindow {
                 Layout.fillHeight: true
                 implicitWidth: 1
 
-                FlexboxLayout {
-                    anchors.verticalCenter: parent.verticalCenter
-                    gap: 4
-
-                    Text {
-                        text: `${QCpu.totalUsage.toFixed(2)}%`
-                    }
-
-                    Text {
-                        text: `${QCpu.temperature.toFixed(0)}°C`
-                    }
-
-                    // Text {
-                    //     text: QCpu.brand
-                    // }
-
-                    Text {
-                        text: `${gb(QMemory.usedRam)}G / ${gb(QMemory.totalRam)}G   aval ${gb(QMemory.availableRam)}G   free ${gb(QMemory.freeRam)}G`
-                    }
-
-                    Text {
-                        text: `${QWallclock.day}/${QWallclock.month}/${QWallclock.year} ${QWallclock.hour}:${QWallclock.minute.toString().padStart(2, '0')}:${QWallclock.second.toString().padStart(2, '0')}`
-                    }
-                }
+                SystemTray {}
             }
         }
-    }
-
-    function gb(bytes) {
-        return (bytes / (1024 * 1024 * 1024)).toFixed(2);
     }
 }

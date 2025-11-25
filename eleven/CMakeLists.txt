@@ -36,6 +36,7 @@ qt_add_qml_module(eleven
         qml/TaskbarButton.qml
         qml/WorkspaceList.qml
         qml/WindowList.qml
+        qml/SystemTray.qml
         qml/Theme.qml
         qml/Css.qml
 )
