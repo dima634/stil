@@ -25,12 +25,14 @@ qt_add_qml_module(eleven
         cpu.h cpu.cpp
         memory.h memory.cpp
         system_events.h system_events.cpp
+        icon_lookup.h icon_lookup.cpp
         ../target/cxxbridge/stil_core/src/lib.rs.cc
         ../target/cxxbridge/stil_core/src/system.rs.cc
         ../target/cxxbridge/stil_core/src/system_events.rs.cc
         ../target/cxxbridge/stil_core/src/application.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/mod.rs.cc
         ../target/cxxbridge/stil_core/src/ffi/hyprland.rs.cc
+        ../target/cxxbridge/stil_core/src/freedesktop/ffi.rs.cc
     QML_FILES
         qml/TaskBar.qml
         qml/TaskbarButton.qml
