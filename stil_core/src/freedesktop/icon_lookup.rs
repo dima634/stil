@@ -305,6 +305,7 @@ fn directory_size_distance(dir: &IconThemeDirectory, icon_size: u32, icon_scale:
 }
 
 /// Icon lookup context containing base directories and theme cache
+#[derive(Debug)]
 pub struct IconLookup {
     base_directories: Vec<PathBuf>,
     theme_cache: HashMap<String, IconTheme>,
