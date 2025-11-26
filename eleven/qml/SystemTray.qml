@@ -9,11 +9,10 @@ FlexboxLayout {
     gap: 2
 
     TaskbarButton {
-        implicitWidth: 48
+        implicitWidth: 44
         implicitHeight: 28
 
         Row {
-            anchors.centerIn: parent
             height: parent.height
 
             Image {
@@ -54,8 +53,9 @@ FlexboxLayout {
         }
     }
 
+    // Volume Indicator
     TaskbarButton {
-        implicitWidth: volumeIcon.implicitWidth + 4
+        implicitWidth: volumeIcon.implicitWidth
         implicitHeight: 28
 
         Image {
