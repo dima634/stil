@@ -55,6 +55,26 @@ FlexboxLayout {
     }
 
     TaskbarButton {
+        implicitWidth: volumeIcon.implicitWidth + 4
+        implicitHeight: 28
+
+        Image {
+            id: volumeIcon
+            anchors.centerIn: parent
+            height: parent.height - 8
+            width: height
+            source: `file:/${QIconLookup.find("volume-level-high", 24)}`
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                colorization: 1.0
+                brightness: 1.0
+                colorizationColor: "black"
+            }
+        }
+    }
+
+    TaskbarButton {
         implicitWidth: clock.implicitWidth + 10
         implicitHeight: 28
 
