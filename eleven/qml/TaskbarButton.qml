@@ -3,20 +3,18 @@ import QtQuick.Controls
 
 Control {
     id: host
-    enum Mode {
+    enum StatusBar {
         Focused,
         Active,
-        Default
+        Hidden
     }
-    property int mode: TaskbarButton.Mode.Default
+    property int statusBar: TaskbarButton.StatusBar.Hidden
+    property bool highlighted: false
     default property alias content: container.data
-
     anchors.verticalCenter: parent?.verticalCenter
-    width: 28
-    height: 28
 
     background: Rectangle {
-        opacity: mouse.hovered || host.mode === TaskbarButton.Mode.Focused ? 1 : 0
+        opacity: mouse.hovered || host.highlighted ? 1 : 0
         anchors.fill: parent
         radius: 3
         color: mouse.hovered ? Theme.taskbarButtonBackgroundHovered : Theme.taskbarButtonBackground
@@ -42,10 +40,10 @@ Control {
         }
         anchors.horizontalCenter: parent.horizontalCenter
         height: 2
-        width: host.mode === TaskbarButton.Mode.Focused ? parent.width - 14 : parent.width - 20
+        width: host.statusBar === TaskbarButton.StatusBar.Focused ? parent.width - 14 : parent.width - 20
         radius: 5
-        color: host.mode === TaskbarButton.Mode.Focused ? Theme.taskbarButtonFocused : Theme.taskbarButtonActive
-        visible: host.mode !== TaskbarButton.Mode.Default
+        color: host.statusBar === TaskbarButton.StatusBar.Focused ? Theme.taskbarButtonFocused : Theme.taskbarButtonActive
+        visible: host.statusBar !== TaskbarButton.StatusBar.Hidden
 
         Behavior on width {
             NumberAnimation {

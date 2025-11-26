@@ -1,6 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
-import "." as Eleven
 
 ListView {
     orientation: ListView.Horizontal
@@ -37,8 +35,10 @@ ListView {
     delegate: TaskbarButton {
         id: template
         required property var modelData
-
-        mode: QWorkspaces.current?.id === template.modelData.id ? TaskbarButton.Mode.Focused : TaskbarButton.Mode.Default
+        highlighted: QWorkspaces.current?.id === template.modelData.id
+        statusBar: QWorkspaces.current?.id === template.modelData.id ? TaskbarButton.StatusBar.Focused : TaskbarButton.StatusBar.Hidden
+        width: 28
+        height: 28
 
         Text {
             anchors.centerIn: parent

@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 
 ListView {
     id: windowsList
@@ -36,7 +35,10 @@ ListView {
     delegate: TaskbarButton {
         id: template
         required property var window
-        mode: window.focused ? TaskbarButton.Mode.Focused : (window.running ? TaskbarButton.Mode.Active : TaskbarButton.Mode.Default)
+        highlighted: window.focused
+        statusBar: window.focused ? TaskbarButton.StatusBar.Focused : (window.running ? TaskbarButton.StatusBar.Active : TaskbarButton.StatusBar.Hidden)
+        width: 28
+        height: 28
 
         Image {
             anchors.centerIn: parent
