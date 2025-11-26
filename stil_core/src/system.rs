@@ -11,11 +11,18 @@ mod dbus {
     )]
     trait Login1Manager {
         fn power_off(&self, interactive: bool) -> zbus::Result<()>;
+        fn reboot(&self, interactive: bool) -> zbus::Result<()>;
     }
 
     pub fn power_off() -> bool {
         Login1ManagerProxyBlocking::new(&*DBUS_SYSTEM)
             .and_then(|proxy| proxy.power_off(true))
+            .is_ok()
+    }
+
+    pub fn reboot() -> bool {
+        Login1ManagerProxyBlocking::new(&*DBUS_SYSTEM)
+            .and_then(|proxy| proxy.reboot(true))
             .is_ok()
     }
 
@@ -26,6 +33,7 @@ mod dbus {
     mod ffi {
         extern "Rust" {
             fn power_off() -> bool;
+            fn reboot() -> bool;
         }
     }
 }
