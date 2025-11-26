@@ -8,6 +8,32 @@ FlexboxLayout {
     justifyContent: FlexboxLayout.JustifyEnd
     gap: 2
 
+    TaskbarButton {
+        implicitHeight: 28
+        implicitWidth: 28
+
+        Image {
+            anchors.centerIn: parent
+            height: parent.height - 8
+            width: height
+            source: `file:/${QIconLookup.find("system-shutdown-symbolic", 24)}`
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                colorization: 1.0
+                brightness: 1.0
+                colorizationColor: "black"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    QSystem.poweroff();
+                }
+            }
+        }
+    }
+
     // CPU Usage Indicator
     TaskbarButton {
         implicitWidth: 44

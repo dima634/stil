@@ -1,5 +1,35 @@
 use std::sync::{LazyLock, Mutex};
 
+mod dbus {
+    use std::sync::LazyLock;
+    use zbus::blocking::*;
+
+    #[zbus::proxy(
+        default_service = "org.freedesktop.login1",
+        default_path = "/org/freedesktop/login1",
+        interface = "org.freedesktop.login1.Manager"
+    )]
+    trait Login1Manager {
+        fn power_off(&self, interactive: bool) -> zbus::Result<()>;
+    }
+
+    pub fn power_off() -> bool {
+        Login1ManagerProxyBlocking::new(&*DBUS_SYSTEM)
+            .and_then(|proxy| proxy.power_off(true))
+            .is_ok()
+    }
+
+    static DBUS_SYSTEM: LazyLock<Connection> =
+        LazyLock::new(|| Connection::system().expect("Failed to connect to D-Bus system bus"));
+
+    #[cxx::bridge(namespace = "core::system")]
+    mod ffi {
+        extern "Rust" {
+            fn power_off() -> bool;
+        }
+    }
+}
+
 mod cpu {
     use super::{components, system};
 
