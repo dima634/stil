@@ -6,7 +6,7 @@ ListView {
     model: QWorkspaces
 
     implicitWidth: contentWidth
-    height: 26
+    height: 28
 
     add: Transition {
         NumberAnimation {

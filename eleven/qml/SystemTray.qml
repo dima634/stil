@@ -8,6 +8,7 @@ FlexboxLayout {
     justifyContent: FlexboxLayout.JustifyEnd
     gap: 2
 
+    // CPU Usage Indicator
     TaskbarButton {
         implicitWidth: 44
         implicitHeight: 28
@@ -74,6 +75,7 @@ FlexboxLayout {
         }
     }
 
+    // Clock
     TaskbarButton {
         implicitWidth: clock.implicitWidth + 10
         implicitHeight: 28

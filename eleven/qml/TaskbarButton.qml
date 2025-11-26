@@ -11,7 +11,6 @@ Control {
     property int statusBar: TaskbarButton.StatusBar.Hidden
     property bool highlighted: false
     default property alias content: container.data
-    anchors.verticalCenter: parent?.verticalCenter
 
     background: Rectangle {
         opacity: mouse.hovered || host.highlighted ? 1 : 0

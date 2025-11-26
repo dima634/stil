@@ -3,6 +3,8 @@ import QtQuick
 ListView {
     id: windowsList
     orientation: ListView.Horizontal
+    implicitWidth: contentWidth
+    height: 28
     spacing: 2
 
     add: Transition {
@@ -28,9 +30,6 @@ ListView {
             easing.type: Easing.InOutQuad
         }
     }
-
-    implicitWidth: contentWidth
-    height: 32
 
     delegate: TaskbarButton {
         id: template
