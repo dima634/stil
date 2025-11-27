@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import "." as Eleven
 
 PanelWindow {
     anchors {
@@ -21,7 +20,7 @@ PanelWindow {
 
     Rectangle {
         anchors.fill: parent
-        color: Eleven.Theme.shellBackground
+        color: Theme.shellBackground
         radius: 4
 
         RowLayout {
