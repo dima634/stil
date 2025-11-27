@@ -21,8 +21,8 @@ Control {
 
         Behavior on opacity {
             NumberAnimation {
-                duration: 50
-                easing.type: Easing.InOutQuad
+                duration: 83
+                easing.type: Easing.Linear
             }
         }
     }
@@ -46,8 +46,8 @@ Control {
 
         Behavior on width {
             NumberAnimation {
-                duration: 50
-                easing.type: Easing.InOutQuad
+                duration: 83
+                easing.type: Easing.Linear
             }
         }
     }
