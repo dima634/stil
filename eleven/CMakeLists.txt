@@ -40,6 +40,9 @@ qt_add_qml_module(eleven
         qml/WorkspaceList.qml
         qml/WindowList.qml
         qml/SystemTray.qml
+        qml/PowerControlMenu.qml
+        qml/Flyout.qml
+        qml/ListItem.qml
         qml/Theme.qml
         qml/Css.qml
 )

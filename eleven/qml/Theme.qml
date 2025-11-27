@@ -16,4 +16,6 @@ Singleton {
 
     readonly property color flyoutBackground: Css.hex("fcfcfc", 0.95)
     readonly property color flyoutBorder: Css.hex("000000", 0.06)
+
+    readonly property color listItemBackgroundHovered: "#16000000"
 }

@@ -1,3 +1,4 @@
+import Quickshell
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -8,9 +9,12 @@ FlexboxLayout {
     justifyContent: FlexboxLayout.JustifyEnd
     gap: 2
 
+    // Power controls
     TaskbarButton {
+        id: powerBtn
         implicitHeight: 28
         implicitWidth: 28
+        highlighted: powerMenu.visible
 
         Image {
             anchors.centerIn: parent
@@ -28,9 +32,17 @@ FlexboxLayout {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    QSystem.poweroff();
+                    powerMenu.visible = !powerMenu.visible;
                 }
             }
+        }
+
+        PowerControlMenu {
+            id: powerMenu
+            anchor.item: powerBtn
+            anchor.rect.y: powerBtn.y - height - 4
+            anchor.rect.x: (powerBtn.width - width) / 2
+            visible: false
         }
     }
 
