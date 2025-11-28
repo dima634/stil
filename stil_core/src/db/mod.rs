@@ -1,9 +1,8 @@
 use std::{path::PathBuf, rc::Rc};
 
-mod models;
+pub mod models;
 mod schema;
 
-pub use models::*;
 pub use schema::{migrate_down, migrate_up};
 
 /// Returns a shared thread-local database connection

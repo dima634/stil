@@ -6,3 +6,6 @@
   ```
 - Consider removing broadcast from system events dispatcher
 - Batching requests to Hyprland
+- PopupWindow background blur
+- Anyhow?
+- refactor init.rs

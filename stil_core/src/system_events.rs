@@ -1,4 +1,4 @@
-use crate::services::system_event_dispatcher;
+use crate::init::system_event_dispatcher;
 use std::sync::{Mutex, mpsc};
 
 pub use ffi::{WindowMoved, WindowOpened, WorkspaceCreated};
