@@ -1,4 +1,5 @@
 mod application;
+mod db;
 mod ffi;
 mod freedesktop;
 mod hyprland;
@@ -7,6 +8,7 @@ mod system;
 mod system_events;
 mod workspaces;
 
+pub use db::{migrate_down, migrate_up};
 pub use services::init;
 
 #[cxx::bridge(namespace = "core")]

@@ -47,7 +47,7 @@ qt_add_qml_module(eleven
         qml/Css.qml
 )
 
-target_link_libraries(eleven PRIVATE libstil_core.a)
+target_link_libraries(eleven PRIVATE libstil_core.a sqlite3)
 
 set(install_script "${CMAKE_CURRENT_BINARY_DIR}/install_plugin.cmake")
 file(GENERATE OUTPUT ${install_script} CONTENT "

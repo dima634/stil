@@ -1,4 +1,5 @@
 use crate::{
+    db,
     hyprland::{Event, HyprEvents},
     system_events::{SystemEvent, SystemEventDispatcher, WindowMoved, WindowOpened, WorkspaceCreated},
 };
@@ -9,6 +10,7 @@ static INIT: Once = Once::new();
 pub fn init() {
     INIT.call_once(|| {
         setup_logging();
+        db::migrate_up().expect("failed to migrate database up");
         listen_for_hyprland_events();
         info!("Stil Core initialized");
     });
