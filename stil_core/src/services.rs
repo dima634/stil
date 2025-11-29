@@ -1,4 +1,4 @@
-use crate::{application::ApplicationManager, system_events::SystemEventDispatcher};
+use crate::{application::ApplicationManager, db::DbConnPool, system_events::SystemEventDispatcher};
 use std::{
     ops::{Deref, DerefMut},
     sync::{Arc, LazyLock, Mutex},
@@ -10,6 +10,7 @@ pub struct ServiceLocator {
     components_info: Mutex<sysinfo::Components>,
     system_dbus: zbus::blocking::Connection,
     application_manager: ApplicationManager,
+    db_conn_pool: DbConnPool,
 }
 
 impl ServiceLocator {
@@ -37,6 +38,11 @@ impl ServiceLocator {
     pub fn application_manager() -> impl Deref<Target = ApplicationManager> {
         &SERVICE_LOCATOR.application_manager
     }
+
+    #[inline]
+    pub fn db_conn() -> impl DerefMut<Target = rusqlite::Connection> {
+        SERVICE_LOCATOR.db_conn_pool.get_conn()
+    }
 }
 
 static SERVICE_LOCATOR: LazyLock<ServiceLocator> = LazyLock::new(|| ServiceLocator {
@@ -45,6 +51,7 @@ static SERVICE_LOCATOR: LazyLock<ServiceLocator> = LazyLock::new(|| ServiceLocat
     components_info: Mutex::new(sysinfo::Components::new_with_refreshed_list()),
     system_dbus: zbus::blocking::Connection::system().expect("failed to connect to D-Bus system bus"),
     application_manager: ApplicationManager::default(),
+    db_conn_pool: DbConnPool::new(3),
 });
 
 fn create_system_event_dispatcher() -> Arc<SystemEventDispatcher> {
