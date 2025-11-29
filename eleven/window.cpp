@@ -5,8 +5,8 @@
 QHyprWindow::QHyprWindow(std::size_t address, const QString &className, QObject *parent)
     : QObject(parent), m_address(address), m_class(className)
 {
-    auto &appManager = core::app::application_manager();
-    const auto *app = appManager.find_by_wmclass(className.toStdString().c_str());
+    auto *appManager = core::app::application_manager();
+    const auto *app = appManager->find_by_wmclass(className.toStdString().c_str());
     if (app != nullptr)
     {
         m_name = QString::fromUtf8(app->name().data(), app->name().size());

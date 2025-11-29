@@ -1,4 +1,4 @@
-use crate::init::system_event_dispatcher;
+use crate::services::ServiceLocator;
 use std::sync::{Mutex, mpsc};
 
 pub use ffi::{WindowMoved, WindowOpened, WorkspaceCreated};
@@ -168,7 +168,7 @@ struct SystemEvents {
 
 impl SystemEvents {
     pub fn create() -> Box<Self> {
-        let rx = system_event_dispatcher().rx();
+        let rx = ServiceLocator::system_event_dispatcher().rx();
         Box::new(Self { rx })
     }
 

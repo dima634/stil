@@ -1,9 +1,10 @@
 use crate::{
     db,
     hyprland::{Event, HyprEvents},
-    system_events::{SystemEvent, SystemEventDispatcher, WindowMoved, WindowOpened, WorkspaceCreated},
+    services::ServiceLocator,
+    system_events::{SystemEvent, WindowMoved, WindowOpened, WorkspaceCreated},
 };
-use std::sync::{Arc, LazyLock, Once};
+use std::sync::Once;
 use tracing::{error, info, warn};
 
 static INIT: Once = Once::new();
@@ -16,31 +17,11 @@ pub fn init() {
     });
 }
 
-static SYSTEM_EVENT_DISPATCHER: LazyLock<Arc<SystemEventDispatcher>> = LazyLock::new(|| {
-    let (dispatcher, rx) = SystemEventDispatcher::new();
-    let dispatcher = Arc::new(dispatcher);
-    let dispatcher_listener = Arc::clone(&dispatcher);
-
-    std::thread::Builder::new()
-        .name("System Events Dispatcher".to_string())
-        .spawn(move || {
-            dispatcher_listener.listen(rx);
-        })
-        .expect("should create thread for system event dispatch");
-
-    dispatcher
-});
-
-#[inline]
-pub fn system_event_dispatcher() -> Arc<SystemEventDispatcher> {
-    SYSTEM_EVENT_DISPATCHER.clone()
-}
-
 fn listen_for_hyprland_events() {
     let res = std::thread::Builder::new()
         .name("Hyprland Events Listener".to_string())
         .spawn(|| {
-            let systems_events = system_event_dispatcher();
+            let systems_events = ServiceLocator::system_event_dispatcher();
             let tx = systems_events.tx();
 
             HyprEvents::listen(|event| {

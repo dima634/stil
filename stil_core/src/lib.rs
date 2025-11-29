@@ -5,6 +5,7 @@ mod freedesktop;
 mod hyprland;
 mod init;
 mod repos;
+mod services;
 mod system;
 mod system_events;
 mod workspaces;

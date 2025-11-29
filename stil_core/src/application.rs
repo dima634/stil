@@ -2,8 +2,9 @@ use crate::{
     db::models,
     freedesktop::{DesktopEntry, IconLookup, find_application_desktop_entries},
     repos,
+    services::ServiceLocator,
 };
-use std::{path::PathBuf, sync::LazyLock};
+use std::path::PathBuf;
 
 pub struct Application {
     desktop_entry: DesktopEntry,
@@ -54,12 +55,6 @@ impl Default for ApplicationManager {
     }
 }
 
-pub fn application_manager() -> &'static ApplicationManager {
-    &APPLICATION_MANAGER
-}
-
-static APPLICATION_MANAGER: LazyLock<ApplicationManager> = LazyLock::new(ApplicationManager::default);
-
 fn build_application(
     desktop_entry: DesktopEntry,
     app_repo: &repos::ApplicationRepo,
@@ -90,8 +85,12 @@ mod ffi {
         type ApplicationManager;
         #[cxx_name = "find_by_wmclass"]
         fn find_by_wmclass_ffi(self: &ApplicationManager, wmclass: &str) -> *const Application;
-        fn application_manager() -> &'static ApplicationManager;
+        fn application_manager() -> *const ApplicationManager;
     }
+}
+
+fn application_manager() -> *const ApplicationManager {
+    &*ServiceLocator::application_manager() as *const ApplicationManager
 }
 
 impl Application {

@@ -1,8 +1,5 @@
-use std::sync::{LazyLock, Mutex};
-
 mod dbus {
-    use std::sync::LazyLock;
-    use zbus::blocking::*;
+    use crate::services::ServiceLocator;
 
     #[zbus::proxy(
         default_service = "org.freedesktop.login1",
@@ -15,19 +12,16 @@ mod dbus {
     }
 
     pub fn power_off() -> bool {
-        Login1ManagerProxyBlocking::new(&*DBUS_SYSTEM)
+        Login1ManagerProxyBlocking::new(&ServiceLocator::system_dbus())
             .and_then(|proxy| proxy.power_off(true))
             .is_ok()
     }
 
     pub fn reboot() -> bool {
-        Login1ManagerProxyBlocking::new(&*DBUS_SYSTEM)
+        Login1ManagerProxyBlocking::new(&ServiceLocator::system_dbus())
             .and_then(|proxy| proxy.reboot(true))
             .is_ok()
     }
-
-    static DBUS_SYSTEM: LazyLock<Connection> =
-        LazyLock::new(|| Connection::system().expect("Failed to connect to D-Bus system bus"));
 
     #[cxx::bridge(namespace = "core::system")]
     mod ffi {
@@ -39,10 +33,10 @@ mod dbus {
 }
 
 mod cpu {
-    use super::{components, system};
+    use crate::services::ServiceLocator;
 
     pub fn get_usage() -> ffi::CpuUsage {
-        let mut system = system();
+        let mut system = ServiceLocator::system_info();
         system.refresh_cpu_usage();
 
         let mut usage = ffi::CpuUsage {
@@ -59,7 +53,7 @@ mod cpu {
     }
 
     pub fn get_temp() -> f32 {
-        components()
+        ServiceLocator::components_info()
             .list_mut()
             .into_iter()
             .find(|comp| comp.label() == "k10temp Tctl")
@@ -72,7 +66,7 @@ mod cpu {
     }
 
     pub fn get_brand() -> String {
-        let mut system = system();
+        let mut system = ServiceLocator::system_info();
         system.refresh_cpu_usage();
         system
             .cpus()
@@ -97,10 +91,10 @@ mod cpu {
 }
 
 mod memory {
-    use super::system;
+    use crate::services::ServiceLocator;
 
     pub fn get_memory_usage() -> ffi::MemoryUsage {
-        let mut system = system();
+        let mut system = ServiceLocator::system_info();
         system.refresh_memory();
 
         ffi::MemoryUsage {
@@ -130,21 +124,4 @@ mod memory {
             fn get_memory_usage() -> MemoryUsage;
         }
     }
-}
-
-static SYSTEM: LazyLock<Mutex<sysinfo::System>> = LazyLock::new(|| Mutex::new(sysinfo::System::new()));
-
-#[inline]
-fn system() -> std::sync::MutexGuard<'static, sysinfo::System> {
-    SYSTEM.lock().expect("should not be poisoned")
-}
-
-static COMPONENTS: LazyLock<Mutex<sysinfo::Components>> = LazyLock::new(|| {
-    let components = sysinfo::Components::new_with_refreshed_list();
-    Mutex::new(components)
-});
-
-#[inline]
-fn components() -> std::sync::MutexGuard<'static, sysinfo::Components> {
-    COMPONENTS.lock().expect("should not be poisoned")
 }
