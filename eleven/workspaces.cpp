@@ -74,7 +74,7 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
         Q_EMIT currentChanged();
     });
 
-    auto hyprWindows = core::get_hyprland_clients();
+    auto hyprWindows = core::get_hyprland_clients(); // TODO: abstract this into `app service get windows`
 
     for (std::size_t i = 0; i < hyprWindows.size(); ++i)
     {
@@ -97,9 +97,21 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
     });
 
     connect(QSystemEvents::instance(), &QSystemEvents::windowClose, this, [this](std::size_t windowAddress) {
-        auto *removed = removeWindow(windowAddress);
-        Q_ASSERT(removed != nullptr);
-        removed->deleteLater();
+        auto *window = findWindowByAddress(windowAddress);
+        if (window == nullptr)
+        {
+            return;
+        }
+
+        if (window->isPinned())
+        {
+            window->setIsRunning(false);
+        }
+        else
+        {
+            auto *removed = removeWindow(windowAddress);
+            removed->deleteLater();
+        }
     });
 
     connect(QSystemEvents::instance(), &QSystemEvents::windowMoved, this, [this](core::WindowMoved event) {
@@ -184,6 +196,19 @@ QHyprWindow *QWorkspaces::removeWindow(std::size_t windowAddress)
     for (auto *workspace : m_workspaces)
     {
         auto *window = workspace->removeWindow(windowAddress);
+        if (window)
+        {
+            return window;
+        }
+    }
+    return nullptr;
+}
+
+QHyprWindow *QWorkspaces::findWindowByAddress(std::size_t address) const
+{
+    for (auto *workspace : m_workspaces)
+    {
+        auto *window = workspace->getWindowByAddress(address);
         if (window)
         {
             return window;

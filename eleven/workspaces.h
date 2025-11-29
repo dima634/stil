@@ -34,4 +34,5 @@ class QWorkspaces : public QAbstractListModel
 
     bool removeWorkspace(std::int32_t workspaceId);
     QHyprWindow *removeWindow(std::size_t windowAddress);
+    QHyprWindow *findWindowByAddress(std::size_t address) const;
 };

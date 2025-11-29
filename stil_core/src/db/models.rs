@@ -12,7 +12,7 @@ impl TryFrom<&rusqlite::Row<'_>> for Application {
     fn try_from(value: &rusqlite::Row<'_>) -> Result<Self, Self::Error> {
         Ok(Application {
             id: value.get("id")?,
-            is_pinned: value.get("is_pinned")?,
+            is_pinned: value.get("pinned")?,
         })
     }
 }

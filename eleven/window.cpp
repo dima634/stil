@@ -12,6 +12,7 @@ QHyprWindow::QHyprWindow(std::size_t address, const QString &className, QObject 
         m_name = QString::fromUtf8(app->name().data(), app->name().size());
         m_iconPath = app->icon_path().c_str();
         m_iconPath.prepend("file://");
+        m_pinned = app->is_pinned();
     }
     else
     {
@@ -61,4 +62,27 @@ bool QHyprWindow::isFocused() const
 bool QHyprWindow::isRunning() const
 {
     return m_running;
+}
+
+void QHyprWindow::setIsRunning(bool running)
+{
+    if (m_running != running)
+    {
+        m_running = running;
+        Q_EMIT runningChanged();
+    }
+}
+
+bool QHyprWindow::isPinned() const
+{
+    return m_pinned;
+}
+
+void QHyprWindow::setIsPinned(bool pinned)
+{
+    if (m_pinned != pinned)
+    {
+        m_pinned = pinned;
+        Q_EMIT pinnedChanged();
+    }
 }
