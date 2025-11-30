@@ -1,3 +1,3 @@
-mod application;
+mod application_repo;
 
-pub use application::ApplicationRepo;
+pub use application_repo::ApplicationRepo;
