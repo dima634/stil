@@ -28,11 +28,10 @@ class QWorkspaces : public QAbstractListModel
 
   private:
     QList<QWorkspace *> m_workspaces;
-    QMap<QString, QWorkspace *> m_nameToWorkspace;
-    QMap<std::int32_t, QWorkspace *> m_idToWorkspace;
     QWorkspace *m_currentWorkspace = nullptr;
 
     bool removeWorkspace(std::int32_t workspaceId);
     QHyprWindow *removeWindow(std::size_t windowAddress);
     QHyprWindow *findWindowByAddress(std::size_t address) const;
+    QWorkspace *findWorkspaceByName(const QString &name) const;
 };

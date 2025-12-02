@@ -5,6 +5,7 @@ use std::{
     ops::{Deref, DerefMut},
     sync::{Condvar, Mutex},
 };
+use tracing::trace;
 
 pub use schema::{migrate_down, migrate_up};
 
@@ -20,7 +21,7 @@ struct Pool {
 }
 
 impl DbConnPool {
-    pub fn new(pool_size: u32) -> Self {
+    pub fn with_size(pool_size: u32) -> Self {
         Self {
             pool_size,
             pool: Mutex::new(Pool {
@@ -37,7 +38,16 @@ impl DbConnPool {
         // If not available block calling thread until one is returned
         let mut pool = self.pool.lock().expect("poisoned");
 
+        if let Some(conn) = pool.connections.pop() {
+            trace!("Reusing existing database connection");
+            return ConnectionGuard {
+                pool: self,
+                conn: Some(conn),
+            };
+        }
+
         if pool.total_created < self.pool_size {
+            trace!("Creating new database connection");
             let conn = connect();
             pool.total_created += 1;
 
@@ -48,10 +58,12 @@ impl DbConnPool {
         }
 
         while pool.connections.is_empty() {
+            trace!("Waiting for available database connection");
             pool = self.available.wait(pool).expect("poisoned");
         }
 
         // Safe due to the is_empty check above
+        trace!("Reusing existing database connection after wait");
         let conn = pool.connections.pop().expect("no available connections");
         ConnectionGuard {
             pool: self,

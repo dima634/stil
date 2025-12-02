@@ -1,7 +1,7 @@
 use crate::{
     db,
     hyprland::{Event, HyprEvents},
-    services::ServiceLocator,
+    service_locator::ServiceLocator,
     system_events::{SystemEvent, WindowMoved, WindowOpened, WorkspaceCreated},
 };
 use std::sync::Once;
@@ -12,6 +12,7 @@ pub fn init() {
     INIT.call_once(|| {
         setup_logging();
         db::migrate_up().expect("failed to migrate database up");
+        ServiceLocator::desktop_mut().init();
         listen_for_hyprland_events();
         info!("Stil Core initialized");
     });

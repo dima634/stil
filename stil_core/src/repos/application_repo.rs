@@ -1,4 +1,4 @@
-use crate::{db::models::Application, services::ServiceLocator};
+use crate::{db::models::Application, service_locator::ServiceLocator};
 
 #[derive(Debug, Default)]
 pub struct ApplicationRepo;
@@ -9,6 +9,15 @@ impl ApplicationRepo {
         ServiceLocator::db_conn()
             .query_one(sql, [id], |row| Application::try_from(row))
             .ok()
+    }
+
+    pub fn get_pinned(&self) -> Vec<Application> {
+        let sql = "SELECT * FROM applications WHERE is_pinned = 1";
+        let conn = ServiceLocator::db_conn();
+        let Ok(mut stmt) = conn.prepare(sql) else { return Vec::new() };
+        stmt.query_and_then([], |row| Application::try_from(row))
+            .map(|apps| apps.filter_map(Result::ok).collect())
+            .unwrap_or_default()
     }
 
     pub fn add(&self, app: &Application) -> bool {

@@ -1,4 +1,4 @@
-use crate::services::ServiceLocator;
+use crate::service_locator::ServiceLocator;
 use std::sync::{Mutex, mpsc};
 
 pub use ffi::{WindowMoved, WindowOpened, WorkspaceCreated};
@@ -10,7 +10,7 @@ pub enum SystemEvent {
     WorkspaceDestroyed(i32),
     WorkspaceFocused(i32),
     WindowOpened(WindowOpened),
-    WindowClosed(usize),
+    WindowClosed(usize), // TODO: change to Address
     WindowFocused(usize),
     WindowMoved(WindowMoved),
     Empty,
@@ -40,7 +40,7 @@ impl SystemEventDispatcher {
 
     pub fn rx(&self) -> mpsc::Receiver<SystemEvent> {
         let (tx, rx) = mpsc::channel();
-        let mut out_txs = self.out_txs.lock().expect("should not be poisoned");
+        let mut out_txs = self.out_txs.lock().expect("poisoned");
         out_txs.push(tx);
         rx
     }
@@ -48,9 +48,10 @@ impl SystemEventDispatcher {
     pub fn listen(&self, rx: mpsc::Receiver<SystemEvent>) {
         for event in rx.iter() {
             // Delegate handling of event to corresponding services
-            // TODO ...
+            // TODO: better way to do this? dispatch events from desktop?
+            ServiceLocator::desktop_mut().consume_system_event(&event);
 
-            let mut out_txs = self.out_txs.lock().expect("should not be poisoned");
+            let mut out_txs = self.out_txs.lock().expect("poisoned");
             out_txs.retain(|tx| tx.send(event.clone()).is_ok());
         }
     }

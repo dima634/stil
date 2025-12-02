@@ -1,11 +1,11 @@
-mod application;
 mod db;
+mod desktop;
 mod ffi;
 mod freedesktop;
 mod hyprland;
 mod init;
 mod repos;
-mod services;
+mod service_locator;
 mod system;
 mod system_events;
 mod workspaces;

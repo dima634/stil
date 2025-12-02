@@ -2,26 +2,21 @@
 #include "system_events.h"
 #include <QtLogging>
 #include <algorithm>
-#include <stil_core/src/ffi/hyprland.rs.h>
-#include <stil_core/src/ffi/mod.rs.h>
+#include <stil_core/src/ffi.rs.h>
 #include <stil_core/src/system_events.rs.h>
 
 QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
 {
-    auto currentState = core::get_workspaces_state();
-    std::size_t currentId = currentState->current_workspace_id();
-    const auto &workspaces = currentState->workspaces();
+    auto workspaces = core::desktop::get_workspaces();
+    std::size_t currentId = core::desktop::get_current_workspace_id();
 
     for (std::size_t i = 0; i < workspaces.size(); ++i)
     {
-        const auto &ws = workspaces[i];
-        const auto &name = QString::fromUtf8(ws.name().cbegin(), ws.name().size());
-        auto qws = new QWorkspace(ws.id(), name, this);
+        auto &ws = workspaces[i];
+        auto qws = new QWorkspace(ws.id, ws.name.c_str(), this);
         m_workspaces.append(qws);
-        m_nameToWorkspace.insert(name, qws);
-        m_idToWorkspace.insert(ws.id(), qws);
 
-        if (ws.id() == currentId)
+        if (ws.id == currentId)
         {
             m_currentWorkspace = qws;
         }
@@ -46,8 +41,6 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
             QString name = workspace.name.c_str();
             auto qws = new QWorkspace(workspace.id, name, this);
             m_workspaces.insert(insertPos, qws);
-            m_nameToWorkspace.insert(name, qws);
-            m_idToWorkspace.insert(workspace.id, qws);
             endInsertRows();
         });
 
@@ -74,25 +67,11 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
         Q_EMIT currentChanged();
     });
 
-    auto hyprWindows = core::get_hyprland_clients(); // TODO: abstract this into `app service get windows`
-
-    for (std::size_t i = 0; i < hyprWindows.size(); ++i)
-    {
-        const auto &client = hyprWindows[i];
-        QWorkspace *workspace = m_idToWorkspace.value(client.workspace());
-        Q_ASSERT(workspace != nullptr);
-        const std::size_t address = client.address();
-        const auto className = QString::fromUtf8(client.class_().cbegin(), client.class_().size());
-        auto *window = new QHyprWindow(address, className);
-        workspace->addWindow(window);
-    }
-
     connect(QSystemEvents::instance(), &QSystemEvents::windowOpen, this, [this](core::WindowOpened window) {
         const QString workspaceName = window.workspace_name.c_str();
-        QWorkspace *workspace = m_nameToWorkspace.value(workspaceName);
+        QWorkspace *workspace = findWorkspaceByName(workspaceName);
         Q_ASSERT(workspace != nullptr);
-        const QString className = window.class_name.c_str();
-        auto *client = new QHyprWindow(window.address, className);
+        auto *client = new QHyprWindow(window.address);
         workspace->addWindow(client);
     });
 
@@ -103,21 +82,14 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
             return;
         }
 
-        if (window->isPinned())
-        {
-            window->setIsRunning(false);
-        }
-        else
-        {
-            auto *removed = removeWindow(windowAddress);
-            removed->deleteLater();
-        }
+        auto *removed = removeWindow(windowAddress);
+        removed->deleteLater();
     });
 
     connect(QSystemEvents::instance(), &QSystemEvents::windowMoved, this, [this](core::WindowMoved event) {
         QHyprWindow *movedWindow = removeWindow(event.address);
         Q_ASSERT(movedWindow != nullptr);
-        QWorkspace *newWorkspace = m_idToWorkspace.value(event.workspace_id);
+        QWorkspace *newWorkspace = findWorkspaceByName(event.workspace_name.c_str());
         Q_ASSERT(newWorkspace != nullptr);
         newWorkspace->addWindow(movedWindow);
     });
@@ -182,8 +154,6 @@ bool QWorkspaces::removeWorkspace(std::int32_t workspaceId)
     }
 
     workspace->deleteLater();
-    m_nameToWorkspace.remove(workspace->getName());
-    m_idToWorkspace.remove(workspaceId);
     m_workspaces.erase(it);
 
     endRemoveRows();
@@ -212,6 +182,18 @@ QHyprWindow *QWorkspaces::findWindowByAddress(std::size_t address) const
         if (window)
         {
             return window;
+        }
+    }
+    return nullptr;
+}
+
+QWorkspace *QWorkspaces::findWorkspaceByName(const QString &name) const
+{
+    for (auto *workspace : m_workspaces)
+    {
+        if (workspace->getName() == name)
+        {
+            return workspace;
         }
     }
     return nullptr;

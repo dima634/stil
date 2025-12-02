@@ -1,6 +1,6 @@
 use super::Hyprland;
 use serde::{Deserialize, de::DeserializeOwned};
-use std::{io::Read, os::unix::net::UnixStream};
+use std::{fmt::Display, io::Read, os::unix::net::UnixStream};
 use tracing::warn;
 
 #[derive(Debug)]
@@ -10,8 +10,14 @@ pub enum EventParseErr {
     Malformed,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Address(pub usize);
+
+impl Display for Address {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:x}", self.0)
+    }
+}
 
 impl<'de> Deserialize<'de> for Address {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>

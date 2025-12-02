@@ -1,4 +1,4 @@
-use crate::{db::models, services::ServiceLocator};
+use crate::{db::models, service_locator::ServiceLocator};
 use rusqlite::params;
 use tracing::trace;
 

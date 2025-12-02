@@ -1,5 +1,5 @@
 mod dbus {
-    use crate::services::ServiceLocator;
+    use crate::service_locator::ServiceLocator;
 
     #[zbus::proxy(
         default_service = "org.freedesktop.login1",
@@ -33,7 +33,7 @@ mod dbus {
 }
 
 mod cpu {
-    use crate::services::ServiceLocator;
+    use crate::service_locator::ServiceLocator;
 
     pub fn get_usage() -> ffi::CpuUsage {
         let mut system = ServiceLocator::system_info();
@@ -91,7 +91,7 @@ mod cpu {
 }
 
 mod memory {
-    use crate::services::ServiceLocator;
+    use crate::service_locator::ServiceLocator;
 
     pub fn get_memory_usage() -> ffi::MemoryUsage {
         let mut system = ServiceLocator::system_info();
