@@ -1,10 +1,9 @@
 #include "cpu.h"
 #include <stil_core/src/system.rs.h>
 
-QCpu::QCpu(QObject *parent) : QObject(parent)
+QCpu::QCpu(QObject *parent) : QObject(parent), m_timer(new QTimer(this))
 {
     m_brand = core::cpu::get_brand().c_str();
-    m_timer = new QTimer(this);
     m_timer->setInterval(m_updateIntervalMs);
 
     connect(m_timer, &QTimer::timeout, this, [this]() {
@@ -14,7 +13,7 @@ QCpu::QCpu(QObject *parent) : QObject(parent)
         m_usagePerCore.clear();
         for (std::size_t i = 0; i < usage.num_cores; ++i)
         {
-            m_usagePerCore.append(usage.cores[i]);
+            m_usagePerCore.append(usage.cores.at(i));
         }
 
         m_temperature = core::cpu::get_temp();

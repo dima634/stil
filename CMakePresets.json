@@ -12,6 +12,7 @@
                 "CMAKE_C_COMPILER": "/usr/bin/clang",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
                 "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_CLANG_TIDY": "clang-tidy",
                 "STIL_CORE_LIB_DIR": "${sourceDir}/target/debug"
             }
         },
@@ -26,6 +27,7 @@
                 "CMAKE_C_COMPILER": "/usr/bin/clang",
                 "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
                 "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_CLANG_TIDY": "clang-tidy",
                 "STIL_CORE_LIB_DIR": "${sourceDir}/target/release"
             }
         }

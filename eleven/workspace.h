@@ -14,7 +14,7 @@ class QWorkspace : public QObject
     Q_PROPERTY(const QWindows *windows READ getWindows CONSTANT)
 
   public:
-    explicit QWorkspace(std::int32_t id, const QString &name, QObject *parent = nullptr);
+    explicit QWorkspace(std::int32_t id, QString name, QObject *parent = nullptr);
 
     std::int32_t getId() const;
     const QString &getName() const;

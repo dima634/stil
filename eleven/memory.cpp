@@ -1,9 +1,8 @@
 #include "memory.h"
 #include <stil_core/src/system.rs.h>
 
-QMemory::QMemory(QObject *parent) : QObject(parent)
+QMemory::QMemory(QObject *parent) : QObject(parent), m_timer(new QTimer(this))
 {
-    m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, [this]() {
         auto usage = core::memory::get_memory_usage();
         m_totalRam = usage.totalRam;

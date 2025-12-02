@@ -12,6 +12,16 @@ set_source_files_properties(
     QT_QML_SINGLETON_TYPE TRUE
 )
 
+# Skip linting for generated sources
+file(GLOB_RECURSE CXXBRIDGE_FILES
+    "../target/**/*.cc"
+)
+set_source_files_properties(
+    ${CXXBRIDGE_FILES}
+    PROPERTIES
+    SKIP_LINTING ON
+)
+
 qt_add_qml_module(eleven
     URI eleven
     VERSION 1.0

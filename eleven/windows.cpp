@@ -17,17 +17,17 @@ QVariant QWindows::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_windows.count())
     {
-        return QVariant();
+        return QVariant{};
     }
 
-    QHyprWindow *window = m_windows.at(index.row());
-
-    switch (role)
+    if (role == Qt::DisplayRole)
     {
-    case Qt::DisplayRole:
+        QHyprWindow *window = m_windows.at(index.row());
         return QVariant::fromValue(window);
-    default:
-        return QVariant();
+    }
+    else
+    {
+        return QVariant{};
     }
 }
 
@@ -52,8 +52,8 @@ QHyprWindow *QWindows::getByAddress(std::size_t address) const
 
 QHyprWindow *QWindows::removeWindow(std::size_t address)
 {
-    auto it = std::find_if(m_windows.begin(), m_windows.end(),
-                           [address](const QHyprWindow *window) { return window->getAddress() == address; });
+    auto it = std::ranges::find_if(m_windows,
+                                   [address](const QHyprWindow *window) { return window->getAddress() == address; });
 
     if (it != m_windows.end())
     {

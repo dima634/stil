@@ -1,14 +1,13 @@
 #include "workspace.h"
 #include <stil_core/src/ffi.rs.h>
 
-QWorkspace::QWorkspace(std::int32_t id, const QString &name, QObject *parent)
-    : QObject(parent), m_id(id), m_name(name), m_windows(this)
+QWorkspace::QWorkspace(std::int32_t id, QString name, QObject *parent)
+    : QObject(parent), m_id(id), m_name(std::move(name)), m_windows(this)
 {
     auto windows = core::desktop::get_workspace_windows(id);
-    for (std::size_t i = 0; i < windows.size(); ++i)
+    for (auto windowAddress : windows)
     {
-        const std::size_t address = windows[i];
-        auto *window = new QHyprWindow(address, this);
+        auto *window = new QHyprWindow(windowAddress, this);
         m_windows.addWindow(window);
     }
 }

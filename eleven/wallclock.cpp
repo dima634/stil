@@ -1,9 +1,7 @@
 #include "wallclock.h"
 
-QWallclock::QWallclock(QObject *parent) : QObject(parent)
+QWallclock::QWallclock(QObject *parent) : QObject(parent), m_ymd{}
 {
-    using namespace std::chrono;
-
     updateTime();
     scheduleNextUpdate();
 }
