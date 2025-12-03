@@ -44,9 +44,6 @@ QWorkspaces::QWorkspaces(QObject *parent) : QAbstractListModel(parent)
             });
 
     connect(QSystemEvents::instance(), &QSystemEvents::workspaceRemoved, this, [this](std::int32_t workspaceId) {
-        auto it =
-            std::ranges::find_if(m_workspaces, [workspaceId](QWorkspace *ws) { return ws->getId() == workspaceId; });
-
         if (!removeWorkspace(workspaceId))
         {
             qWarning() << "Workspace" << workspaceId << "not found for removal";
