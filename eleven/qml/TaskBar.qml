@@ -45,16 +45,18 @@ PanelWindow {
                 Layout.fillHeight: true
                 implicitWidth: 2
 
-                WindowList {
+                Row {
                     x: (parent.width - width) / 2
-                    anchors.verticalCenter: parent.verticalCenter
-                    model: QWorkspaces.current ? QWorkspaces.current.windows : null
+                    spacing: 2
 
-                    Behavior on x {
-                        NumberAnimation {
-                            duration: 150
-                            easing.type: Easing.OutCubic
-                        }
+                    PinnedAppsList {
+                        anchors.verticalCenter: parent.verticalCenter
+                        model: QPinnedApps
+                    }
+
+                    WindowList {
+                        anchors.verticalCenter: parent.verticalCenter
+                        model: QWorkspaces.current ? QWorkspaces.current.windows : null
                     }
                 }
             }

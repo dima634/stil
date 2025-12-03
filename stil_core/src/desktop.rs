@@ -64,6 +64,11 @@ pub struct App {
 
 impl App {
     #[inline]
+    pub fn name(&self) -> &String {
+        &self.desktop_entry.name
+    }
+
+    #[inline]
     pub fn icon_path(&self) -> Option<&std::path::PathBuf> {
         self.icon_path.as_ref()
     }
@@ -85,6 +90,9 @@ pub struct Desktop {
 impl Desktop {
     pub fn init(&mut self) {
         let pinned_apps = repos::ApplicationRepo::default().get_pinned();
+
+        tracing::trace!("Pinned apps: {:?}", pinned_apps);
+
         let desktop_entries = freedesktop::find_application_desktop_entries();
         let mut icon_lookup = freedesktop::IconLookup::default();
         let apps = desktop_entries
@@ -227,6 +235,10 @@ impl Desktop {
     #[inline]
     pub fn get_app(&self, app_id: &str) -> Option<&App> {
         self.applications.iter().find(|app| app.desktop_entry.id == app_id)
+    }
+
+    pub fn get_pinned_apps(&self) -> impl Iterator<Item = &App> {
+        self.applications.iter().filter(|app| app.is_pinned())
     }
 }
 

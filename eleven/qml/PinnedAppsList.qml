@@ -32,9 +32,7 @@ ListView {
 
     delegate: TaskbarButton {
         id: template
-        required property var window
-        highlighted: window.focused
-        statusBar: window.focused ? TaskbarButton.StatusBar.Focused : (window.running ? TaskbarButton.StatusBar.Active : TaskbarButton.StatusBar.Hidden)
+        required property var app
         width: 28
         height: 28
 
@@ -42,7 +40,7 @@ ListView {
             anchors.centerIn: parent
             width: parent.width - 6
             height: width
-            source: template.window.iconPath
+            source: template.app.icon
         }
     }
 }

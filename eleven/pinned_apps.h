@@ -1,27 +1,24 @@
 #pragma once
 
-#include "window.h"
+#include "app.h"
 #include <QAbstractListModel>
 #include <QtQmlIntegration>
 
-class QWindows : public QAbstractListModel
+class QPinnedApps : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_UNCREATABLE("Clients are managed by Hyprland")
+    QML_SINGLETON
+    QML_UNCREATABLE("Cannot be created in QML")
 
   public:
-    explicit QWindows(QObject *parent = nullptr);
+    explicit QPinnedApps(QObject *parent = nullptr);
 
     // QAbstractListModel interface
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    QHyprWindow *getByAddress(std::size_t address) const;
-    QHyprWindow *removeWindow(std::size_t address);
-    void addWindow(QHyprWindow *window);
-
   private:
-    QList<QHyprWindow *> m_windows;
+    QList<QApp *> m_apps;
 };

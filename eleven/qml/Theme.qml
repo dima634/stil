@@ -4,7 +4,7 @@ import QtQuick
 import "." as Eleven
 
 Singleton {
-    readonly property color shellBackground: Css.hex("f3f3f3", 0.9)
+    readonly property color shellBackground: '#c5f3f3f3'
     readonly property color workspaceActive: '#4f003f92'
     readonly property color workspace: '#4fffffff'
 

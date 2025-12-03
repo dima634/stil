@@ -30,6 +30,8 @@ qt_add_qml_module(eleven
         workspace.h workspace.cpp
         workspaces.h workspaces.cpp
         window.h window.cpp
+        app.h app.cpp
+        pinned_apps.h pinned_apps.cpp
         windows.h windows.cpp
         wallclock.h wallclock.cpp
         cpu.h cpu.cpp
@@ -47,6 +49,7 @@ qt_add_qml_module(eleven
         qml/TaskbarButton.qml
         qml/WorkspaceList.qml
         qml/WindowList.qml
+        qml/PinnedAppsList.qml
         qml/SystemTray.qml
         qml/PowerControlMenu.qml
         qml/Flyout.qml

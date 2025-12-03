@@ -15,12 +15,18 @@ mod ffi {
         pub is_focused: bool,
     }
 
+    struct App {
+        pub name: String,
+        pub icon: String,
+    }
+
     extern "Rust" {
         /// Returns list of windows (addresses) in the given workspace
         fn get_workspace_windows(workspace_id: i32) -> Vec<usize>;
         fn get_workspaces() -> Vec<Workspace>;
         fn get_current_workspace_id() -> i32;
         fn get_window(address: usize) -> Result<Window>;
+        fn get_pinned_apps() -> Vec<App>;
     }
 }
 
@@ -66,4 +72,20 @@ fn get_window(address: usize) -> Result<ffi::Window, &'static str> {
             }
         })
         .ok_or("window not found")
+}
+
+fn get_pinned_apps() -> Vec<ffi::App> {
+    ServiceLocator::desktop()
+        .get_pinned_apps()
+        .map(|app| {
+            let icon = app
+                .icon_path()
+                .map(|icon_path| icon_path.to_string_lossy().to_string())
+                .unwrap_or_default();
+            ffi::App {
+                name: app.name().clone(),
+                icon,
+            }
+        })
+        .collect()
 }
