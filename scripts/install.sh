@@ -2,7 +2,7 @@
 
 set -e
 
-BUILD_TYPE="${1:-debug}"
+BUILD_TYPE="${1:-dev}"
 
 source $(dirname "$0")/build.sh ${BUILD_TYPE}
 
