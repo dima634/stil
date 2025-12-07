@@ -90,9 +90,6 @@ pub struct Desktop {
 impl Desktop {
     pub fn init(&mut self) {
         let pinned_apps = repos::ApplicationRepo::default().get_pinned();
-
-        tracing::trace!("Pinned apps: {:?}", pinned_apps);
-
         let desktop_entries = freedesktop::find_application_desktop_entries();
         let mut icon_lookup = freedesktop::IconLookup::default();
         let apps = desktop_entries

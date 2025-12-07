@@ -10,3 +10,4 @@
 - Anyhow?
 - refactor init.rs
 - Dispatch system events from Desktop?
+- get rid of csv crate
