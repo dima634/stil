@@ -295,6 +295,10 @@ impl Desktop {
             WindowMoved(window_moved) => {
                 self.move_window_to_workspace(hyprland::Address(window_moved.address), window_moved.workspace_id)
             }
+            KeyboardLayoutChanged(layout_name) => {
+                // Handle keyboard layout change if needed
+                warn!("TODO: handle me, keyboard layout changed to {}", layout_name);
+            }
             Empty => {}
         }
     }

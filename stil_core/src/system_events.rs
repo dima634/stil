@@ -13,6 +13,7 @@ pub enum SystemEvent {
     WindowClosed(usize), // TODO: change to Address
     WindowFocused(usize),
     WindowMoved(WindowMoved),
+    KeyboardLayoutChanged(String),
     Empty,
 }
 
@@ -87,6 +88,7 @@ mod ffi {
         WindowClose,
         WindowMoved,
         WindowFocused,
+        KeyboardLayoutChanged,
         Empty,
     }
 
@@ -101,6 +103,7 @@ mod ffi {
         fn window_closed(&mut self) -> Result<usize>;
         fn window_moved(&mut self) -> Result<WindowMoved>;
         fn window_focused(&mut self) -> Result<usize>;
+        fn keyboard_layout_changed(&mut self) -> Result<String>;
     }
 
     extern "Rust" {
@@ -124,6 +127,7 @@ impl From<&SystemEvent> for ffi::EventKind {
             SystemEvent::WindowClosed(_) => EventKind::WindowClose,
             SystemEvent::WindowMoved(_) => EventKind::WindowMoved,
             SystemEvent::WindowFocused(_) => EventKind::WindowFocused,
+            SystemEvent::KeyboardLayoutChanged(_) => EventKind::KeyboardLayoutChanged,
             _ => EventKind::Empty,
         }
     }
@@ -160,6 +164,7 @@ impl Event {
     event_accessor!(window_closed, usize, WindowClosed);
     event_accessor!(window_moved, WindowMoved, WindowMoved);
     event_accessor!(window_focused, usize, WindowFocused);
+    event_accessor!(keyboard_layout_changed, String, KeyboardLayoutChanged);
 }
 
 /// Wrapper around SystemEventDispatcher for FFI

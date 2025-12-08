@@ -31,6 +31,9 @@ QSystemEvents::QSystemEvents()
             case core::EventKind::WindowFocused:
                 Q_EMIT QSystemEvents::instance()->windowFocused(event->window_focused());
                 break;
+            case core::EventKind::KeyboardLayoutChanged:
+                Q_EMIT QSystemEvents::instance()->keyboardLayoutChanged(event->keyboard_layout_changed().c_str());
+                break;
             default:
                 break;
             }

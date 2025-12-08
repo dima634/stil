@@ -61,6 +61,12 @@ pub struct OpenWindow {
     pub window_title: String,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+pub struct ActiveLayout {
+    pub keyboard_name: String,
+    pub layout_name: String,
+}
+
 #[derive(Debug, Clone)]
 pub enum Event {
     OpenWindow(OpenWindow),
@@ -70,6 +76,7 @@ pub enum Event {
     DestroyWorkspace(WorkspaceV2),
     FocusWorkspace(WorkspaceV2),
     MoveWindowV2(MoveWindowV2),
+    ActiveLayout(ActiveLayout),
 }
 
 impl TryFrom<&String> for Event {
@@ -86,6 +93,7 @@ impl TryFrom<&String> for Event {
             "workspacev2" => Event::FocusWorkspace(parse_event(data)?),
             "createworkspacev2" => Event::CreateWorkspace(parse_event(data)?),
             "destroyworkspacev2" => Event::DestroyWorkspace(parse_event(data)?),
+            "activelayout" => Event::ActiveLayout(parse_event(data)?),
             _ => return Err(EventParseErr::UnknownEvent(name.to_string())),
         };
 

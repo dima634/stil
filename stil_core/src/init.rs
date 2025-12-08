@@ -46,6 +46,7 @@ fn listen_for_hyprland_events() {
                     }),
                     Event::DestroyWorkspace(workspace_v2) => SystemEvent::WorkspaceDestroyed(workspace_v2.id),
                     Event::FocusWorkspace(workspace_v2) => SystemEvent::WorkspaceFocused(workspace_v2.id),
+                    Event::ActiveLayout(active_layout) => SystemEvent::KeyboardLayoutChanged(active_layout.layout_name),
                 };
 
                 if tx.send(system_event).is_err() {

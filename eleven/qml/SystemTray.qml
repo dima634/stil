@@ -113,6 +113,18 @@ FlexboxLayout {
         }
     }
 
+    TaskbarButton {
+        implicitWidth: keyboardLayoutText.implicitWidth + 10
+        implicitHeight: 28
+
+        Text {
+            id: keyboardLayoutText
+            anchors.centerIn: parent
+            text: QKeyboard.currentLayout
+            font.pixelSize: 10
+        }
+    }
+
     // Clock
     TaskbarButton {
         implicitWidth: clock.implicitWidth + 10

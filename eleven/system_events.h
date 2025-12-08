@@ -19,4 +19,5 @@ class QSystemEvents : public QObject
     void windowClose(std::size_t windowAddress);
     void windowMoved(core::WindowMoved event);
     void windowFocused(std::size_t windowAddress);
+    void keyboardLayoutChanged(QString layoutName);
 };

@@ -1,13 +1,15 @@
 mod active_window;
 mod active_workspace;
 mod clients;
+mod devices;
 mod exec;
 mod workspaces;
 
 pub use active_window::*;
 pub use active_workspace::*;
 pub use clients::*;
-pub use exec::Exec;
+pub use devices::*;
+pub use exec::*;
 pub use workspaces::*;
 
 use super::Hyprland;
