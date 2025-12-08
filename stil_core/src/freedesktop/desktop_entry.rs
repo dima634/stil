@@ -1,4 +1,15 @@
 use std::{io::BufRead, path::PathBuf};
+use tracing::warn;
+
+#[derive(Debug)]
+pub struct DesktopEntry {
+    pub ty: Type,
+    pub id: String,
+    pub name: String,
+    pub exec: Exec,
+    pub icon: Option<String>,
+    pub wm_class: Option<String>,
+}
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Type {
@@ -8,13 +19,65 @@ pub enum Type {
 }
 
 #[derive(Debug)]
-pub struct DesktopEntry {
-    pub ty: Type,
-    pub id: String,
-    pub name: String,
-    pub exec: String,
-    pub icon: Option<String>,
-    pub wm_class: Option<String>,
+pub struct Exec(String);
+
+#[derive(Debug)]
+pub enum FileArg {
+    Single(String),
+    Multiple(Vec<String>),
+    Url(String),
+    Urls(Vec<String>),
+    None,
+}
+
+impl Exec {
+    pub fn with_arg(&self, arg: FileArg) -> String {
+        let mut look_behind = '\0';
+        let mut result = String::with_capacity(self.0.len());
+
+        for cur in self.0.chars() {
+            match (look_behind, cur) {
+                ('%', 'f') => {
+                    if let FileArg::Single(file) = &arg {
+                        result.push_str(file);
+                    }
+                }
+                ('%', 'F') => {
+                    if let FileArg::Multiple(files) = &arg {
+                        result.push_str(&files.join(" "));
+                    }
+                }
+                ('%', 'u') => {
+                    if let FileArg::Url(url) = &arg {
+                        result.push_str(url);
+                    }
+                }
+                ('%', 'U') => {
+                    if let FileArg::Urls(urls) = &arg {
+                        result.push_str(&urls.join(" "));
+                    }
+                }
+                ('%', '%') => {
+                    result.push('%');
+                }
+                ('%', _) => {
+                    warn!("Unknown exec field specifier: %{}", cur);
+                }
+                (_, '%') => {
+                    look_behind = '%';
+                    continue;
+                }
+                (_, curr) => {
+                    result.push(curr);
+                    look_behind = curr;
+                    continue;
+                }
+            }
+            look_behind = '\0';
+        }
+
+        result.trim().to_string()
+    }
 }
 
 pub fn find_application_desktop_entries() -> Vec<DesktopEntry> {
@@ -98,7 +161,7 @@ fn parse_desktop_entry_file(path: PathBuf) -> Option<DesktopEntry> {
         wm_class,
         ty: ty?,
         name: name?,
-        exec: exec?,
+        exec: Exec(exec?),
     })
 }
 
@@ -109,9 +172,29 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_parse_desktop_entry_file() {
-        for ent in find_application_desktop_entries() {
-            println!("{:?}\n", ent); // TODO: remove
-        }
+    fn test_exec_with_arg() {
+        let single_file_arg = Exec("myapp %f".to_string());
+        assert_eq!(
+            single_file_arg.with_arg(FileArg::Single("file.txt".to_string())),
+            "myapp file.txt"
+        );
+
+        let multiple_files_arg = Exec("myapp %F".to_string());
+        assert_eq!(
+            multiple_files_arg.with_arg(FileArg::Multiple(vec![
+                "file1.txt".to_string(),
+                "file2.txt".to_string()
+            ])),
+            "myapp file1.txt file2.txt"
+        );
+
+        let escaped_percent_arg = Exec("myapp %% --option %f".to_string());
+        assert_eq!(
+            escaped_percent_arg.with_arg(FileArg::Single("file.txt".to_string())),
+            "myapp % --option file.txt"
+        );
+
+        let none_arg = Exec("myapp --option %f %u".to_string());
+        assert_eq!(none_arg.with_arg(FileArg::None), "myapp --option");
     }
 }

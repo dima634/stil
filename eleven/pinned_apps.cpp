@@ -5,13 +5,11 @@ QPinnedApps::QPinnedApps(QObject *parent) : QAbstractListModel(parent)
 {
     auto pinnedApps = core::desktop::get_pinned_apps();
 
-    qInfo() << "Loaded" << pinnedApps.size() << "pinned apps";
-
     for (auto app : pinnedApps)
     {
         QString icon = app.icon.c_str();
         icon.prepend("file://");
-        auto *application = new QApp(app.name.c_str(), app.name.c_str(), icon, this);
+        auto *application = new QApp(app.id.c_str(), app.name.c_str(), icon, this);
         m_apps.append(application);
     }
 }

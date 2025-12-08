@@ -16,6 +16,7 @@ mod ffi {
     }
 
     struct App {
+        pub id: String,
         pub name: String,
         pub icon: String,
     }
@@ -27,6 +28,7 @@ mod ffi {
         fn get_current_workspace_id() -> i32;
         fn get_window(address: usize) -> Result<Window>;
         fn get_pinned_apps() -> Vec<App>;
+        fn launch_app(app_id: &str) -> bool;
     }
 }
 
@@ -83,9 +85,14 @@ fn get_pinned_apps() -> Vec<ffi::App> {
                 .map(|icon_path| icon_path.to_string_lossy().to_string())
                 .unwrap_or_default();
             ffi::App {
+                id: app.id().clone(),
                 name: app.name().clone(),
                 icon,
             }
         })
         .collect()
+}
+
+fn launch_app(app_id: &str) -> bool {
+    ServiceLocator::desktop().launch_app(app_id).is_some()
 }

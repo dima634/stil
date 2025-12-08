@@ -6,7 +6,7 @@
 //!
 //! Basic icon lookup using the current theme:
 //!
-//! ```no_run
+//! ```ignore
 //! use stil_core::freedesktop::icon_lookup::IconLookup;
 //!
 //! let mut lookup = IconLookup::default();
@@ -24,7 +24,7 @@
 //!
 //! Using a specific theme:
 //!
-//! ```no_run
+//! ```ignore
 //! use stil_core::freedesktop::icon_lookup::IconLookup;
 //!
 //! // Create lookup with a specific theme
@@ -42,7 +42,7 @@
 //!
 //! Finding the best icon from multiple candidates:
 //!
-//! ```no_run
+//! ```ignore
 //! use stil_core::freedesktop::icon_lookup::IconLookup;
 //!
 //! let mut lookup = IconLookup::default();

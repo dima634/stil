@@ -41,6 +41,13 @@ ListView {
             width: parent.width - 6
             height: width
             source: template.app.icon
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    QSystem.launchApp(template.app.appId);
+                }
+            }
         }
     }
 }

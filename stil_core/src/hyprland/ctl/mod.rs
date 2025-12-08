@@ -1,11 +1,13 @@
 mod active_window;
 mod active_workspace;
 mod clients;
+mod exec;
 mod workspaces;
 
 pub use active_window::*;
 pub use active_workspace::*;
 pub use clients::*;
+pub use exec::Exec;
 pub use workspaces::*;
 
 use super::Hyprland;
@@ -16,6 +18,25 @@ use std::{
 
 pub trait HyprCtlCmd: ToString {
     type Response<'str>: TryFrom<&'str str>;
+}
+
+#[derive(Debug)]
+pub struct EmptyResponse;
+
+impl ToString for EmptyResponse {
+    #[inline]
+    fn to_string(&self) -> String {
+        String::new()
+    }
+}
+
+impl TryFrom<&str> for EmptyResponse {
+    type Error = ();
+
+    #[inline]
+    fn try_from(_: &str) -> Result<Self, Self::Error> {
+        Ok(EmptyResponse)
+    }
 }
 
 #[derive(Debug, Default)]

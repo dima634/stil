@@ -64,6 +64,11 @@ pub struct App {
 
 impl App {
     #[inline]
+    pub fn id(&self) -> &String {
+        &self.desktop_entry.id
+    }
+
+    #[inline]
     pub fn name(&self) -> &String {
         &self.desktop_entry.name
     }
@@ -236,6 +241,16 @@ impl Desktop {
 
     pub fn get_pinned_apps(&self) -> impl Iterator<Item = &App> {
         self.applications.iter().filter(|app| app.is_pinned())
+    }
+
+    pub fn launch_app(&self, app_id: &str) -> Option<()> {
+        let Some(app) = self.get_app(app_id) else {
+            warn!("Could not find app with id '{}'", app_id);
+            return None;
+        };
+
+        let cmd = app.desktop_entry.exec.with_arg(freedesktop::FileArg::None);
+        hyprland::HyprCtl::default().run(hyprland::Exec::new(cmd)).map(|_| ())
     }
 }
 

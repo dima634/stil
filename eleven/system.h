@@ -12,4 +12,5 @@ class QSystem : public QObject
   public:
     Q_INVOKABLE bool poweroff() const;
     Q_INVOKABLE bool reboot() const;
+    Q_INVOKABLE bool launchApp(const QString &appId) const;
 };
