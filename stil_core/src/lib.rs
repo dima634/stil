@@ -4,6 +4,7 @@ mod ffi;
 mod freedesktop;
 mod hyprland;
 mod init;
+mod keyboard;
 mod repos;
 mod service_locator;
 mod system;

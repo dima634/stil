@@ -1,21 +1,21 @@
 use super::{EmptyResponse, HyprCtlCmd};
 
 #[derive(Debug)]
-pub struct Exec(String);
+pub struct ExecCmd(String);
 
-impl Exec {
+impl ExecCmd {
     #[inline]
     pub fn new(cmd: String) -> Self {
         Self(cmd)
     }
 }
 
-impl ToString for Exec {
+impl ToString for ExecCmd {
     fn to_string(&self) -> String {
         format!("dispatch exec {}", self.0)
     }
 }
 
-impl HyprCtlCmd for Exec {
+impl HyprCtlCmd for ExecCmd {
     type Response<'a> = EmptyResponse;
 }

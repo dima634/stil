@@ -1,4 +1,4 @@
-use crate::{freedesktop, hyprland, repos, system_events};
+use crate::{freedesktop, hyprland, keyboard, repos, system_events};
 use tracing::warn;
 
 #[derive(Debug, Default)]
@@ -90,6 +90,7 @@ pub struct Desktop {
     workspaces: WorkspaceVec,
     windows: WindowVec,
     applications: Vec<App>,
+    keyboard_manager: keyboard::KeyboardManager,
 }
 
 impl Desktop {
@@ -141,6 +142,8 @@ impl Desktop {
             .unwrap_or(i32::MAX);
         self.windows = WindowVec(windows);
         self.workspaces = WorkspaceVec(workspaces);
+
+        self.keyboard_manager.init();
     }
 
     fn find_app_by_wmclass(&self, wm_class: &str) -> Option<&App> {
@@ -250,7 +253,9 @@ impl Desktop {
         };
 
         let cmd = app.desktop_entry.exec.with_arg(freedesktop::FileArg::None);
-        hyprland::HyprCtl::default().run(hyprland::Exec::new(cmd)).map(|_| ())
+        hyprland::HyprCtl::default()
+            .run(hyprland::ExecCmd::new(cmd))
+            .map(|_| ())
     }
 }
 

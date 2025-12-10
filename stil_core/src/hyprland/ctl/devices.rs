@@ -26,13 +26,16 @@ impl TryFrom<&str> for Devices {
     }
 }
 
-impl ToString for Devices {
+#[derive(Debug)]
+pub struct GetDevicesCmd;
+
+impl ToString for GetDevicesCmd {
     #[inline]
     fn to_string(&self) -> String {
         "-j/devices".to_string()
     }
 }
 
-impl HyprCtlCmd for Devices {
+impl HyprCtlCmd for GetDevicesCmd {
     type Response<'a> = Devices;
 }
