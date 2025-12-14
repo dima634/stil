@@ -1,6 +1,5 @@
 mod db;
 mod desktop;
-mod ffi;
 mod freedesktop;
 mod hyprland;
 mod init;
@@ -13,10 +12,3 @@ mod workspaces;
 
 pub use db::{migrate_down, migrate_up};
 pub use init::init;
-
-#[cxx::bridge(namespace = "core")]
-mod libffi {
-    extern "Rust" {
-        fn init();
-    }
-}

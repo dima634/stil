@@ -22,24 +22,21 @@ mod dbus {
             .and_then(|proxy| proxy.reboot(true))
             .is_ok()
     }
-
-    #[cxx::bridge(namespace = "core::system")]
-    mod ffi {
-        extern "Rust" {
-            fn power_off() -> bool;
-            fn reboot() -> bool;
-        }
-    }
 }
 
 mod cpu {
     use crate::service_locator::ServiceLocator;
 
-    pub fn get_usage() -> ffi::CpuUsage {
+    pub struct CpuUsage {
+        pub cores: [f32; 64], // avoid allocation
+        pub num_cores: usize,
+        pub total: f32,
+    }
+    pub fn get_usage() -> CpuUsage {
         let mut system = ServiceLocator::system_info();
         system.refresh_cpu_usage();
 
-        let mut usage = ffi::CpuUsage {
+        let mut usage = CpuUsage {
             cores: [0.0; _],
             num_cores: system.cpus().len(),
             total: system.global_cpu_usage(),
@@ -73,55 +70,33 @@ mod cpu {
             .first()
             .map_or("Unknown".to_string(), |cpu| cpu.brand().to_string())
     }
-
-    #[cxx::bridge(namespace = "core::cpu")]
-    mod ffi {
-        pub struct CpuUsage {
-            pub cores: [f32; 64], // avoid allocation
-            pub num_cores: usize,
-            pub total: f32,
-        }
-
-        extern "Rust" {
-            fn get_usage() -> CpuUsage;
-            fn get_brand() -> String;
-            fn get_temp() -> f32;
-        }
-    }
 }
 
 mod memory {
     use crate::service_locator::ServiceLocator;
 
-    pub fn get_memory_usage() -> ffi::MemoryUsage {
+    pub struct MemoryUsage {
+        pub total_ram: u64,
+        pub used_ram: u64,
+        pub free_ram: u64,
+        pub available_ram: u64,
+        pub total_swap: u64,
+        pub used_swap: u64,
+        pub free_swap: u64,
+    }
+
+    pub fn get_memory_usage() -> MemoryUsage {
         let mut system = ServiceLocator::system_info();
         system.refresh_memory();
 
-        ffi::MemoryUsage {
-            totalRam: system.total_memory(),
-            usedRam: system.used_memory(),
-            freeRam: system.free_memory(),
-            availableRam: system.available_memory(),
-            totalSwap: system.total_swap(),
-            usedSwap: system.used_swap(),
-            freeSwap: system.free_swap(),
-        }
-    }
-
-    #[cxx::bridge(namespace = "core::memory")]
-    mod ffi {
-        pub struct MemoryUsage {
-            pub totalRam: u64,
-            pub usedRam: u64,
-            pub freeRam: u64,
-            pub availableRam: u64,
-            pub totalSwap: u64,
-            pub usedSwap: u64,
-            pub freeSwap: u64,
-        }
-
-        extern "Rust" {
-            fn get_memory_usage() -> MemoryUsage;
+        MemoryUsage {
+            total_ram: system.total_memory(),
+            used_ram: system.used_memory(),
+            free_ram: system.free_memory(),
+            available_ram: system.available_memory(),
+            total_swap: system.total_swap(),
+            used_swap: system.used_swap(),
+            free_swap: system.free_swap(),
         }
     }
 }
