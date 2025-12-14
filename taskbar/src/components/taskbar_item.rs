@@ -95,14 +95,5 @@ mod imp {
 
     impl WidgetImpl for TaskbarItem {}
 
-    impl ButtonImpl for TaskbarItem {
-        fn clicked(&self) {
-            let obj = self.obj();
-            match obj.status_bar() {
-                StatusBar::Hidden => obj.set_status_bar(StatusBar::Active),
-                StatusBar::Active => obj.set_status_bar(StatusBar::Focused),
-                StatusBar::Focused => obj.set_status_bar(StatusBar::Hidden),
-            }
-        }
-    }
+    impl ButtonImpl for TaskbarItem {}
 }
