@@ -1,7 +1,19 @@
+window {
+    border-radius: 8px;
+    background-color: transparent;
+}
+
 .taskbar {
     background-color: rgba(243, 243, 243, 0.7);
     border: 1px solid rgba(117, 117, 117, 0.4);
-    border-radius: 8px;
+
+    .widgets {
+        background-color: orange;
+    }
+
+    .system-tray {
+        background-color: violet;
+    }
 }
 
 .taskbar-item {
