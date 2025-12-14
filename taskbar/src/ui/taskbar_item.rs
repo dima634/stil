@@ -53,13 +53,18 @@ mod imp {
 
             let status_box_focused_width = 20;
             let status_box_active_width = 12;
-            let status_box = gtk4::Box::new(gtk4::Orientation::Horizontal, 0);
-            status_box.add_css_class("status");
-            status_box.set_size_request(status_box_active_width, 3);
-            status_box.set_halign(gtk4::Align::Center);
+            let status_box = gtk4::Box::builder()
+                .orientation(gtk4::Orientation::Horizontal)
+                .css_classes(["status"])
+                .width_request(status_box_active_width)
+                .height_request(3)
+                .halign(gtk4::Align::Center)
+                .build();
 
-            let vbox = gtk4::Box::new(gtk4::Orientation::Vertical, 0);
-            vbox.set_valign(gtk4::Align::End);
+            let vbox = gtk4::Box::builder()
+                .orientation(gtk4::Orientation::Vertical)
+                .valign(gtk4::Align::End)
+                .build();
             vbox.append(&status_box);
 
             let obj = self.obj();
