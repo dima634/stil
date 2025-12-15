@@ -28,15 +28,27 @@ mod imp {
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
-    use std::cell::Cell;
+    use std::cell::{Cell, RefCell};
 
-    #[derive(Default, Properties)]
+    #[derive(Properties)]
     #[properties(wrapper_type = super::TaskbarItem)]
     pub struct TaskbarItem {
         #[property(get, set, default)]
         status_bar: Cell<StatusBar>,
         #[property(get, set)]
         highlighted: Cell<bool>,
+        #[property(get, set)]
+        icon: RefCell<String>,
+    }
+
+    impl Default for TaskbarItem {
+        fn default() -> Self {
+            Self {
+                status_bar: StatusBar::Hidden.into(),
+                highlighted: false.into(),
+                icon: String::from("unknown").into(),
+            }
+        }
     }
 
     #[glib::object_subclass]
@@ -61,16 +73,22 @@ mod imp {
                 .halign(gtk4::Align::Center)
                 .build();
 
-            let vbox = gtk4::Box::builder()
+            let status_box_at_bottom = gtk4::Box::builder()
                 .orientation(gtk4::Orientation::Vertical)
                 .valign(gtk4::Align::End)
                 .build();
-            vbox.append(&status_box);
+            status_box_at_bottom.append(&status_box);
+
+            let icon = gtk4::Image::builder().pixel_size(30).build();
+            let status_box_over_icon = gtk4::Overlay::builder().child(&icon).build();
+            status_box_over_icon.add_overlay(&status_box_at_bottom);
 
             let obj = self.obj();
             obj.add_css_class("taskbar-item");
             obj.set_size_request(40, 40);
-            obj.set_child(Some(&vbox));
+            obj.set_child(Some(&status_box_over_icon));
+
+            obj.bind_property("icon", &icon, "icon-name").sync_create().build();
 
             obj.connect_status_bar_notify(glib::clone!(
                 #[weak]

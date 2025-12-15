@@ -2,13 +2,12 @@ mod db;
 mod desktop;
 mod freedesktop;
 mod hyprland;
-mod init;
 mod keyboard;
 mod repos;
-mod service_locator;
 mod system;
 mod system_events;
-mod workspaces;
+mod workspace;
+mod application;
 
 pub use db::{migrate_down, migrate_up};
-pub use init::init;
+pub use desktop::Desktop;

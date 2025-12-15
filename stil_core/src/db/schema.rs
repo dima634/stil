@@ -1,4 +1,4 @@
-use crate::{db::models, service_locator::ServiceLocator};
+use crate::db::models;
 use rusqlite::params;
 use tracing::trace;
 
@@ -6,7 +6,7 @@ pub fn migrate_up() -> Result<(), rusqlite::Error> {
     trace!("Migrating database up...");
 
     // TODO: validate that migrations order is correct
-    let mut conn = ServiceLocator::db_conn();
+    let mut conn = super::pool().get_conn();
 
     if migrations_table_exists(&mut conn)? {
         // Skip already applied migrations
@@ -32,7 +32,7 @@ pub fn migrate_up() -> Result<(), rusqlite::Error> {
 pub fn migrate_down() -> Result<(), rusqlite::Error> {
     trace!("Migrating database down...");
 
-    let mut conn = ServiceLocator::db_conn();
+    let mut conn = super::pool().get_conn();
 
     if migrations_table_exists(&mut conn)? {
         let last_migration = get_last_migration(&mut conn)?;

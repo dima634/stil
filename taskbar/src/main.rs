@@ -1,8 +1,15 @@
-mod ui;
 mod system_events;
+mod ui;
+
+use std::sync::LazyLock;
 
 use gtk4::prelude::*;
 use gtk4_layer_shell::{Edge, Layer, LayerShell};
+
+fn desktop() -> &'static stil_core::Desktop {
+    static DESKTOP: LazyLock<stil_core::Desktop> = LazyLock::new(stil_core::Desktop::new);
+    &DESKTOP
+}
 
 fn main() {
     let application = gtk4::Application::new(Some("com.dmytro.volovyk.stil"), Default::default());

@@ -3,9 +3,6 @@ name = "stil_core"
 version = "0.1.0"
 edition = "2024"
 
-[lib]
-crate-type = ["staticlib", "rlib"]
-
 [dependencies]
 tracing = "0.1.41"
 tracing-subscriber = "0.3.20"

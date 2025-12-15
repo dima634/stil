@@ -14,6 +14,7 @@ impl Taskbar {
 }
 
 mod imp {
+    use crate::desktop;
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -58,8 +59,8 @@ mod imp {
             host.append(&taskbar);
             host.append(&system_tray);
 
-            // For testing
-            for _ in 0..10 {
+            let current_workspace = desktop().get_current_workspace_id();
+            for window in desktop().get_workspace_windows(current_workspace) {
                 let item = crate::ui::TaskbarItem::new();
                 taskbar.append(&item);
             }

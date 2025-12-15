@@ -1,13 +1,18 @@
 pub mod models;
 mod schema;
 
+pub use schema::{migrate_down, migrate_up};
+
 use std::{
     ops::{Deref, DerefMut},
     sync::{Condvar, Mutex},
 };
 use tracing::trace;
 
-pub use schema::{migrate_down, migrate_up};
+pub fn pool() -> &'static DbConnPool {
+    static DB_CONN_POOL: DbConnPool = DbConnPool::with_size(3);
+    &DB_CONN_POOL
+}
 
 pub struct DbConnPool {
     pool_size: u32,
@@ -21,7 +26,7 @@ struct Pool {
 }
 
 impl DbConnPool {
-    pub fn with_size(pool_size: u32) -> Self {
+    pub const fn with_size(pool_size: u32) -> Self {
         Self {
             pool_size,
             pool: Mutex::new(Pool {

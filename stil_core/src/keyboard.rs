@@ -1,9 +1,5 @@
+use crate::hyprland;
 use tracing::warn;
-
-use crate::{
-    hyprland::{self, Devices, GetDevicesCmd},
-    keyboard,
-};
 
 #[derive(Debug)]
 pub struct Keyboard {
@@ -59,19 +55,11 @@ impl From<hyprland::Keyboard> for Keyboard {
 }
 
 #[derive(Debug)]
-pub struct KeyboardManager {
+pub struct KeyboardService {
     keyboards: Vec<Keyboard>,
 }
 
-impl KeyboardManager {
-    pub fn init(&mut self) {
-        let Some(devices) = hyprland::HyprCtl::default().run(GetDevicesCmd) else {
-            warn!("Failed to get keyboard state from Hyprland");
-            return;
-        };
-        self.keyboards = devices.keyboards.into_iter().map(Keyboard::from).collect();
-    }
-
+impl KeyboardService {
     pub fn get_main_keyboard(&self) -> Option<&Keyboard> {
         self.keyboards.iter().find(|kb| kb.is_main())
     }
@@ -83,9 +71,14 @@ impl KeyboardManager {
     }
 }
 
-impl Default for KeyboardManager {
+impl Default for KeyboardService {
     #[inline]
     fn default() -> Self {
-        Self { keyboards: Vec::new() }
+        let Some(devices) = hyprland::HyprCtl::default().run(hyprland::GetDevicesCmd) else {
+            warn!("Failed to get keyboard state from Hyprland");
+            return Self { keyboards: vec![] };
+        };
+        let keyboards = devices.keyboards.into_iter().map(Keyboard::from).collect();
+        Self { keyboards }
     }
 }
