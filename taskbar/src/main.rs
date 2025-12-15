@@ -1,4 +1,5 @@
 mod ui;
+mod system_events;
 
 use gtk4::prelude::*;
 use gtk4_layer_shell::{Edge, Layer, LayerShell};
