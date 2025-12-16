@@ -69,7 +69,8 @@ mod imp {
                     .map(|path| path.icon())
                     .flatten();
                 if let Some(icon) = icon {
-                    item.set_icon(icon.as_str());
+                    let image = gtk4::Image::builder().pixel_size(30).icon_name(icon).build();
+                    item.set_content(&image);
                 }
 
                 taskbar.append(&item);

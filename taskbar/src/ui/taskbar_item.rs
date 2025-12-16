@@ -1,5 +1,5 @@
 use glib::Object;
-use gtk4::glib;
+use gtk4::glib::{self, subclass::types::ObjectSubclassIsExt};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, glib::Enum)]
 #[enum_type(name = "StilStatusBar")]
@@ -20,6 +20,11 @@ impl TaskbarItem {
     pub fn new() -> Self {
         Object::builder().build()
     }
+
+    #[inline]
+    pub fn set_content(&self, content: &impl glib::object::IsA<gtk4::Widget>) {
+        self.imp().set_content(content);
+    }
 }
 
 mod imp {
@@ -28,7 +33,7 @@ mod imp {
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
-    use std::cell::{Cell, RefCell};
+    use std::cell::Cell;
 
     #[derive(Properties)]
     #[properties(wrapper_type = super::TaskbarItem)]
@@ -37,8 +42,14 @@ mod imp {
         status_bar: Cell<StatusBar>,
         #[property(get, set)]
         highlighted: Cell<bool>,
-        #[property(get, set)]
-        icon: RefCell<String>,
+        content: gtk4::Overlay,
+    }
+
+    impl TaskbarItem {
+        #[inline]
+        pub fn set_content(&self, content: &impl glib::object::IsA<gtk4::Widget>) {
+            self.content.set_child(Some(content));
+        }
     }
 
     impl Default for TaskbarItem {
@@ -46,7 +57,7 @@ mod imp {
             Self {
                 status_bar: StatusBar::Hidden.into(),
                 highlighted: false.into(),
-                icon: String::from("unknown").into(),
+                content: gtk4::Overlay::default(),
             }
         }
     }
@@ -78,17 +89,12 @@ mod imp {
                 .valign(gtk4::Align::End)
                 .build();
             status_box_at_bottom.append(&status_box);
-
-            let icon = gtk4::Image::builder().pixel_size(30).build();
-            let status_box_over_icon = gtk4::Overlay::builder().child(&icon).build();
-            status_box_over_icon.add_overlay(&status_box_at_bottom);
+            self.content.add_overlay(&status_box_at_bottom);
 
             let obj = self.obj();
             obj.add_css_class("taskbar-item");
             obj.set_size_request(40, 40);
-            obj.set_child(Some(&status_box_over_icon));
-
-            obj.bind_property("icon", &icon, "icon-name").sync_create().build();
+            obj.set_child(Some(&self.content));
 
             obj.connect_status_bar_notify(glib::clone!(
                 #[weak]
