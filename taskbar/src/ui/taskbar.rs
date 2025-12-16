@@ -14,7 +14,7 @@ impl Taskbar {
 }
 
 mod imp {
-    use crate::desktop;
+    use crate::{desktop, ui};
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -61,7 +61,17 @@ mod imp {
 
             let current_workspace = desktop().get_current_workspace_id();
             for window in desktop().get_workspace_windows(current_workspace) {
-                let item = crate::ui::TaskbarItem::new();
+                let item = ui::TaskbarItem::new();
+                let icon = window
+                    .app_id()
+                    .map(|app_id| desktop().get_app(&app_id))
+                    .flatten()
+                    .map(|path| path.icon())
+                    .flatten();
+                if let Some(icon) = icon {
+                    item.set_icon(icon.as_str());
+                }
+
                 taskbar.append(&item);
             }
         }

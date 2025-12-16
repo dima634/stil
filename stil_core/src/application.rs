@@ -3,7 +3,6 @@ use crate::{freedesktop, repos};
 #[derive(Debug)]
 pub struct App {
     desktop_entry: freedesktop::DesktopEntry,
-    icon_path: Option<std::path::PathBuf>,
     is_pinned: bool,
 }
 
@@ -19,8 +18,8 @@ impl App {
     }
 
     #[inline]
-    pub fn icon_path(&self) -> Option<&std::path::PathBuf> {
-        self.icon_path.as_ref()
+    pub fn icon(&self) -> Option<&String> {
+        self.desktop_entry.icon.as_ref()
     }
 
     #[inline]
@@ -35,6 +34,10 @@ pub struct ApplicationService {
 }
 
 impl ApplicationService {
+    pub fn get_app_by_id(&self, app_id: &str) -> Option<&App> {
+        self.applications.iter().find(|app| app.desktop_entry.id == app_id)
+    }
+
     pub fn find_app_by_wmclass(&self, wm_class: &str) -> Option<&App> {
         self.applications
             .iter()
@@ -47,16 +50,10 @@ impl Default for ApplicationService {
     fn default() -> Self {
         let pinned_apps = repos::ApplicationRepo::default().get_pinned();
         let desktop_entries = freedesktop::find_application_desktop_entries();
-        let mut icon_lookup = freedesktop::IconLookup::default();
         let applications = desktop_entries
             .into_iter()
             .map(|desktop_entry| App {
                 is_pinned: pinned_apps.iter().any(|app| app.id == desktop_entry.id),
-                icon_path: desktop_entry
-                    .icon
-                    .as_ref()
-                    .map(|icon| icon_lookup.find_icon(icon, 48, 1))
-                    .flatten(),
                 desktop_entry,
             })
             .collect();

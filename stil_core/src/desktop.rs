@@ -1,5 +1,5 @@
 use crate::{
-    application::ApplicationService,
+    application::{App, ApplicationService},
     db,
     keyboard::KeyboardService,
     workspace::{Window, Workspace, WorkspaceService},
@@ -61,6 +61,14 @@ impl Desktop {
     #[inline]
     pub fn get_workspace_windows(&self, workspace_id: i32) -> impl Iterator<Item = &Window> {
         self.workspace_service.get_workspace_windows(workspace_id)
+    }
+}
+
+// App API
+impl Desktop {
+    #[inline]
+    pub fn get_app(&self, app_id: &str) -> Option<&App> {
+        self.application_service.get_app_by_id(app_id)
     }
 }
 
