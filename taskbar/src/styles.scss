@@ -6,6 +6,7 @@ window {
 .taskbar {
     background-color: rgba(243, 243, 243, 0.7);
     border: 1px solid rgba(117, 117, 117, 0.4);
+    border-radius: 8px;
 
     .widgets {
         background-color: orange;
@@ -13,6 +14,15 @@ window {
 
     .system-tray {
         background-color: violet;
+    }
+}
+
+.workspace-list {
+    padding: 4px;
+
+    label {
+        color: black;
+        font-size: 20px;
     }
 }
 

@@ -33,10 +33,9 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let widgets = gtk4::Box::builder()
-                .orientation(gtk4::Orientation::Horizontal)
-                .css_classes(["widgets"])
-                .build();
+            let workspace_list = ui::WorkspaceList::new();
+            workspace_list.set_valign(gtk4::Align::Center);
+            workspace_list.set_halign(gtk4::Align::Start);
 
             let system_tray = gtk4::Box::builder()
                 .orientation(gtk4::Orientation::Horizontal)
@@ -55,7 +54,7 @@ mod imp {
             host.set_homogeneous(true);
             host.set_height_request(50);
 
-            host.append(&widgets);
+            host.append(&workspace_list);
             host.append(&taskbar);
             host.append(&system_tray);
 

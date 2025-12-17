@@ -35,11 +35,20 @@ mod imp {
             self.parent_constructed();
 
             let host = self.obj();
-            host.set_orientation(gtk4::Orientation::Horizontal);
+            host.set_spacing(2);
             host.add_css_class("workspace-list");
 
+            let current_workspace = desktop().get_current_workspace_id();
             for workspace in desktop().get_workspaces() {
+                let workspace_name = gtk4::Label::builder()
+                    .label(workspace.name())
+                    .valign(gtk4::Align::Center)
+                    .halign(gtk4::Align::Center)
+                    .build();
                 let item = ui::TaskbarItem::new();
+                item.set_content(&workspace_name);
+                item.set_highlighted(current_workspace == workspace.id());
+                host.append(&item);
             }
         }
     }
