@@ -15,6 +15,7 @@ impl WorkspaceList {
 }
 
 mod imp {
+    use crate::events;
     use crate::{desktop, ui};
     use gtk4::glib;
     use gtk4::prelude::*;
@@ -40,14 +41,22 @@ mod imp {
 
             let current_workspace = desktop().get_current_workspace_id();
             for workspace in desktop().get_workspaces() {
-                let workspace_name = gtk4::Label::builder()
+                let workspace_name_label = gtk4::Label::builder()
                     .label(workspace.name())
                     .valign(gtk4::Align::Center)
                     .halign(gtk4::Align::Center)
                     .build();
                 let item = ui::TaskbarItem::new();
-                item.set_content(&workspace_name);
-                item.set_highlighted(current_workspace == workspace.id());
+                item.set_content(&workspace_name_label);
+                let workspace_id = workspace.id();
+                item.set_highlighted(current_workspace == workspace_id);
+
+                events().connect_workspace_opened(glib::clone!(
+                    #[weak]
+                    item,
+                    move |opened_workspace| item.set_highlighted(opened_workspace == workspace_id)
+                ));
+
                 host.append(&item);
             }
         }

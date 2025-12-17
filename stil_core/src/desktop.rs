@@ -1,10 +1,14 @@
 use crate::{
     application::{App, ApplicationService},
-    db,
+    db, hyprland,
     keyboard::KeyboardService,
+    system_events::SystemEvent,
     workspace::{Window, Workspace, WorkspaceService},
 };
-use std::sync::Once;
+use std::{
+    ops::ControlFlow,
+    sync::{Arc, Once, mpsc::Receiver},
+};
 use tracing::{error, info};
 
 /// Desktop facade
@@ -17,7 +21,7 @@ pub struct Desktop {
 
 // Initialization
 impl Desktop {
-    pub fn new() -> Self {
+    pub fn new() -> (Arc<Self>, Receiver<SystemEvent>) {
         static INIT: Once = Once::new();
         INIT.call_once(|| {
             if let Err(e) = configure_logging() {
@@ -28,18 +32,45 @@ impl Desktop {
                 error!("Failed to migrate database up. Inner error: {}", e);
             }
 
-            info!("Desktop initialized");
+            info!("Database and logging initialized");
         });
+
+        let (system_event_tx, system_event_rx) = std::sync::mpsc::channel();
 
         let keyboard_service = KeyboardService::default();
         let application_service = ApplicationService::default();
-        let workspace_service = WorkspaceService::new(&application_service);
-
-        Self {
+        let workspace_service = WorkspaceService::new(&application_service, system_event_tx.clone());
+        let desktop = Arc::new(Self {
             workspace_service,
             application_service,
             keyboard_service,
-        }
+        });
+
+        let desktop_listener = desktop.clone();
+        std::thread::spawn(move || {
+            info!("Starting Hyprland event listener");
+            let handle_event = |event| {
+                match event {
+                    hyprland::Event::CreateWorkspace(_) => {}
+                    hyprland::Event::DestroyWorkspace(_) => {}
+                    hyprland::Event::FocusWorkspace(workspace_v2) => desktop_listener
+                        .workspace_service
+                        .set_current_workspace(workspace_v2.id),
+                    hyprland::Event::OpenWindow(_) => {}
+                    hyprland::Event::CloseWindow(_) => {}
+                    hyprland::Event::ActiveWindowV2(_) => {}
+                    hyprland::Event::MoveWindowV2(_) => {}
+                    hyprland::Event::ActiveLayout(_) => {}
+                };
+                ControlFlow::Continue(())
+            };
+
+            if let None = hyprland::HyprEvents::listen(handle_event) {
+                error!("Failed to start Hyprland event listener");
+            }
+        });
+
+        (desktop, system_event_rx)
     }
 }
 

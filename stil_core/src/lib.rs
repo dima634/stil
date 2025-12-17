@@ -11,3 +11,4 @@ mod application;
 
 pub use db::{migrate_down, migrate_up};
 pub use desktop::Desktop;
+pub use system_events::SystemEvent;

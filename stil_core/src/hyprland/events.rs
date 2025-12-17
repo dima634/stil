@@ -1,6 +1,6 @@
 use super::Hyprland;
 use serde::{Deserialize, de::DeserializeOwned};
-use std::{fmt::Display, io::Read, os::unix::net::UnixStream};
+use std::{fmt::Display, io::Read, ops::ControlFlow, os::unix::net::UnixStream};
 use tracing::warn;
 
 #[derive(Debug)]
@@ -101,12 +101,12 @@ impl TryFrom<&String> for Event {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct HyprEvents;
 
 impl HyprEvents {
     /// Start listening for Hyprland events. This operation is blocking.
-    pub fn listen(mut callback: impl FnMut(Event) -> bool) -> Option<()> {
+    pub fn listen(mut callback: impl FnMut(Event) -> ControlFlow<()>) -> Option<()> {
         let mut buffer = [0u8; 1024];
         let mut raw_event = String::new();
 
@@ -132,7 +132,7 @@ impl HyprEvents {
             for char in event_part.chars() {
                 if char == '\n' {
                     if let Ok(event) = Event::try_from(&raw_event) {
-                        if !callback(event) {
+                        if let ControlFlow::Break(()) = callback(event) {
                             return Some(());
                         }
                     }

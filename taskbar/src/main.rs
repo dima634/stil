@@ -1,14 +1,22 @@
-mod system_events;
+mod events;
 mod ui;
-
-use std::sync::LazyLock;
 
 use gtk4::prelude::*;
 use gtk4_layer_shell::{Edge, Layer, LayerShell};
+use std::sync::{Arc, LazyLock};
+
+static DESKTOP: LazyLock<(Arc<stil_core::Desktop>, events::Events)> = LazyLock::new(|| {
+    let (desktop, system_event_rx) = stil_core::Desktop::new();
+    let events = events::Events::new(system_event_rx);
+    (desktop, events)
+});
 
 fn desktop() -> &'static stil_core::Desktop {
-    static DESKTOP: LazyLock<stil_core::Desktop> = LazyLock::new(stil_core::Desktop::new);
-    &DESKTOP
+    &DESKTOP.0
+}
+
+fn events() -> &'static events::Events {
+    &DESKTOP.1
 }
 
 fn main() {

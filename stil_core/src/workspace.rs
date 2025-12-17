@@ -1,4 +1,5 @@
-use crate::{application::ApplicationService, hyprland, system_events};
+use crate::{application::ApplicationService, hyprland, system_events::SystemEvent};
+use std::sync::{atomic::AtomicI32, mpsc::Sender};
 use tracing::warn;
 
 #[derive(Debug, Default)]
@@ -57,13 +58,14 @@ impl Window {
 
 #[derive(Debug)]
 pub struct WorkspaceService {
-    current_workspace_id: i32,
+    current_workspace_id: AtomicI32,
     workspaces: WorkspaceVec,
     windows: WindowVec,
+    event_sender: Sender<SystemEvent>,
 }
 
 impl WorkspaceService {
-    pub fn new(app_service: &ApplicationService) -> Self {
+    pub fn new(app_service: &ApplicationService, system_event_sender: Sender<SystemEvent>) -> Self {
         let mut hypr_ctl = hyprland::HyprCtl::default();
         let hyprland::Clients(clients) = hypr_ctl.run(hyprland::GetClientsCmd).unwrap_or_default();
         let windows = clients
@@ -95,9 +97,10 @@ impl WorkspaceService {
         let windows = WindowVec(windows);
         let workspaces = WorkspaceVec(workspaces);
         Self {
-            current_workspace_id,
             workspaces,
             windows,
+            event_sender: system_event_sender,
+            current_workspace_id: AtomicI32::new(current_workspace_id),
         }
     }
 }
@@ -142,11 +145,20 @@ impl WorkspaceService {
 
     #[inline]
     pub fn get_current_workspace_id(&self) -> i32 {
-        self.current_workspace_id
+        use std::sync::atomic::Ordering;
+        self.current_workspace_id.load(Ordering::Relaxed)
+    }
+
+    #[inline]
+    pub fn set_current_workspace(&self, workspace_id: i32) {
+        use std::sync::atomic::Ordering;
+        self.current_workspace_id.store(workspace_id, Ordering::Relaxed);
+        self.event_sender.send(SystemEvent::WorkspaceOpened(workspace_id));
     }
 
     pub fn get_current_workspace(&self) -> Option<&Workspace> {
-        self.workspaces.0.iter().find(|ws| ws.id == self.current_workspace_id)
+        let current_id = self.get_current_workspace_id();
+        self.workspaces.0.iter().find(|ws| ws.id == current_id)
     }
 
     pub fn remove_workspace(&mut self, workspace_id: i32) {
@@ -183,49 +195,49 @@ impl WorkspaceService {
     }
 }
 
-impl WorkspaceService {
-    pub fn consume_system_event(&mut self, event: &system_events::SystemEvent) {
-        use system_events::SystemEvent::*;
+// impl WorkspaceService {
+//     pub fn consume_system_event(&mut self, event: &system_events::SystemEvent) {
+//         use system_events::SystemEvent::*;
 
-        match event {
-            WorkspaceCreated(workspace_created) => {
-                self.workspaces.0.push(Workspace {
-                    id: workspace_created.id,
-                    name: workspace_created.name.clone(),
-                });
-            }
-            WorkspaceDestroyed(id) => self.remove_workspace(*id),
-            WorkspaceFocused(id) => self.current_workspace_id = *id,
-            WindowOpened(window_opened) => {
-                let Some(ws) = self.workspaces.get_by_name(&window_opened.workspace_name) else {
-                    warn!(
-                        "Received WindowOpened event for workspace '{}' which does not exist",
-                        window_opened.workspace_name
-                    );
-                    return;
-                };
+//         match event {
+//             WorkspaceCreated(workspace_created) => {
+//                 self.workspaces.0.push(Workspace {
+//                     id: workspace_created.id,
+//                     name: workspace_created.name.clone(),
+//                 });
+//             }
+//             WorkspaceDestroyed(id) => self.remove_workspace(*id),
+//             WorkspaceOpened(id) => self.current_workspace_id = *id,
+//             WindowOpened(window_opened) => {
+//                 let Some(ws) = self.workspaces.get_by_name(&window_opened.workspace_name) else {
+//                     warn!(
+//                         "Received WindowOpened event for workspace '{}' which does not exist",
+//                         window_opened.workspace_name
+//                     );
+//                     return;
+//                 };
 
-                self.windows.0.push(Window {
-                    address: hyprland::Address(window_opened.address),
-                    app_id: todo!(),
-                    // app_id: self
-                    //     .find_app_by_wmclass(&window_opened.class_name)
-                    //     .map(|app| app.desktop_entry.id.clone()),
-                    workspace_id: ws.id,
-                    class: window_opened.class_name.clone(),
-                    is_focused: false,
-                });
-            }
-            WindowClosed(address) => self.close_window(hyprland::Address(*address)),
-            WindowFocused(address) => {
-                if let Some(window) = self.windows.get_by_address_mut(hyprland::Address(*address)) {
-                    window.is_focused = true;
-                }
-            }
-            WindowMoved(window_moved) => {
-                self.move_window_to_workspace(hyprland::Address(window_moved.address), window_moved.workspace_id)
-            }
-            _ => {}
-        }
-    }
-}
+//                 self.windows.0.push(Window {
+//                     address: hyprland::Address(window_opened.address),
+//                     app_id: todo!(),
+//                     // app_id: self
+//                     //     .find_app_by_wmclass(&window_opened.class_name)
+//                     //     .map(|app| app.desktop_entry.id.clone()),
+//                     workspace_id: ws.id,
+//                     class: window_opened.class_name.clone(),
+//                     is_focused: false,
+//                 });
+//             }
+//             WindowClosed(address) => self.close_window(hyprland::Address(*address)),
+//             WindowFocused(address) => {
+//                 if let Some(window) = self.windows.get_by_address_mut(hyprland::Address(*address)) {
+//                     window.is_focused = true;
+//                 }
+//             }
+//             WindowMoved(window_moved) => {
+//                 self.move_window_to_workspace(hyprland::Address(window_moved.address), window_moved.workspace_id)
+//             }
+//             _ => {}
+//         }
+//     }
+// }

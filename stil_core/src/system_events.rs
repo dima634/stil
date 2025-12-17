@@ -1,5 +1,3 @@
-use std::sync::{Mutex, mpsc};
-
 #[derive(Debug, Clone)]
 pub struct WindowOpened {
     pub address: usize,
@@ -25,7 +23,7 @@ pub enum SystemEvent {
     // Hyprland related events
     WorkspaceCreated(WorkspaceCreated),
     WorkspaceDestroyed(i32),
-    WorkspaceFocused(i32),
+    WorkspaceOpened(i32),
     WindowOpened(WindowOpened),
     WindowClosed(usize), // TODO: change to Address
     WindowFocused(usize),
