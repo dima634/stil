@@ -17,6 +17,7 @@ impl WorkspaceList {
 mod imp {
     use crate::events;
     use crate::{desktop, ui};
+    use gtk4::gio;
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
@@ -36,28 +37,61 @@ mod imp {
             self.parent_constructed();
 
             let host = self.obj();
-            host.set_spacing(2);
             host.add_css_class("workspace-list");
 
+            let flowbox = gtk4::FlowBox::builder()
+                .column_spacing(2)
+                .orientation(gtk4::Orientation::Horizontal)
+                .selection_mode(gtk4::SelectionMode::None)
+                .build();
+
+            host.append(&flowbox);
+
+            let model = gio::ListStore::new::<ui::Workspace>();
             let current_workspace = desktop().get_current_workspace_id();
 
-            for workspace in desktop().get_workspaces() {
-                let item = make_workspace_taskbar_item(workspace.id(), workspace.name());
+            let mut workspaces = desktop().get_workspaces();
+            workspaces.sort_by_key(|ws| ws.id());
 
-                if workspace.id() == current_workspace {
-                    item.set_highlighted(true);
-                }
-
-                host.append(&item);
+            for workspace in workspaces {
+                let item = ui::Workspace::new(workspace.id(), workspace.name(), workspace.id() == current_workspace);
+                model.append(&item);
             }
+
+            flowbox.bind_model(Some(&model), |item| {
+                let workspace_item = item.downcast_ref::<ui::Workspace>().expect("Workspace expected");
+                create_workspace_widget(workspace_item).upcast()
+            });
 
             events().connect_workspace_created(glib::clone!(
                 #[weak]
-                host,
+                model,
                 move |id, name| {
-                    let item = make_workspace_taskbar_item(id, &name);
-                    host.append(&item);
+                    let item = ui::Workspace::new(id, &name, false);
+                    model.insert_sorted(&item, |a, b| {
+                        let a_id = a.downcast_ref::<ui::Workspace>().map(|ws| ws.id()).unwrap_or(0);
+                        let b_id = b.downcast_ref::<ui::Workspace>().map(|ws| ws.id()).unwrap_or(0);
+                        a_id.cmp(&b_id)
+                    });
                 }
+            ));
+
+            events().connect_workspace_opened(glib::clone!(
+                #[weak]
+                model,
+                move |opened_workspace_id| {
+                    for i in 0..model.n_items() {
+                        if let Some(item) = model.item(i).and_downcast::<ui::Workspace>() {
+                            item.set_is_current(item.id() == opened_workspace_id);
+                        }
+                    }
+                }
+            ));
+
+            events().connect_workspace_destroyed(glib::clone!(
+                #[weak]
+                model,
+                move |id| model.retain(|el| el.downcast_ref::<ui::Workspace>().is_some_and(|ws| ws.id() != id))
             ));
         }
     }
@@ -66,21 +100,22 @@ mod imp {
 
     impl BoxImpl for WorkspaceList {}
 
-    fn make_workspace_taskbar_item(workspace_id: i32, workspace_name: &str) -> ui::TaskbarItem {
-        let workspace_name_label = gtk4::Label::builder()
-            .label(workspace_name)
+    fn create_workspace_widget(workspace_item: &ui::Workspace) -> ui::TaskbarItem {
+        let label = gtk4::Label::builder()
+            .label(workspace_item.name())
             .valign(gtk4::Align::Center)
             .halign(gtk4::Align::Center)
             .build();
-        let item = ui::TaskbarItem::new();
-        item.set_content(&workspace_name_label);
 
-        events().connect_workspace_opened(glib::clone!(
-            #[weak]
-            item,
-            move |opened_workspace| item.set_highlighted(opened_workspace == workspace_id)
-        ));
+        let taskbar_item = ui::TaskbarItem::new();
+        taskbar_item.set_content(&label);
+        taskbar_item.set_highlighted(workspace_item.is_current());
 
-        item
+        workspace_item
+            .bind_property("is-current", &taskbar_item, "highlighted")
+            .sync_create()
+            .build();
+
+        taskbar_item
     }
 }

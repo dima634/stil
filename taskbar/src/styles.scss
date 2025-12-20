@@ -20,6 +20,12 @@ window {
 .workspace-list {
     padding: 4px;
 
+    flowbox {
+        flowboxchild {
+            padding: 0px;
+        }
+    }
+
     label {
         color: black;
         font-size: 20px;
