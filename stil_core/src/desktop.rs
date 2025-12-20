@@ -51,11 +51,17 @@ impl Desktop {
             info!("Starting Hyprland event listener");
             let handle_event = |event| {
                 match event {
-                    hyprland::Event::CreateWorkspace(_) => {}
-                    hyprland::Event::DestroyWorkspace(_) => {}
-                    hyprland::Event::FocusWorkspace(workspace_v2) => desktop_listener
-                        .workspace_service
-                        .set_current_workspace(workspace_v2.id),
+                    hyprland::Event::CreateWorkspace(workspace) => {
+                        desktop_listener
+                            .workspace_service
+                            .add_workspace(Workspace::new(workspace.id, workspace.name));
+                    }
+                    hyprland::Event::DestroyWorkspace(workspace) => {
+                        desktop_listener.workspace_service.remove_workspace(workspace.id)
+                    }
+                    hyprland::Event::FocusWorkspace(workspace) => {
+                        desktop_listener.workspace_service.set_current_workspace(workspace.id)
+                    }
                     hyprland::Event::OpenWindow(_) => {}
                     hyprland::Event::CloseWindow(_) => {}
                     hyprland::Event::ActiveWindowV2(_) => {}
@@ -82,7 +88,7 @@ impl Desktop {
     }
 
     #[inline]
-    pub fn get_workspaces(&self) -> impl Iterator<Item = &Workspace> {
+    pub fn get_workspaces(&self) -> Vec<Workspace> {
         self.workspace_service.get_workspaces()
     }
 }
@@ -90,7 +96,7 @@ impl Desktop {
 // Window API
 impl Desktop {
     #[inline]
-    pub fn get_workspace_windows(&self, workspace_id: i32) -> impl Iterator<Item = &Window> {
+    pub fn get_workspace_windows(&self, workspace_id: i32) -> Vec<Window> {
         self.workspace_service.get_workspace_windows(workspace_id)
     }
 }

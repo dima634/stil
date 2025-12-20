@@ -33,17 +33,34 @@ impl Events {
         self.connect_closure(
             "workspace-opened",
             false,
-            glib::closure_local!(move |_: Self, workspace_id: i32| {
-                f(workspace_id);
-            }),
+            glib::closure_local!(move |_: Self, workspace_id: i32| f(workspace_id)),
+        )
+    }
+
+    pub fn connect_workspace_destroyed<F: Fn(i32) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "workspace-destroyed",
+            false,
+            glib::closure_local!(move |_: Self, workspace_id: i32| f(workspace_id)),
+        )
+    }
+
+    /// Emits `(workspace_id, workspace_name)` when new workspace is created
+    pub fn connect_workspace_created<F: Fn(i32, String) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "workspace-created",
+            false,
+            glib::closure_local!(move |_: Self, id: i32, name: String| f(id, name)),
         )
     }
 
     fn handle_event(&self, event: SystemEvent) {
         match event {
-            SystemEvent::WorkspaceCreated(_) => todo!(),
-            SystemEvent::WorkspaceDestroyed(_) => todo!(),
-            SystemEvent::WorkspaceOpened(workspace_id) => self.emit_by_name::<()>("workspace-opened", &[&workspace_id]),
+            SystemEvent::WorkspaceCreated(workspace) => {
+                self.emit_by_name("workspace-created", &[&workspace.id, &workspace.name])
+            }
+            SystemEvent::WorkspaceDestroyed(workspace_id) => self.emit_by_name("workspace-destroyed", &[&workspace_id]),
+            SystemEvent::WorkspaceOpened(workspace_id) => self.emit_by_name("workspace-opened", &[&workspace_id]),
             SystemEvent::WindowOpened(_) => todo!(),
             SystemEvent::WindowClosed(_) => todo!(),
             SystemEvent::WindowFocused(_) => todo!(),
@@ -77,7 +94,12 @@ mod imp {
                     Signal::builder("workspace-opened")
                         .param_types([i32::static_type()])
                         .build(),
-                    // Add more signals...
+                    Signal::builder("workspace-destroyed")
+                        .param_types([i32::static_type()])
+                        .build(),
+                    Signal::builder("workspace-created")
+                        .param_types([i32::static_type(), String::static_type()])
+                        .build(),
                 ]
             });
             &SIGNALS

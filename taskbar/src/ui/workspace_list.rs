@@ -40,29 +40,47 @@ mod imp {
             host.add_css_class("workspace-list");
 
             let current_workspace = desktop().get_current_workspace_id();
-            for workspace in desktop().get_workspaces() {
-                let workspace_name_label = gtk4::Label::builder()
-                    .label(workspace.name())
-                    .valign(gtk4::Align::Center)
-                    .halign(gtk4::Align::Center)
-                    .build();
-                let item = ui::TaskbarItem::new();
-                item.set_content(&workspace_name_label);
-                let workspace_id = workspace.id();
-                item.set_highlighted(current_workspace == workspace_id);
 
-                events().connect_workspace_opened(glib::clone!(
-                    #[weak]
-                    item,
-                    move |opened_workspace| item.set_highlighted(opened_workspace == workspace_id)
-                ));
+            for workspace in desktop().get_workspaces() {
+                let item = make_workspace_taskbar_item(workspace.id(), workspace.name());
+
+                if workspace.id() == current_workspace {
+                    item.set_highlighted(true);
+                }
 
                 host.append(&item);
             }
+
+            events().connect_workspace_created(glib::clone!(
+                #[weak]
+                host,
+                move |id, name| {
+                    let item = make_workspace_taskbar_item(id, &name);
+                    host.append(&item);
+                }
+            ));
         }
     }
 
     impl WidgetImpl for WorkspaceList {}
 
     impl BoxImpl for WorkspaceList {}
+
+    fn make_workspace_taskbar_item(workspace_id: i32, workspace_name: &str) -> ui::TaskbarItem {
+        let workspace_name_label = gtk4::Label::builder()
+            .label(workspace_name)
+            .valign(gtk4::Align::Center)
+            .halign(gtk4::Align::Center)
+            .build();
+        let item = ui::TaskbarItem::new();
+        item.set_content(&workspace_name_label);
+
+        events().connect_workspace_opened(glib::clone!(
+            #[weak]
+            item,
+            move |opened_workspace| item.set_highlighted(opened_workspace == workspace_id)
+        ));
+
+        item
+    }
 }
