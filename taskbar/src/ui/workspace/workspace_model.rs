@@ -1,5 +1,5 @@
 use glib::Object;
-use gtk4::glib::{self, Properties};
+use gtk4::glib;
 use gtk4::prelude::*;
 use gtk4::subclass::prelude::*;
 
@@ -21,7 +21,7 @@ mod imp {
     use super::*;
     use std::cell::{Cell, RefCell};
 
-    #[derive(Default, Properties)]
+    #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::WorkspaceModel)]
     pub struct Workspace {
         #[property(get, set, construct_only)]
