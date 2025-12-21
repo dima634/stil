@@ -46,6 +46,8 @@ mod imp {
                 .css_classes(["system-tray"])
                 .build();
 
+            system_tray.append(&ui::Wallclock::new());
+
             let host = self.obj();
             host.add_css_class("taskbar");
             host.set_homogeneous(true);
