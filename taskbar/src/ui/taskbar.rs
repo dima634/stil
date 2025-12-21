@@ -14,7 +14,7 @@ impl Taskbar {
 }
 
 mod imp {
-    use crate::{desktop, ui};
+    use crate::ui;
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;

@@ -25,8 +25,11 @@ impl<'de> Deserialize<'de> for Address {
         D: serde::Deserializer<'de>,
     {
         let s: &str = Deserialize::deserialize(deserializer)?;
-        let address = usize::from_str_radix(s, 16).map_err(serde::de::Error::custom)?;
-        Ok(Address(address))
+        Ok(Address(if s.starts_with("0x") || s.starts_with("0X") {
+            usize::from_str_radix(&s[2..], 16).map_err(serde::de::Error::custom)?
+        } else {
+            usize::from_str_radix(s, 16).map_err(serde::de::Error::custom)?
+        }))
     }
 }
 

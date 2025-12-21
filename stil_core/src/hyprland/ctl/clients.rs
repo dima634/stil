@@ -1,3 +1,5 @@
+use crate::hyprland;
+
 use super::HyprCtlCmd;
 use serde::Deserialize;
 
@@ -20,30 +22,10 @@ impl ClientWorkspace {
 }
 
 #[derive(Debug, Deserialize)]
-struct ClientDto {
-    address: String,
-    class: String,
-    workspace: ClientWorkspace,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(try_from = "ClientDto")]
 pub struct Client {
-    address: usize,
+    address: hyprland::Address,
     class: String,
     workspace: ClientWorkspace,
-}
-
-impl TryFrom<ClientDto> for Client {
-    type Error = &'static str;
-
-    fn try_from(value: ClientDto) -> Result<Self, Self::Error> {
-        Ok(Client {
-            address: usize::from_str_radix(&value.address[2..], 16).map_err(|_| "invalid address format")?,
-            class: value.class,
-            workspace: value.workspace,
-        })
-    }
 }
 
 impl Client {
@@ -63,7 +45,7 @@ impl Client {
     }
 
     #[inline]
-    pub fn address(&self) -> usize {
+    pub fn address(&self) -> hyprland::Address {
         self.address
     }
 }

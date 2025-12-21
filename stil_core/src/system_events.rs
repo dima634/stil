@@ -1,3 +1,5 @@
+use crate::Address;
+
 #[derive(Debug, Clone)]
 pub struct WindowOpened {
     pub address: usize,
@@ -25,8 +27,8 @@ pub enum SystemEvent {
     WorkspaceDestroyed(i32),
     WorkspaceOpened(i32),
     WindowOpened(WindowOpened),
-    WindowClosed(usize), // TODO: change to Address
-    WindowFocused(usize),
+    WindowClosed(Address),
+    WindowFocused(Address),
     WindowMoved(WindowMoved),
     KeyboardLayoutChanged(String),
     Empty,

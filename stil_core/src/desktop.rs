@@ -64,7 +64,11 @@ impl Desktop {
                     }
                     hyprland::Event::OpenWindow(_) => {}
                     hyprland::Event::CloseWindow(_) => {}
-                    hyprland::Event::ActiveWindowV2(_) => {}
+                    hyprland::Event::ActiveWindowV2(active_window) => {
+                        desktop_listener
+                            .workspace_service
+                            .set_focused_window(active_window.address);
+                    }
                     hyprland::Event::MoveWindowV2(_) => {}
                     hyprland::Event::ActiveLayout(_) => {}
                 };

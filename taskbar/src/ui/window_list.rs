@@ -15,6 +15,7 @@ impl WindowList {
 }
 
 mod imp {
+    use crate::events;
     use crate::{desktop, ui};
     use gtk4::gio;
     use gtk4::glib;
@@ -72,6 +73,18 @@ mod imp {
                 let item = make_window_taskbar_item(window);
                 item.upcast()
             });
+
+            events().connect_window_focused(glib::clone!(
+                #[weak]
+                list_store,
+                move |addr: u64| {
+                    for i in 0..list_store.n_items() {
+                        if let Some(item) = list_store.item(i).and_downcast::<ui::WindowModel>() {
+                            item.set_is_focused(item.address() == addr);
+                        }
+                    }
+                }
+            ));
         }
     }
 

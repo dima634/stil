@@ -77,17 +77,18 @@ pub struct WorkspaceService {
 impl WorkspaceService {
     pub fn new(app_service: &ApplicationService, system_event_sender: Sender<SystemEvent>) -> Self {
         let mut hypr_ctl = hyprland::HyprCtl::default();
+        let active_window_addr = hypr_ctl.run(hyprland::GetActiveWindowCmd).map(|w| w.address());
         let hyprland::Clients(clients) = hypr_ctl.run(hyprland::GetClientsCmd).unwrap_or_default();
         let windows = clients
             .into_iter()
             .map(|client| Window {
-                address: hyprland::Address(client.address()),
+                address: client.address(),
                 app_id: app_service
                     .find_app_by_wmclass(client.class())
                     .map(|app| app.id().clone()),
                 workspace_id: client.workspace(),
                 class: client.class().to_string(),
-                is_focused: false, // TODO: determine focused state
+                is_focused: active_window_addr == Some(client.address()),
             })
             .collect();
 
@@ -106,6 +107,7 @@ impl WorkspaceService {
             .unwrap_or(i32::MAX);
         let windows = RwLock::new(windows);
         let workspaces = RwLock::new(workspaces);
+
         Self {
             workspaces,
             windows,
@@ -174,4 +176,12 @@ impl WorkspaceService {
 }
 
 // Window APIs
-impl WorkspaceService {}
+impl WorkspaceService {
+    pub fn set_focused_window(&self, window_address: hyprland::Address) {
+        let mut windows = self.windows.write().unwrap();
+        for window in windows.iter_mut() {
+            window.is_focused = window.address == window_address;
+        }
+        let _ = self.event_sender.send(SystemEvent::WindowFocused(window_address));
+    }
+}

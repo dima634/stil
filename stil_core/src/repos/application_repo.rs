@@ -5,15 +5,6 @@ use tracing::warn;
 pub struct ApplicationRepo;
 
 impl ApplicationRepo {
-    pub fn get_by_id(&self, id: &str) -> Option<Application> {
-        let sql = "SELECT * FROM applications WHERE id = ?1";
-        db::pool()
-            .get_conn()
-            .query_one(sql, [id], |row| Application::try_from(row))
-            .inspect_err(|err| warn!("Failed to query application by id {id}: {err}"))
-            .ok()
-    }
-
     pub fn get_pinned(&self) -> Vec<Application> {
         let sql = "SELECT * FROM applications WHERE pinned = 1";
         let conn = db::pool().get_conn();
@@ -28,23 +19,5 @@ impl ApplicationRepo {
             .map(|apps| apps.filter_map(Result::ok).collect())
             .inspect_err(|err| warn!("Failed to query pinned applications: {err}"))
             .unwrap_or_default()
-    }
-
-    pub fn add(&self, app: &Application) -> bool {
-        let sql = "INSERT INTO applications (id, pinned) VALUES (?1, ?2)";
-        db::pool()
-            .get_conn()
-            .execute(sql, rusqlite::params![app.id.as_str(), app.is_pinned])
-            .inspect_err(|err| warn!("Failed to insert application {}: {err}", app.id))
-            .is_ok()
-    }
-
-    pub fn update(&self, app: &Application) -> bool {
-        let sql = "UPDATE applications SET pinned = ?1 WHERE id = ?2";
-        db::pool()
-            .get_conn()
-            .execute(sql, rusqlite::params![app.is_pinned, app.id.as_str()])
-            .inspect_err(|err| warn!("Failed to update application {}: {err}", app.id))
-            .is_ok()
     }
 }

@@ -54,6 +54,14 @@ impl Events {
         )
     }
 
+    pub fn connect_window_focused<F: Fn(u64) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "window-focused",
+            false,
+            glib::closure_local!(move |_: Self, addr: u64| f(addr)),
+        )
+    }
+
     fn handle_event(&self, event: SystemEvent) {
         match event {
             SystemEvent::WorkspaceCreated(workspace) => {
@@ -63,7 +71,9 @@ impl Events {
             SystemEvent::WorkspaceOpened(workspace_id) => self.emit_by_name("workspace-opened", &[&workspace_id]),
             SystemEvent::WindowOpened(_) => todo!(),
             SystemEvent::WindowClosed(_) => todo!(),
-            SystemEvent::WindowFocused(_) => todo!(),
+            SystemEvent::WindowFocused(addr) => {
+                self.emit_by_name("window-focused", &[&u64::try_from(addr.0).unwrap_or(0)])
+            }
             SystemEvent::WindowMoved(_) => todo!(),
             SystemEvent::KeyboardLayoutChanged(_) => todo!(),
             SystemEvent::Empty => todo!(),
@@ -99,6 +109,9 @@ mod imp {
                         .build(),
                     Signal::builder("workspace-created")
                         .param_types([i32::static_type(), String::static_type()])
+                        .build(),
+                    Signal::builder("window-focused")
+                        .param_types([u64::static_type()])
                         .build(),
                 ]
             });
