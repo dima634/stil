@@ -8,6 +8,12 @@ pub struct WindowOpened {
 }
 
 #[derive(Debug, Clone)]
+pub struct WindowClosed {
+    pub address: Address,
+    pub workspace_id: i32,
+}
+
+#[derive(Debug, Clone)]
 pub struct WorkspaceCreated {
     pub id: i32,
     pub name: String,
@@ -27,7 +33,7 @@ pub enum SystemEvent {
     WorkspaceDestroyed(i32),
     WorkspaceOpened(i32),
     WindowOpened(WindowOpened),
-    WindowClosed(Address),
+    WindowClosed(WindowClosed),
     WindowFocused(Address),
     WindowMoved(WindowMoved),
     KeyboardLayoutChanged(String),

@@ -3,7 +3,7 @@ use tracing::warn;
 use crate::{
     application::ApplicationService,
     hyprland,
-    system_events::{SystemEvent, WindowOpened, WorkspaceCreated},
+    system_events::{SystemEvent, WindowClosed, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{RwLock, atomic::AtomicI32, mpsc::Sender};
 
@@ -204,6 +204,20 @@ impl WorkspaceService {
         };
         windows.push(window);
         let _ = self.event_sender.send(SystemEvent::WindowOpened(event));
+    }
+
+    pub fn remove_window(&self, address: hyprland::Address) {
+        let mut windows = self.windows.write().unwrap();
+        let Some(window_idx) = windows.iter().position(|w| w.address == address) else {
+            warn!("Tried to remove non-existing window with address {}", address);
+            return;
+        };
+
+        let workspace_id = windows[window_idx].workspace_id;
+        windows.swap_remove(window_idx);
+        let _ = self
+            .event_sender
+            .send(SystemEvent::WindowClosed(WindowClosed { address, workspace_id }));
     }
 
     pub fn set_focused_window(&self, window_address: hyprland::Address) {

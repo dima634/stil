@@ -104,6 +104,23 @@ mod imp {
                     list_store.append(&model);
                 }
             ));
+
+            events().connect_window_closed(glib::clone!(
+                #[weak]
+                list_store,
+                #[weak]
+                host,
+                move |addr: u64, workspace_id: i32| {
+                    if host.current_workspace_id() != workspace_id {
+                        return;
+                    }
+
+                    list_store.retain(|el| {
+                        el.downcast_ref::<ui::WindowModel>()
+                            .is_some_and(|window| window.address() != addr)
+                    });
+                }
+            ));
         }
     }
 

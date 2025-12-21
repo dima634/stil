@@ -72,6 +72,15 @@ impl Events {
         )
     }
 
+    /// Emits `(window_address, workspace_id)` when a window is closed
+    pub fn connect_window_closed<F: Fn(u64, i32) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "window-closed",
+            false,
+            glib::closure_local!(move |_: Self, addr: u64, workspace_id: i32| { f(addr, workspace_id) }),
+        )
+    }
+
     fn handle_event(&self, event: SystemEvent) {
         match event {
             SystemEvent::WorkspaceCreated(workspace) => {
@@ -87,7 +96,13 @@ impl Events {
                     &window.workspace_id,
                 ],
             ),
-            SystemEvent::WindowClosed(_) => todo!(),
+            SystemEvent::WindowClosed(window_closed) => self.emit_by_name(
+                "window-closed",
+                &[
+                    &u64::try_from(window_closed.address.0).unwrap_or(0),
+                    &window_closed.workspace_id,
+                ],
+            ),
             SystemEvent::WindowFocused(addr) => {
                 self.emit_by_name("window-focused", &[&u64::try_from(addr.0).unwrap_or(0)])
             }
@@ -132,6 +147,9 @@ mod imp {
                         .build(),
                     Signal::builder("window-opened")
                         .param_types([u64::static_type(), Option::<String>::static_type(), i32::static_type()])
+                        .build(),
+                    Signal::builder("window-closed")
+                        .param_types([u64::static_type(), i32::static_type()])
                         .build(),
                 ]
             });

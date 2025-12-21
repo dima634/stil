@@ -46,32 +46,36 @@ impl Desktop {
             keyboard_service,
         });
 
-        let desktop_listener = desktop.clone();
+        let desktop_clone = desktop.clone();
         std::thread::spawn(move || {
             info!("Starting Hyprland event listener");
             let handle_event = |event| {
                 match event {
                     hyprland::Event::CreateWorkspace(workspace) => {
-                        desktop_listener
+                        desktop_clone
                             .workspace_service
                             .add_workspace(Workspace::new(workspace.id, workspace.name));
                     }
                     hyprland::Event::DestroyWorkspace(workspace) => {
-                        desktop_listener.workspace_service.remove_workspace(workspace.id)
+                        desktop_clone.workspace_service.remove_workspace(workspace.id)
                     }
                     hyprland::Event::FocusWorkspace(workspace) => {
-                        desktop_listener.workspace_service.set_current_workspace(workspace.id)
+                        desktop_clone.workspace_service.set_current_workspace(workspace.id)
                     }
                     hyprland::Event::OpenWindow(open_window) => {
-                        desktop_listener.add_window(
+                        desktop_clone.add_window(
                             open_window.window_address,
                             open_window.window_class,
                             open_window.workspace_name,
                         );
                     }
-                    hyprland::Event::CloseWindow(_) => {}
+                    hyprland::Event::CloseWindow(close_window) => {
+                        desktop_clone
+                            .workspace_service
+                            .remove_window(close_window.window_address);
+                    }
                     hyprland::Event::ActiveWindowV2(active_window) => {
-                        desktop_listener
+                        desktop_clone
                             .workspace_service
                             .set_focused_window(active_window.address);
                     }
