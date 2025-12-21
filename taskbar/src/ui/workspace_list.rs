@@ -60,8 +60,10 @@ mod imp {
             }
 
             flowbox.bind_model(Some(&model), |item| {
-                let workspace_item = item.downcast_ref::<ui::WorkspaceModel>().expect("Workspace expected");
-                create_workspace_widget(workspace_item).upcast()
+                let workspace_item = item
+                    .downcast_ref::<ui::WorkspaceModel>()
+                    .expect("WorkspaceModel expected");
+                make_workspace_taskbar_item(workspace_item).upcast()
             });
 
             events().connect_workspace_created(glib::clone!(
@@ -101,18 +103,18 @@ mod imp {
 
     impl BoxImpl for WorkspaceList {}
 
-    fn create_workspace_widget(workspace_item: &ui::WorkspaceModel) -> ui::TaskbarItem {
+    fn make_workspace_taskbar_item(workspace_model: &ui::WorkspaceModel) -> ui::TaskbarItem {
         let label = gtk4::Label::builder()
-            .label(workspace_item.name())
+            .label(workspace_model.name())
             .valign(gtk4::Align::Center)
             .halign(gtk4::Align::Center)
             .build();
 
         let taskbar_item = ui::TaskbarItem::new();
         taskbar_item.set_content(&label);
-        taskbar_item.set_highlighted(workspace_item.is_current());
+        taskbar_item.set_highlighted(workspace_model.is_current());
 
-        workspace_item
+        workspace_model
             .bind_property("is-current", &taskbar_item, "highlighted")
             .sync_create()
             .build();

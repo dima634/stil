@@ -37,16 +37,13 @@ mod imp {
             workspace_list.set_valign(gtk4::Align::Center);
             workspace_list.set_halign(gtk4::Align::Start);
 
+            let window_list = ui::WindowList::new();
+            window_list.set_valign(gtk4::Align::Center);
+            window_list.set_halign(gtk4::Align::Center);
+
             let system_tray = gtk4::Box::builder()
                 .orientation(gtk4::Orientation::Horizontal)
                 .css_classes(["system-tray"])
-                .build();
-
-            let taskbar = gtk4::Box::builder()
-                .orientation(gtk4::Orientation::Horizontal)
-                .valign(gtk4::Align::Center)
-                .halign(gtk4::Align::Center)
-                .css_classes(["app-icons"])
                 .build();
 
             let host = self.obj();
@@ -55,25 +52,8 @@ mod imp {
             host.set_height_request(50);
 
             host.append(&workspace_list);
-            host.append(&taskbar);
+            host.append(&window_list);
             host.append(&system_tray);
-
-            let current_workspace = desktop().get_current_workspace_id();
-            for window in desktop().get_workspace_windows(current_workspace) {
-                let item = ui::TaskbarItem::new();
-                let icon = window
-                    .app_id()
-                    .map(|app_id| desktop().get_app(&app_id))
-                    .flatten()
-                    .map(|path| path.icon())
-                    .flatten();
-                if let Some(icon) = icon {
-                    let image = gtk4::Image::builder().pixel_size(30).icon_name(icon).build();
-                    item.set_content(&image);
-                }
-
-                taskbar.append(&item);
-            }
         }
     }
 

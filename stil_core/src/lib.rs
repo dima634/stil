@@ -11,4 +11,5 @@ mod workspace;
 
 pub use db::{migrate_down, migrate_up};
 pub use desktop::Desktop;
+pub use hyprland::Address;
 pub use system_events::SystemEvent;

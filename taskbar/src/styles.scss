@@ -32,6 +32,16 @@ window {
     }
 }
 
+.window-list {
+    padding: 4px;
+
+    flowbox {
+        flowboxchild {
+            padding: 0px;
+        }
+    }
+}
+
 .taskbar-item {
     border: 1px solid transparent;
     border-radius: 5px;

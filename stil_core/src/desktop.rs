@@ -95,8 +95,8 @@ impl Desktop {
 
 // Window API
 impl Desktop {
-    #[inline]
-    pub fn get_workspace_windows(&self, workspace_id: i32) -> Vec<Window> {
+    pub fn get_current_workspace_windows(&self) -> Vec<Window> {
+        let workspace_id = self.get_current_workspace_id();
         self.workspace_service.get_workspace_windows(workspace_id)
     }
 }
