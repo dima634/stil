@@ -9,7 +9,7 @@ use std::{
     ops::ControlFlow,
     sync::{Arc, Once, mpsc::Receiver},
 };
-use tracing::{error, info};
+use tracing::{error, info, warn};
 
 /// Desktop facade
 #[derive(Debug)]
@@ -62,7 +62,13 @@ impl Desktop {
                     hyprland::Event::FocusWorkspace(workspace) => {
                         desktop_listener.workspace_service.set_current_workspace(workspace.id)
                     }
-                    hyprland::Event::OpenWindow(_) => {}
+                    hyprland::Event::OpenWindow(open_window) => {
+                        desktop_listener.add_window(
+                            open_window.window_address,
+                            open_window.window_class,
+                            open_window.workspace_name,
+                        );
+                    }
                     hyprland::Event::CloseWindow(_) => {}
                     hyprland::Event::ActiveWindowV2(active_window) => {
                         desktop_listener
@@ -99,9 +105,22 @@ impl Desktop {
 
 // Window API
 impl Desktop {
-    pub fn get_current_workspace_windows(&self) -> Vec<Window> {
-        let workspace_id = self.get_current_workspace_id();
+    #[inline]
+    pub fn get_workspace_windows(&self, workspace_id: i32) -> Vec<Window> {
         self.workspace_service.get_workspace_windows(workspace_id)
+    }
+
+    fn add_window(&self, address: hyprland::Address, wm_class: String, workspace_name: String) {
+        let app_id = self
+            .application_service
+            .find_app_by_wmclass(&wm_class)
+            .map(|app| app.id().clone());
+        let Some(workspace_id) = self.workspace_service.get_workspace_id_by_name(&workspace_name) else {
+            warn!("Could not find workspace id with name: {}", workspace_name);
+            return;
+        };
+        self.workspace_service
+            .add_window(address, app_id, workspace_id, wm_class);
     }
 }
 

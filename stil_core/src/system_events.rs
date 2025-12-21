@@ -2,9 +2,9 @@ use crate::Address;
 
 #[derive(Debug, Clone)]
 pub struct WindowOpened {
-    pub address: usize,
-    pub workspace_name: String,
-    pub class_name: String,
+    pub address: Address,
+    pub workspace_id: i32,
+    pub app_id: Option<String>,
 }
 
 #[derive(Debug, Clone)]

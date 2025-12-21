@@ -1,3 +1,4 @@
+use crate::desktop;
 use glib::Object;
 use gtk4::glib;
 
@@ -10,20 +11,26 @@ glib::wrapper! {
 impl WindowList {
     #[inline]
     pub fn new() -> Self {
-        Object::builder().build()
+        Object::builder()
+            .property("current-workspace-id", desktop().get_current_workspace_id())
+            .build()
     }
 }
 
 mod imp {
-    use crate::events;
-    use crate::{desktop, ui};
+    use crate::{desktop, events, ui};
     use gtk4::gio;
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
+    use std::cell::Cell;
 
-    #[derive(Default)]
-    pub struct WindowList;
+    #[derive(Default, glib::Properties)]
+    #[properties(wrapper_type = super::WindowList)]
+    pub struct WindowList {
+        #[property(get, set)]
+        current_workspace_id: Cell<i32>,
+    }
 
     #[glib::object_subclass]
     impl ObjectSubclass for WindowList {
@@ -32,6 +39,7 @@ mod imp {
         type ParentType = gtk4::Box;
     }
 
+    #[glib::derived_properties]
     impl ObjectImpl for WindowList {
         fn constructed(&self) {
             self.parent_constructed();
@@ -47,32 +55,27 @@ mod imp {
 
             host.append(&flowbox);
 
-            let windows = desktop().get_current_workspace_windows();
             let list_store = gio::ListStore::new::<ui::WindowModel>();
-
-            for window in windows {
-                let mut icon = "unknown".to_string();
-
-                if let Some(app_id) = window.app_id()
-                    && let Some(app) = desktop().get_app(app_id)
-                    && let Some(app_icon) = app.icon()
-                {
-                    icon = app_icon.clone();
-                }
-
-                let Ok(addr) = window.address().0.try_into() else {
-                    continue;
-                };
-
-                let model = ui::WindowModel::new(addr, icon, window.is_focused());
-                list_store.append(&model);
-            }
 
             flowbox.bind_model(Some(&list_store), |item| {
                 let window = item.downcast_ref::<ui::WindowModel>().expect("WindowModel expected");
                 let item = make_window_taskbar_item(window);
                 item.upcast()
             });
+
+            host.connect_current_workspace_id_notify(glib::clone!(
+                #[weak]
+                list_store,
+                move |window_list| {
+                    fill_window_list_store(&list_store, window_list.current_workspace_id());
+                }
+            ));
+
+            events().connect_workspace_opened(glib::clone!(
+                #[weak]
+                host,
+                move |workspace_id| host.set_current_workspace_id(workspace_id)
+            ));
 
             events().connect_window_focused(glib::clone!(
                 #[weak]
@@ -85,12 +88,54 @@ mod imp {
                     }
                 }
             ));
+
+            events().connect_window_opened(glib::clone!(
+                #[weak]
+                list_store,
+                #[weak]
+                host,
+                move |addr: u64, app_id, workspace_id: i32| {
+                    if host.current_workspace_id() != workspace_id {
+                        return;
+                    }
+
+                    let icon = find_app_icon(app_id.as_ref());
+                    let model = ui::WindowModel::new(addr, icon, false);
+                    list_store.append(&model);
+                }
+            ));
         }
     }
 
     impl WidgetImpl for WindowList {}
 
     impl BoxImpl for WindowList {}
+
+    fn fill_window_list_store(list_store: &gio::ListStore, workspace_id: i32) {
+        list_store.remove_all();
+        let windows = desktop().get_workspace_windows(workspace_id);
+
+        for window in windows {
+            let Ok(addr) = window.address().0.try_into() else {
+                continue;
+            };
+
+            let icon = find_app_icon(window.app_id());
+            let model = ui::WindowModel::new(addr, icon, window.is_focused());
+            list_store.append(&model);
+        }
+    }
+
+    fn find_app_icon(app_id: Option<&String>) -> String {
+        if let Some(app_id) = app_id
+            && let Some(app) = desktop().get_app(app_id)
+            && let Some(app_icon) = app.icon()
+        {
+            app_icon.clone()
+        } else {
+            "unknown".to_string()
+        }
+    }
 
     fn make_window_taskbar_item(window_model: &ui::WindowModel) -> ui::TaskbarItem {
         let icon = gtk4::Image::builder()

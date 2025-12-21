@@ -3,7 +3,7 @@ use tracing::warn;
 use crate::{
     application::ApplicationService,
     hyprland,
-    system_events::{SystemEvent, WorkspaceCreated},
+    system_events::{SystemEvent, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{RwLock, atomic::AtomicI32, mpsc::Sender};
 
@@ -140,6 +140,11 @@ impl WorkspaceService {
         self.current_workspace_id.load(Ordering::Relaxed)
     }
 
+    pub fn get_workspace_id_by_name(&self, name: &str) -> Option<i32> {
+        let workspaces = self.workspaces.read().unwrap();
+        workspaces.iter().find(|ws| ws.name == name).map(|ws| ws.id)
+    }
+
     pub fn set_current_workspace(&self, workspace_id: i32) {
         use std::sync::atomic::Ordering;
         self.current_workspace_id.store(workspace_id, Ordering::Relaxed);
@@ -177,6 +182,30 @@ impl WorkspaceService {
 
 // Window APIs
 impl WorkspaceService {
+    pub fn add_window(&self, address: hyprland::Address, app_id: Option<String>, workspace_id: i32, class: String) {
+        let mut windows = self.windows.write().unwrap();
+        if windows.iter().any(|w| w.address == address) {
+            warn!("Window with address {} already exists, skipping add", address);
+            return;
+        }
+
+        let window = Window {
+            address,
+            app_id,
+            workspace_id,
+            class,
+            is_focused: false,
+        };
+
+        let event = WindowOpened {
+            address: window.address,
+            workspace_id: window.workspace_id,
+            app_id: window.app_id.clone(),
+        };
+        windows.push(window);
+        let _ = self.event_sender.send(SystemEvent::WindowOpened(event));
+    }
+
     pub fn set_focused_window(&self, window_address: hyprland::Address) {
         let mut windows = self.windows.write().unwrap();
         for window in windows.iter_mut() {
