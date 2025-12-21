@@ -1,2 +1,2 @@
-## Quickshell widgets for Hyprland based desktop environment
+## Taskbar for Hyprland based desktop environment
 WIP
