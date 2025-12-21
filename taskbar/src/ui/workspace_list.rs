@@ -47,19 +47,20 @@ mod imp {
 
             host.append(&flowbox);
 
-            let model = gio::ListStore::new::<ui::Workspace>();
+            let model = gio::ListStore::new::<ui::WorkspaceModel>();
             let current_workspace = desktop().get_current_workspace_id();
 
             let mut workspaces = desktop().get_workspaces();
             workspaces.sort_by_key(|ws| ws.id());
 
             for workspace in workspaces {
-                let item = ui::Workspace::new(workspace.id(), workspace.name(), workspace.id() == current_workspace);
+                let item =
+                    ui::WorkspaceModel::new(workspace.id(), workspace.name(), workspace.id() == current_workspace);
                 model.append(&item);
             }
 
             flowbox.bind_model(Some(&model), |item| {
-                let workspace_item = item.downcast_ref::<ui::Workspace>().expect("Workspace expected");
+                let workspace_item = item.downcast_ref::<ui::WorkspaceModel>().expect("Workspace expected");
                 create_workspace_widget(workspace_item).upcast()
             });
 
@@ -67,10 +68,10 @@ mod imp {
                 #[weak]
                 model,
                 move |id, name| {
-                    let item = ui::Workspace::new(id, &name, false);
+                    let item = ui::WorkspaceModel::new(id, &name, false);
                     model.insert_sorted(&item, |a, b| {
-                        let a_id = a.downcast_ref::<ui::Workspace>().map(|ws| ws.id()).unwrap_or(0);
-                        let b_id = b.downcast_ref::<ui::Workspace>().map(|ws| ws.id()).unwrap_or(0);
+                        let a_id = a.downcast_ref::<ui::WorkspaceModel>().map(|ws| ws.id()).unwrap_or(0);
+                        let b_id = b.downcast_ref::<ui::WorkspaceModel>().map(|ws| ws.id()).unwrap_or(0);
                         a_id.cmp(&b_id)
                     });
                 }
@@ -81,7 +82,7 @@ mod imp {
                 model,
                 move |opened_workspace_id| {
                     for i in 0..model.n_items() {
-                        if let Some(item) = model.item(i).and_downcast::<ui::Workspace>() {
+                        if let Some(item) = model.item(i).and_downcast::<ui::WorkspaceModel>() {
                             item.set_is_current(item.id() == opened_workspace_id);
                         }
                     }
@@ -91,7 +92,7 @@ mod imp {
             events().connect_workspace_destroyed(glib::clone!(
                 #[weak]
                 model,
-                move |id| model.retain(|el| el.downcast_ref::<ui::Workspace>().is_some_and(|ws| ws.id() != id))
+                move |id| model.retain(|el| el.downcast_ref::<ui::WorkspaceModel>().is_some_and(|ws| ws.id() != id))
             ));
         }
     }
@@ -100,7 +101,7 @@ mod imp {
 
     impl BoxImpl for WorkspaceList {}
 
-    fn create_workspace_widget(workspace_item: &ui::Workspace) -> ui::TaskbarItem {
+    fn create_workspace_widget(workspace_item: &ui::WorkspaceModel) -> ui::TaskbarItem {
         let label = gtk4::Label::builder()
             .label(workspace_item.name())
             .valign(gtk4::Align::Center)

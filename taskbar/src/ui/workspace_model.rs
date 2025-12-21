@@ -4,10 +4,10 @@ use gtk4::prelude::*;
 use gtk4::subclass::prelude::*;
 
 glib::wrapper! {
-    pub struct Workspace(ObjectSubclass<imp::Workspace>);
+    pub struct WorkspaceModel(ObjectSubclass<imp::Workspace>);
 }
 
-impl Workspace {
+impl WorkspaceModel {
     pub fn new(id: i32, name: &str, is_current: bool) -> Self {
         Object::builder()
             .property("id", id)
@@ -22,7 +22,7 @@ mod imp {
     use std::cell::{Cell, RefCell};
 
     #[derive(Default, Properties)]
-    #[properties(wrapper_type = super::Workspace)]
+    #[properties(wrapper_type = super::WorkspaceModel)]
     pub struct Workspace {
         #[property(get, set, construct_only)]
         id: Cell<i32>,
@@ -34,8 +34,8 @@ mod imp {
 
     #[glib::object_subclass]
     impl ObjectSubclass for Workspace {
-        const NAME: &'static str = "StilWorkspace";
-        type Type = super::Workspace;
+        const NAME: &'static str = "StilWorkspaceModel";
+        type Type = super::WorkspaceModel;
     }
 
     #[glib::derived_properties]
