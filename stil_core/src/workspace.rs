@@ -1,11 +1,10 @@
-use tracing::warn;
-
 use crate::{
     application::ApplicationService,
     hyprland,
-    system_events::{SystemEvent, WindowClosed, WindowOpened, WorkspaceCreated},
+    system_events::{SystemEvent, WindowClosed, WindowMoved, WindowOpened, WorkspaceCreated},
 };
 use std::sync::{RwLock, atomic::AtomicI32, mpsc::Sender};
+use tracing::warn;
 
 #[derive(Debug, Default, Clone)]
 pub struct Workspace {
@@ -182,6 +181,11 @@ impl WorkspaceService {
 
 // Window APIs
 impl WorkspaceService {
+    pub fn get_window_by_address(&self, address: hyprland::Address) -> Option<Window> {
+        let windows = self.windows.read().unwrap();
+        windows.iter().find(|w| w.address == address).cloned()
+    }
+
     pub fn add_window(&self, address: hyprland::Address, app_id: Option<String>, workspace_id: i32, class: String) {
         let mut windows = self.windows.write().unwrap();
         if windows.iter().any(|w| w.address == address) {
@@ -226,5 +230,25 @@ impl WorkspaceService {
             window.is_focused = window.address == window_address;
         }
         let _ = self.event_sender.send(SystemEvent::WindowFocused(window_address));
+    }
+
+    pub fn move_window_to_workspace(&self, window_address: hyprland::Address, target_workspace_id: i32) {
+        let mut windows = self.windows.write().unwrap();
+        let Some(window) = windows.iter_mut().find(|w| w.address == window_address) else {
+            warn!("Tried to move non-existing window with address {}", window_address);
+            return;
+        };
+
+        if window.workspace_id == target_workspace_id {
+            return;
+        }
+
+        let event = WindowMoved {
+            window_address,
+            from_workspace: window.workspace_id,
+            to_workspace: target_workspace_id,
+        };
+        window.workspace_id = target_workspace_id;
+        let _ = self.event_sender.send(SystemEvent::WindowMoved(event));
     }
 }

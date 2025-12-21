@@ -79,7 +79,11 @@ impl Desktop {
                             .workspace_service
                             .set_focused_window(active_window.address);
                     }
-                    hyprland::Event::MoveWindowV2(_) => {}
+                    hyprland::Event::MoveWindowV2(move_window) => {
+                        desktop_clone
+                            .workspace_service
+                            .move_window_to_workspace(move_window.window_address, move_window.workspace_id);
+                    }
                     hyprland::Event::ActiveLayout(_) => {}
                 };
                 ControlFlow::Continue(())
@@ -112,6 +116,11 @@ impl Desktop {
     #[inline]
     pub fn get_workspace_windows(&self, workspace_id: i32) -> Vec<Window> {
         self.workspace_service.get_workspace_windows(workspace_id)
+    }
+
+    #[inline]
+    pub fn get_window_by_address(&self, address: hyprland::Address) -> Option<Window> {
+        self.workspace_service.get_window_by_address(address)
     }
 
     fn add_window(&self, address: hyprland::Address, wm_class: String, workspace_name: String) {

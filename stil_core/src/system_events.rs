@@ -21,9 +21,9 @@ pub struct WorkspaceCreated {
 
 #[derive(Debug, Clone)]
 pub struct WindowMoved {
-    pub address: usize,
-    pub workspace_id: i32,
-    pub workspace_name: String,
+    pub window_address: Address,
+    pub from_workspace: i32,
+    pub to_workspace: i32,
 }
 
 #[derive(Debug, Clone)]

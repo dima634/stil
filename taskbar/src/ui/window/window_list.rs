@@ -66,9 +66,7 @@ mod imp {
             host.connect_current_workspace_id_notify(glib::clone!(
                 #[weak]
                 list_store,
-                move |window_list| {
-                    fill_window_list_store(&list_store, window_list.current_workspace_id());
-                }
+                move |window_list| fill_window_list_store(&list_store, window_list.current_workspace_id())
             ));
 
             events().connect_workspace_opened(glib::clone!(
@@ -120,6 +118,32 @@ mod imp {
                             .is_some_and(|window| window.address() != addr)
                     });
                 }
+            ));
+
+            events().connect_window_moved(glib::clone!(
+                #[weak]
+                list_store,
+                #[weak]
+                host,
+                move |addr: u64, from_workspace: i32, to_workspace: i32| {
+                    let current_workspace = host.current_workspace_id();
+                    if current_workspace == from_workspace {
+                        // Remove from current workspace
+                        list_store.retain(|el| {
+                            el.downcast_ref::<ui::WindowModel>()
+                                .is_some_and(|window| window.address() != addr)
+                        });
+                    } else if current_workspace == to_workspace {
+                        // Add to current workspace
+                        let window_addr = stil_core::Address(addr as usize);
+                        let Some(window) = desktop().get_window_by_address(window_addr) else {
+                            return;
+                        };
+                        let icon = find_app_icon(window.app_id());
+                        let model = ui::WindowModel::new(addr, icon, window.is_focused());
+                        list_store.append(&model);
+                    }
+                },
             ));
         }
     }
