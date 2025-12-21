@@ -14,6 +14,7 @@ pub use workspaces::*;
 
 use super::Hyprland;
 use std::{
+    fmt::Display,
     io::{Read, Write},
     os::unix::net::UnixStream,
 };
@@ -25,10 +26,10 @@ pub trait HyprCtlCmd: ToString {
 #[derive(Debug)]
 pub struct EmptyResponse;
 
-impl ToString for EmptyResponse {
+impl Display for EmptyResponse {
     #[inline]
-    fn to_string(&self) -> String {
-        String::new()
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "")
     }
 }
 

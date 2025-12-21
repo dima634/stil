@@ -1,4 +1,5 @@
 use super::{EmptyResponse, HyprCtlCmd};
+use std::fmt::Display;
 
 #[derive(Debug)]
 pub struct ExecCmd(String);
@@ -10,9 +11,9 @@ impl ExecCmd {
     }
 }
 
-impl ToString for ExecCmd {
-    fn to_string(&self) -> String {
-        format!("dispatch exec {}", self.0)
+impl Display for ExecCmd {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "dispatch exec {}", self.0)
     }
 }
 

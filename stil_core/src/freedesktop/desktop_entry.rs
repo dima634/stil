@@ -115,7 +115,7 @@ fn parse_desktop_entry_file(path: PathBuf) -> Option<DesktopEntry> {
     assert!(path.is_file() && path.extension() == Some("desktop".as_ref()));
     let file = std::fs::File::open(&path).ok()?;
     let reader = std::io::BufReader::new(file);
-    let mut lines = reader.lines().filter_map(|line| line.ok());
+    let mut lines = reader.lines().map_while(Result::ok);
 
     let group_header = lines.next()?;
     if group_header != "[Desktop Entry]" {

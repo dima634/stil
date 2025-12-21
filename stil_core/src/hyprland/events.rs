@@ -113,8 +113,8 @@ impl HyprEvents {
         let mut buffer = [0u8; 1024];
         let mut raw_event = String::new();
 
-        let Some(socket_path) = Hyprland::events_socket_path() else { return None };
-        let Ok(mut socket) = UnixStream::connect(socket_path) else { return None };
+        let socket_path = Hyprland::events_socket_path()?;
+        let mut socket = UnixStream::connect(socket_path).ok()?;
 
         loop {
             let num_bytes = match socket.read(&mut buffer) {
@@ -134,10 +134,10 @@ impl HyprEvents {
 
             for char in event_part.chars() {
                 if char == '\n' {
-                    if let Ok(event) = Event::try_from(&raw_event) {
-                        if let ControlFlow::Break(()) = callback(event) {
-                            return Some(());
-                        }
+                    if let Ok(event) = Event::try_from(&raw_event)
+                        && let ControlFlow::Break(()) = callback(event)
+                    {
+                        return Some(());
                     }
 
                     raw_event.clear();

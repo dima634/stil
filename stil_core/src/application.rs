@@ -48,7 +48,7 @@ impl ApplicationService {
 
 impl Default for ApplicationService {
     fn default() -> Self {
-        let pinned_apps = repos::ApplicationRepo::default().get_pinned();
+        let pinned_apps = repos::ApplicationRepo.get_pinned();
         let desktop_entries = freedesktop::find_application_desktop_entries();
         let applications = desktop_entries
             .into_iter()

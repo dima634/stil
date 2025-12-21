@@ -156,7 +156,7 @@ mod imp {
 
     fn make_window_taskbar_item(window_model: &ui::WindowModel) -> ui::TaskbarItem {
         let icon = gtk4::Image::builder()
-            .icon_name(&window_model.icon())
+            .icon_name(window_model.icon())
             .pixel_size(30)
             .build();
         let taskbar_item = ui::TaskbarItem::new();

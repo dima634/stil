@@ -1,5 +1,6 @@
 use super::HyprCtlCmd;
 use serde::Deserialize;
+use std::fmt::Display;
 
 #[derive(Debug, Deserialize)]
 pub struct Keyboard {
@@ -29,10 +30,9 @@ impl TryFrom<&str> for Devices {
 #[derive(Debug)]
 pub struct GetDevicesCmd;
 
-impl ToString for GetDevicesCmd {
-    #[inline]
-    fn to_string(&self) -> String {
-        "-j/devices".to_string()
+impl Display for GetDevicesCmd {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "-j/devices")
     }
 }
 

@@ -1,7 +1,7 @@
-use crate::hyprland;
-
 use super::HyprCtlCmd;
+use crate::hyprland;
 use serde::Deserialize;
+use std::fmt::Display;
 
 #[derive(Debug, Deserialize)]
 struct ClientWorkspace {
@@ -67,17 +67,16 @@ impl TryFrom<&str> for Clients {
 
     #[inline]
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        serde_json::from_str(value).map_err(|_| ()).map(|vec| Self(vec))
+        serde_json::from_str(value).map_err(|_| ()).map(Self)
     }
 }
 
 #[derive(Debug)]
 pub struct GetClientsCmd;
 
-impl ToString for GetClientsCmd {
-    #[inline]
-    fn to_string(&self) -> String {
-        "-j/clients".to_string()
+impl Display for GetClientsCmd {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "-j/clients")
     }
 }
 

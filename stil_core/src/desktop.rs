@@ -85,7 +85,7 @@ impl Desktop {
                 ControlFlow::Continue(())
             };
 
-            if let None = hyprland::HyprEvents::listen(handle_event) {
+            if hyprland::HyprEvents::listen(handle_event).is_none() {
                 error!("Failed to start Hyprland event listener");
             }
         });

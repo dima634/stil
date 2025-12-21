@@ -1,5 +1,6 @@
 use super::HyprCtlCmd;
 use serde::Deserialize;
+use std::fmt::Display;
 
 #[derive(Debug, Deserialize)]
 pub struct Workspace {
@@ -26,17 +27,16 @@ impl TryFrom<&str> for Workspaces {
 
     #[inline]
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        serde_json::from_str(value).map_err(|_| ()).map(|vec| Self(vec))
+        serde_json::from_str(value).map_err(|_| ()).map(Self)
     }
 }
 
 #[derive(Debug)]
 pub struct GetWorkspacesCmd;
 
-impl ToString for GetWorkspacesCmd {
-    #[inline]
-    fn to_string(&self) -> String {
-        "-j/workspaces".to_string()
+impl Display for GetWorkspacesCmd {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "-j/workspaces")
     }
 }
 
