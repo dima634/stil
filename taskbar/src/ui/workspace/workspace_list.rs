@@ -119,6 +119,18 @@ mod imp {
             .sync_create()
             .build();
 
+        workspace_model
+            .bind_property("is-current", &taskbar_item, "status-bar")
+            .transform_to(|_, is_current| {
+                Some(if is_current {
+                    ui::StatusBar::Focused
+                } else {
+                    ui::StatusBar::Hidden
+                })
+            })
+            .sync_create()
+            .build();
+
         taskbar_item
     }
 }
