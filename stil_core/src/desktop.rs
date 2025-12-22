@@ -47,52 +47,12 @@ impl Desktop {
         });
 
         let desktop_clone = desktop.clone();
-        std::thread::spawn(move || {
-            info!("Starting Hyprland event listener");
-            let handle_event = |event| {
-                match event {
-                    hyprland::Event::CreateWorkspace(workspace) => {
-                        desktop_clone
-                            .workspace_service
-                            .add_workspace(Workspace::new(workspace.id, workspace.name));
-                    }
-                    hyprland::Event::DestroyWorkspace(workspace) => {
-                        desktop_clone.workspace_service.remove_workspace(workspace.id)
-                    }
-                    hyprland::Event::FocusWorkspace(workspace) => {
-                        desktop_clone.workspace_service.set_current_workspace(workspace.id)
-                    }
-                    hyprland::Event::OpenWindow(open_window) => {
-                        desktop_clone.add_window(
-                            open_window.window_address,
-                            open_window.window_class,
-                            open_window.workspace_name,
-                        );
-                    }
-                    hyprland::Event::CloseWindow(close_window) => {
-                        desktop_clone
-                            .workspace_service
-                            .remove_window(close_window.window_address);
-                    }
-                    hyprland::Event::ActiveWindowV2(active_window) => {
-                        desktop_clone
-                            .workspace_service
-                            .set_focused_window(active_window.address);
-                    }
-                    hyprland::Event::MoveWindowV2(move_window) => {
-                        desktop_clone
-                            .workspace_service
-                            .move_window_to_workspace(move_window.window_address, move_window.workspace_id);
-                    }
-                    hyprland::Event::ActiveLayout(_) => {}
-                };
-                ControlFlow::Continue(())
-            };
-
-            if hyprland::HyprEvents::listen(handle_event).is_none() {
-                error!("Failed to start Hyprland event listener");
-            }
-        });
+        if let Err(e) = std::thread::Builder::new()
+            .name("hypr_ev".to_string())
+            .spawn(move || listen_for_hyprland_events(desktop_clone))
+        {
+            error!("Failed to spawn Hyprland event listener thread. Inner error: {}", e);
+        }
 
         (desktop, system_event_rx)
     }
@@ -151,9 +111,47 @@ fn configure_logging() -> Result<(), tracing::subscriber::SetGlobalDefaultError>
 
     let subscriber = FmtSubscriber::builder()
         .with_max_level(Level::TRACE)
-        .with_thread_ids(true)
         .with_thread_names(true)
         .finish();
 
     tracing::subscriber::set_global_default(subscriber)
+}
+
+fn listen_for_hyprland_events(desktop: Arc<Desktop>) {
+    info!("Starting Hyprland event listener");
+    let handle_event = |event| {
+        match event {
+            hyprland::Event::CreateWorkspace(workspace) => {
+                desktop
+                    .workspace_service
+                    .add_workspace(Workspace::new(workspace.id, workspace.name));
+            }
+            hyprland::Event::DestroyWorkspace(workspace) => desktop.workspace_service.remove_workspace(workspace.id),
+            hyprland::Event::FocusWorkspace(workspace) => desktop.workspace_service.set_current_workspace(workspace.id),
+            hyprland::Event::OpenWindow(open_window) => {
+                desktop.add_window(
+                    open_window.window_address,
+                    open_window.window_class,
+                    open_window.workspace_name,
+                );
+            }
+            hyprland::Event::CloseWindow(close_window) => {
+                desktop.workspace_service.remove_window(close_window.window_address);
+            }
+            hyprland::Event::ActiveWindowV2(active_window) => {
+                desktop.workspace_service.set_focused_window(active_window.address);
+            }
+            hyprland::Event::MoveWindowV2(move_window) => {
+                desktop
+                    .workspace_service
+                    .move_window_to_workspace(move_window.window_address, move_window.workspace_id);
+            }
+            hyprland::Event::ActiveLayout(_) => {}
+        };
+        ControlFlow::Continue(())
+    };
+
+    if hyprland::HyprEvents::listen(handle_event).is_none() {
+        error!("Failed to start Hyprland event listener");
+    }
 }
