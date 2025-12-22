@@ -41,13 +41,6 @@ mod imp {
             window_list.set_valign(gtk4::Align::Center);
             window_list.set_halign(gtk4::Align::Center);
 
-            let system_tray = gtk4::Box::builder()
-                .orientation(gtk4::Orientation::Horizontal)
-                .css_classes(["system-tray"])
-                .build();
-
-            system_tray.append(&ui::Wallclock::new());
-
             let host = self.obj();
             host.add_css_class("taskbar");
             host.set_homogeneous(true);
@@ -55,7 +48,7 @@ mod imp {
 
             host.append(&workspace_list);
             host.append(&window_list);
-            host.append(&system_tray);
+            host.append(&ui::SystemTray::new());
         }
     }
 

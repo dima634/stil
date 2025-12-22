@@ -37,18 +37,18 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
-            let date_label = gtk4::Label::new(Some("--.--.--"));
+            let date_label = gtk4::Label::new(Some("--/--/--"));
             let time_label = gtk4::Label::new(Some("--:--"));
 
             let vbox = gtk4::Box::builder()
                 .orientation(gtk4::Orientation::Vertical)
+                .valign(gtk4::Align::Center)
                 .spacing(0)
                 .build();
             vbox.append(&time_label);
             vbox.append(&date_label);
 
             let taskbar_item = ui::TaskbarItem::new();
-            taskbar_item.set_highlighted(true);
             taskbar_item.set_content(&vbox);
 
             let host = self.obj();
@@ -73,7 +73,7 @@ mod imp {
             return;
         };
 
-        let date_str = now.format("%d.%m.%Y").unwrap_or_else(|_| "--.--.--".into());
+        let date_str = now.format("%d/%m/%Y").unwrap_or_else(|_| "--/--/--".into());
         date.set_text(&date_str);
 
         let time_str = now.format("%H:%M").unwrap_or_else(|_| "--:--".into());

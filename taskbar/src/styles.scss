@@ -11,9 +11,17 @@ window {
     .widgets {
         background-color: orange;
     }
+}
 
-    .system-tray {
-        background-color: violet;
+.system-tray {
+    padding: 4px;
+}
+
+.wallclock {
+    label {
+        padding-left: 4px;
+        padding-right: 4px;
+        color: black;
     }
 }
 
