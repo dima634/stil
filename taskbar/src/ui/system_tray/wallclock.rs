@@ -14,13 +14,12 @@ impl Wallclock {
 }
 
 mod imp {
-    use std::time::Duration;
-
     use crate::ui;
     use glib::Properties;
     use gtk4::glib;
     use gtk4::prelude::*;
     use gtk4::subclass::prelude::*;
+    use std::time::Duration;
 
     #[derive(Default, Properties)]
     #[properties(wrapper_type = super::Wallclock)]
