@@ -2,6 +2,7 @@
 - Power Ctl
 - Notifications
 - App launcher
+- Keyboard layout
 
 ## Misc
 - Rewrite hyprland events listener using iterator:
