@@ -1,6 +1,7 @@
 use crate::ui;
 use gtk4::prelude::*;
 use gtk4_layer_shell::*;
+use stil_core::warn;
 
 pub fn create_power_ctl_flyout() -> gtk4::ApplicationWindow {
     let list = gtk4::ListBox::builder()
@@ -10,6 +11,18 @@ pub fn create_power_ctl_flyout() -> gtk4::ApplicationWindow {
 
     list.append(&create_list_item("Restart", "system-reboot-symbolic"));
     list.append(&create_list_item("Shutdown", "system-shutdown-symbolic"));
+
+    list.connect_row_activated(|_, row| match row.index() {
+        0 => {
+            stil_core::system::reboot();
+        }
+        1 => {
+            stil_core::system::power_off();
+        }
+        _ => {
+            warn!("Unknown action selected");
+        }
+    });
 
     let window = ui::create_flyout_window();
     window.set_anchor(Edge::Right, true);

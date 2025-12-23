@@ -1,26 +1,28 @@
-// mod dbus {
-//     #[zbus::proxy(
-//         default_service = "org.freedesktop.login1",
-//         default_path = "/org/freedesktop/login1",
-//         interface = "org.freedesktop.login1.Manager"
-//     )]
-//     trait Login1Manager {
-//         fn power_off(&self, interactive: bool) -> zbus::Result<()>;
-//         fn reboot(&self, interactive: bool) -> zbus::Result<()>;
-//     }
+use crate::dbus::system_dbus;
 
-//     pub fn power_off() -> bool {
-//         Login1ManagerProxyBlocking::new(&ServiceLocator::system_dbus())
-//             .and_then(|proxy| proxy.power_off(true))
-//             .is_ok()
-//     }
+#[zbus::proxy(
+    default_service = "org.freedesktop.login1",
+    default_path = "/org/freedesktop/login1",
+    interface = "org.freedesktop.login1.Manager"
+)]
+trait Login1Manager {
+    fn power_off(&self, interactive: bool) -> zbus::Result<()>;
+    fn reboot(&self, interactive: bool) -> zbus::Result<()>;
+}
 
-//     pub fn reboot() -> bool {
-//         Login1ManagerProxyBlocking::new(&ServiceLocator::system_dbus())
-//             .and_then(|proxy| proxy.reboot(true))
-//             .is_ok()
-//     }
-// }
+pub fn power_off() -> bool {
+    let Some(dbus) = system_dbus() else { return false };
+    Login1ManagerProxyBlocking::new(dbus)
+        .and_then(|proxy| proxy.power_off(true))
+        .is_ok()
+}
+
+pub fn reboot() -> bool {
+    let Some(dbus) = system_dbus() else { return false };
+    Login1ManagerProxyBlocking::new(dbus)
+        .and_then(|proxy| proxy.reboot(true))
+        .is_ok()
+}
 
 // mod cpu {
 //     pub struct CpuUsage {
