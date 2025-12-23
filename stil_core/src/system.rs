@@ -1,4 +1,5 @@
 use crate::dbus::system_dbus;
+use tracing::error;
 
 #[zbus::proxy(
     default_service = "org.freedesktop.login1",
@@ -10,18 +11,18 @@ trait Login1Manager {
     fn reboot(&self, interactive: bool) -> zbus::Result<()>;
 }
 
-pub fn power_off() -> bool {
-    let Some(dbus) = system_dbus() else { return false };
-    Login1ManagerProxyBlocking::new(dbus)
-        .and_then(|proxy| proxy.power_off(true))
-        .is_ok()
+pub fn power_off() {
+    let Some(dbus) = system_dbus() else { return };
+    if let Err(e) = Login1ManagerProxyBlocking::new(dbus).and_then(|proxy| proxy.power_off(true)) {
+        error!("Failed to power off system via D-Bus: {}", e);
+    }
 }
 
-pub fn reboot() -> bool {
-    let Some(dbus) = system_dbus() else { return false };
-    Login1ManagerProxyBlocking::new(dbus)
-        .and_then(|proxy| proxy.reboot(true))
-        .is_ok()
+pub fn reboot() {
+    let Some(dbus) = system_dbus() else { return };
+    if let Err(e) = Login1ManagerProxyBlocking::new(dbus).and_then(|proxy| proxy.reboot(true)) {
+        error!("Failed to reboot system via D-Bus: {}", e);
+    }
 }
 
 // mod cpu {
