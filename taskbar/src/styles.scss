@@ -1,6 +1,13 @@
-window {
+.shell-window {
     border-radius: 8px;
     background-color: transparent;
+}
+
+.flyout-window {
+    padding: 6px;
+    border-radius: 8px;
+    background-color: rgba(252, 252, 252, 0.85);
+    border: 1px solid rgba(117, 117, 117, 0.4);
 }
 
 .taskbar {
@@ -15,6 +22,14 @@ window {
 
 .system-tray {
     padding: 4px;
+
+    .power-ctl {
+        background-image: -gtk-icontheme('system-shutdown-symbolic');
+        background-repeat: no-repeat;
+        background-size: 25px;
+        background-position: center;
+        color: black;
+    }
 }
 
 .wallclock {
@@ -84,5 +99,13 @@ window {
     
     &:focus {
         outline: none;
+    }
+}
+
+list {
+    row {
+        color: black;
+        border-radius: 3px;
+        font-size: 16px;
     }
 }

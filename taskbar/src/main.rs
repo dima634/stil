@@ -54,6 +54,7 @@ fn create_taskbar_window(application: &gtk4::Application) {
     window.set_anchor(Edge::Bottom, true);
 
     window.set_child(Some(&ui::Taskbar::new()));
+    window.add_css_class("shell-window");
 
     window.present();
 }

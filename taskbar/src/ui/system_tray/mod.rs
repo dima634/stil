@@ -1,7 +1,5 @@
 mod wallclock;
 
-pub use wallclock::Wallclock;
-
 use glib::Object;
 use gtk4::glib;
 
@@ -24,6 +22,7 @@ mod imp {
     use gtk4::subclass::prelude::*;
 
     use crate::ui;
+    use crate::ui::create_power_ctl_flyout;
 
     #[derive(Default, glib::Properties)]
     #[properties(wrapper_type = super::SystemTray)]
@@ -41,10 +40,33 @@ mod imp {
         fn constructed(&self) {
             self.parent_constructed();
 
+            let power_ctl = ui::TaskbarItem::new();
+            power_ctl.add_css_class("power-ctl");
+
+            let flyout = create_power_ctl_flyout();
+
+            power_ctl.connect_clicked(glib::clone!(
+                #[weak]
+                flyout,
+                move |_| {
+                    if flyout.is_visible() {
+                        flyout.close();
+                    } else {
+                        flyout.present();
+                    }
+                }
+            ));
+
+            flyout
+                .bind_property("visible", &power_ctl, "highlighted")
+                .sync_create()
+                .build();
+
             let host = self.obj();
             host.set_halign(gtk4::Align::End);
             host.add_css_class("system-tray");
-            host.append(&ui::Wallclock::new());
+            host.append(&super::wallclock::Wallclock::new());
+            host.append(&power_ctl);
         }
     }
 
