@@ -107,12 +107,12 @@ impl Desktop {
 
 // Keyboard
 impl Desktop {
-    pub fn get_current_keyboard_layout(&self) -> Option<String> {
+    pub fn get_current_keyboard_layout_code(&self) -> Option<&'static str> {
         self.keyboard_service
             .read()
             .unwrap()
             .get_main_keyboard()
-            .map(|keyboard| keyboard.active_keymap().clone())
+            .map(|kb| kb.active_layout_code())
     }
 }
 

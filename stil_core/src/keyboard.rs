@@ -23,6 +23,11 @@ impl Keyboard {
     }
 
     #[inline]
+    pub fn active_layout_code(&self) -> &'static str {
+        keymap_name_to_layout_code(&self.active_keymap)
+    }
+
+    #[inline]
     pub fn set_active_keymap(&mut self, keymap: String) {
         self.active_keymap = keymap;
     }
@@ -84,8 +89,17 @@ impl KeyboardService {
 
     pub fn set_keyboard_keymap(&mut self, keyboard_name: &str, keymap: String) {
         if let Some(kb) = self.keyboards.iter_mut().find(|kb| kb.name() == keyboard_name) {
+            let event = SystemEvent::KeyboardLayoutChanged(keymap_name_to_layout_code(&keymap));
             kb.set_active_keymap(keymap.clone());
-            let _ = self.event_sender.send(SystemEvent::KeyboardLayoutChanged(keymap));
+            let _ = self.event_sender.send(event);
         }
+    }
+}
+
+fn keymap_name_to_layout_code(keymap: &str) -> &'static str {
+    match keymap {
+        "Ukrainian" => "UA",
+        km if km.starts_with("English") => "EN",
+        _ => "??",
     }
 }

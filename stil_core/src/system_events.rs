@@ -36,6 +36,6 @@ pub enum SystemEvent {
     WindowClosed(WindowClosed),
     WindowFocused(Address),
     WindowMoved(WindowMoved),
-    KeyboardLayoutChanged(String),
+    KeyboardLayoutChanged(&'static str),
     Empty,
 }

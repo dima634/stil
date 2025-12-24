@@ -40,10 +40,8 @@ fn create_power_ctl_item() -> ui::TaskbarItem {
 }
 
 fn create_keyboard_layout_item() -> ui::TaskbarItem {
-    let current_layout = desktop()
-        .get_current_keyboard_layout()
-        .unwrap_or_else(|| "Unknown".to_string());
-    let label = gtk4::Label::new(Some(&current_layout));
+    let current_layout = desktop().get_current_keyboard_layout_code().unwrap_or_else(|| "??");
+    let label = gtk4::Label::new(Some(current_layout));
     label.add_css_class("keyboard-layout");
 
     events().connect_keyboard_layout_changed(glib::clone!(
