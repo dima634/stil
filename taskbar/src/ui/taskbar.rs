@@ -48,7 +48,7 @@ mod imp {
 
             host.append(&workspace_list);
             host.append(&window_list);
-            host.append(&ui::SystemTray::new());
+            host.append(&ui::create_system_tray());
         }
     }
 
