@@ -1,4 +1,5 @@
-use crate::hyprland;
+use crate::{SystemEvent, hyprland};
+use std::sync::mpsc::Sender;
 use tracing::warn;
 
 #[derive(Debug)]
@@ -57,28 +58,34 @@ impl From<hyprland::Keyboard> for Keyboard {
 #[derive(Debug)]
 pub struct KeyboardService {
     keyboards: Vec<Keyboard>,
+    event_sender: Sender<SystemEvent>,
 }
 
 impl KeyboardService {
+    pub fn new(event_sender: Sender<SystemEvent>) -> Self {
+        let Some(devices) = hyprland::HyprCtl::default().run(hyprland::GetDevicesCmd) else {
+            warn!("Failed to get keyboard state from Hyprland");
+            return Self {
+                keyboards: vec![],
+                event_sender,
+            };
+        };
+
+        let keyboards = devices.keyboards.into_iter().map(Keyboard::from).collect();
+        Self {
+            keyboards,
+            event_sender,
+        }
+    }
+
     pub fn get_main_keyboard(&self) -> Option<&Keyboard> {
         self.keyboards.iter().find(|kb| kb.is_main())
     }
 
     pub fn set_keyboard_keymap(&mut self, keyboard_name: &str, keymap: String) {
         if let Some(kb) = self.keyboards.iter_mut().find(|kb| kb.name() == keyboard_name) {
-            kb.set_active_keymap(keymap);
+            kb.set_active_keymap(keymap.clone());
+            let _ = self.event_sender.send(SystemEvent::KeyboardLayoutChanged(keymap));
         }
-    }
-}
-
-impl Default for KeyboardService {
-    #[inline]
-    fn default() -> Self {
-        let Some(devices) = hyprland::HyprCtl::default().run(hyprland::GetDevicesCmd) else {
-            warn!("Failed to get keyboard state from Hyprland");
-            return Self { keyboards: vec![] };
-        };
-        let keyboards = devices.keyboards.into_iter().map(Keyboard::from).collect();
-        Self { keyboards }
     }
 }

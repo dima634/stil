@@ -92,6 +92,14 @@ impl Events {
         )
     }
 
+    pub fn connect_keyboard_layout_changed<F: Fn(String) + 'static>(&self, f: F) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "keyboard-layout-changed",
+            false,
+            glib::closure_local!(move |_: Self, new_layout: String| f(new_layout)),
+        )
+    }
+
     fn handle_event(&self, event: SystemEvent) {
         match event {
             SystemEvent::WorkspaceCreated(workspace) => {
@@ -116,7 +124,9 @@ impl Events {
                     &window_moved.to_workspace,
                 ],
             ),
-            SystemEvent::KeyboardLayoutChanged(_) => todo!(),
+            SystemEvent::KeyboardLayoutChanged(new_layout) => {
+                self.emit_by_name("keyboard-layout-changed", &[&new_layout])
+            }
             SystemEvent::Empty => todo!(),
         }
     }
@@ -146,6 +156,7 @@ mod imp {
         fn signals() -> &'static [Signal] {
             static SIGNALS: LazyLock<Vec<Signal>> = LazyLock::new(|| {
                 vec![
+                    // Workspace-related signals
                     Signal::builder("workspace-opened")
                         .param_types([i32::static_type()])
                         .build(),
@@ -155,6 +166,7 @@ mod imp {
                     Signal::builder("workspace-created")
                         .param_types([i32::static_type(), String::static_type()])
                         .build(),
+                    // Windows-related signals
                     Signal::builder("window-focused")
                         .param_types([u64::static_type()])
                         .build(),
@@ -166,6 +178,10 @@ mod imp {
                         .build(),
                     Signal::builder("window-moved")
                         .param_types([u64::static_type(), i32::static_type(), i32::static_type()])
+                        .build(),
+                    // Keyboard-related signals
+                    Signal::builder("keyboard-layout-changed")
+                        .param_types([String::static_type()])
                         .build(),
                 ]
             });

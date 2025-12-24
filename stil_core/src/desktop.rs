@@ -7,7 +7,7 @@ use crate::{
 };
 use std::{
     ops::ControlFlow,
-    sync::{Arc, Once, mpsc::Receiver},
+    sync::{Arc, Once, RwLock, mpsc::Receiver},
 };
 use tracing::{error, info, warn};
 
@@ -16,7 +16,7 @@ use tracing::{error, info, warn};
 pub struct Desktop {
     workspace_service: WorkspaceService,
     application_service: ApplicationService,
-    keyboard_service: KeyboardService,
+    keyboard_service: RwLock<KeyboardService>,
 }
 
 // Initialization
@@ -37,7 +37,7 @@ impl Desktop {
 
         let (system_event_tx, system_event_rx) = std::sync::mpsc::channel();
 
-        let keyboard_service = KeyboardService::default();
+        let keyboard_service = RwLock::new(KeyboardService::new(system_event_tx.clone()));
         let application_service = ApplicationService::default();
         let workspace_service = WorkspaceService::new(&application_service, system_event_tx.clone());
         let desktop = Arc::new(Self {
@@ -105,6 +105,17 @@ impl Desktop {
     }
 }
 
+// Keyboard
+impl Desktop {
+    pub fn get_current_keyboard_layout(&self) -> Option<String> {
+        self.keyboard_service
+            .read()
+            .unwrap()
+            .get_main_keyboard()
+            .map(|keyboard| keyboard.active_keymap().clone())
+    }
+}
+
 fn configure_logging() -> Result<(), tracing::subscriber::SetGlobalDefaultError> {
     use tracing::Level;
     use tracing_subscriber::FmtSubscriber;
@@ -126,8 +137,12 @@ fn listen_for_hyprland_events(desktop: Arc<Desktop>) {
                     .workspace_service
                     .add_workspace(Workspace::new(workspace.id, workspace.name));
             }
-            hyprland::Event::DestroyWorkspace(workspace) => desktop.workspace_service.remove_workspace(workspace.id),
-            hyprland::Event::FocusWorkspace(workspace) => desktop.workspace_service.set_current_workspace(workspace.id),
+            hyprland::Event::DestroyWorkspace(workspace) => {
+                desktop.workspace_service.remove_workspace(workspace.id);
+            }
+            hyprland::Event::FocusWorkspace(workspace) => {
+                desktop.workspace_service.set_current_workspace(workspace.id);
+            }
             hyprland::Event::OpenWindow(open_window) => {
                 desktop.add_window(
                     open_window.window_address,
@@ -146,7 +161,13 @@ fn listen_for_hyprland_events(desktop: Arc<Desktop>) {
                     .workspace_service
                     .move_window_to_workspace(move_window.window_address, move_window.workspace_id);
             }
-            hyprland::Event::ActiveLayout(_) => {}
+            hyprland::Event::ActiveLayout(layout) => {
+                desktop
+                    .keyboard_service
+                    .write()
+                    .unwrap()
+                    .set_keyboard_keymap(&layout.keyboard_name, layout.layout_name);
+            }
         };
         ControlFlow::Continue(())
     };
