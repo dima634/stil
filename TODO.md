@@ -1,8 +1,8 @@
 ## Features
-- Power Ctl
 - Notifications
 - App launcher
-- Keyboard layout
+- Pin apps
+  - Launch apps
 
 ## Misc
 - Rewrite hyprland events listener using iterator:
