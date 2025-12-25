@@ -15,3 +15,4 @@
 - Anyhow?
 - refactor init.rs
 - get rid of csv crate
+- remove reexport of tracing: add subscriber to taskbar crate, remove from core

@@ -100,6 +100,20 @@ impl Events {
         )
     }
 
+    /// Emits `(summary, body, icon)` when a notification is received
+    pub fn connect_notification<F: Fn(String, Option<String>, Option<String>) + 'static>(
+        &self,
+        f: F,
+    ) -> glib::SignalHandlerId {
+        self.connect_closure(
+            "notification",
+            false,
+            glib::closure_local!(
+                move |_: Self, summary: String, body: Option<String>, icon: Option<String>| { f(summary, body, icon) }
+            ),
+        )
+    }
+
     fn handle_event(&self, event: SystemEvent) {
         match event {
             SystemEvent::WorkspaceCreated(workspace) => {
@@ -127,6 +141,10 @@ impl Events {
             SystemEvent::KeyboardLayoutChanged(new_layout) => {
                 self.emit_by_name("keyboard-layout-changed", &[&new_layout])
             }
+            SystemEvent::Notification(notification) => self.emit_by_name(
+                "notification",
+                &[&notification.summary, &notification.body, &notification.icon],
+            ),
             SystemEvent::Empty => todo!(),
         }
     }
@@ -182,6 +200,14 @@ mod imp {
                     // Keyboard-related signals
                     Signal::builder("keyboard-layout-changed")
                         .param_types([String::static_type()])
+                        .build(),
+                    // Notifications
+                    Signal::builder("notification")
+                        .param_types([
+                            String::static_type(),
+                            Option::<String>::static_type(),
+                            Option::<String>::static_type(),
+                        ])
                         .build(),
                 ]
             });

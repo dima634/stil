@@ -2,6 +2,7 @@ use crate::{
     application::{App, ApplicationService},
     db, hyprland,
     keyboard::KeyboardService,
+    notifications::NotificationsService,
     system_events::SystemEvent,
     workspace::{Window, Workspace, WorkspaceService},
 };
@@ -17,6 +18,7 @@ pub struct Desktop {
     workspace_service: WorkspaceService,
     application_service: ApplicationService,
     keyboard_service: RwLock<KeyboardService>,
+    notifications_service: Option<NotificationsService>,
 }
 
 // Initialization
@@ -40,10 +42,12 @@ impl Desktop {
         let keyboard_service = RwLock::new(KeyboardService::new(system_event_tx.clone()));
         let application_service = ApplicationService::default();
         let workspace_service = WorkspaceService::new(&application_service, system_event_tx.clone());
+        let notifications_service = NotificationsService::new(system_event_tx.clone());
         let desktop = Arc::new(Self {
             workspace_service,
             application_service,
             keyboard_service,
+            notifications_service,
         });
 
         let desktop_clone = desktop.clone();
@@ -121,7 +125,7 @@ fn configure_logging() -> Result<(), tracing::subscriber::SetGlobalDefaultError>
     use tracing_subscriber::FmtSubscriber;
 
     let subscriber = FmtSubscriber::builder()
-        .with_max_level(Level::TRACE)
+        .with_max_level(Level::INFO)
         .with_thread_names(true)
         .finish();
 

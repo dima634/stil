@@ -57,4 +57,7 @@ fn create_taskbar_window(application: &gtk4::Application) {
     window.add_css_class("shell-window");
 
     window.present();
+
+    let notifications = ui::create_notifications_window();
+    notifications.present();
 }

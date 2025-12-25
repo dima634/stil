@@ -27,6 +27,13 @@ pub struct WindowMoved {
 }
 
 #[derive(Debug, Clone)]
+pub struct Notification {
+    pub summary: String,
+    pub body: Option<String>,
+    pub icon: Option<String>,
+}
+
+#[derive(Debug, Clone)]
 pub enum SystemEvent {
     // Hyprland related events
     WorkspaceCreated(WorkspaceCreated),
@@ -37,5 +44,6 @@ pub enum SystemEvent {
     WindowFocused(Address),
     WindowMoved(WindowMoved),
     KeyboardLayoutChanged(&'static str),
+    Notification(Notification),
     Empty,
 }
