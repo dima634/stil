@@ -19,8 +19,8 @@ pub fn init_notifications(max_notifications: usize) {
             displayed: RefCell::new(Vec::new()),
         });
 
-        events().connect_notification(move |summary, body, app_icon| {
-            handle_new_notification(summary, body, app_icon, pool.clone());
+        events().connect_notification(move |summary, body, app_icon, image| {
+            handle_new_notification(summary, body, app_icon, image, pool.clone());
         });
     });
 }
@@ -29,6 +29,7 @@ struct Notification {
     summary: String,
     body: Option<String>,
     app_icon: Option<String>,
+    image: Option<gtk4::gdk::Texture>,
 }
 
 struct NotificationsPool {
@@ -41,12 +42,14 @@ fn handle_new_notification(
     summary: String,
     body: Option<String>,
     app_icon: Option<String>,
+    image: Option<gtk4::gdk::Texture>,
     pool: Rc<NotificationsPool>,
 ) {
     pool.pending.borrow_mut().push_back(Notification {
         summary,
         body,
         app_icon,
+        image,
     });
 
     display_next_notification(pool);
@@ -91,7 +94,7 @@ fn update_notifications_position(pool: Rc<NotificationsPool>) {
 }
 
 fn schedule_dismiss(pool: Rc<NotificationsPool>, notification_window: gtk4::ApplicationWindow) {
-    glib::timeout_add_local_once(Duration::from_secs(3), move || {
+    glib::timeout_add_local_once(Duration::from_secs(5), move || {
         let idx = pool
             .displayed
             .borrow()
@@ -174,9 +177,15 @@ impl NotificationWidget {
             self.body.set_label(body);
         }
 
-        self.icon.set_visible(notification.app_icon.is_some());
-        if let Some(app_icon) = &notification.app_icon {
+        if let Some(image) = &notification.image {
+            println!("Setting notification image");
+            self.icon.set_visible(true);
+            self.icon.set_paintable(Some(image));
+        } else if let Some(app_icon) = &notification.app_icon {
+            self.icon.set_visible(true);
             self.icon.set_icon_name(Some(app_icon));
+        } else {
+            self.icon.set_visible(false);
         }
     }
 }

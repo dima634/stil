@@ -101,16 +101,20 @@ impl Events {
     }
 
     /// Emits `(summary, body, icon)` when a notification is received
-    pub fn connect_notification<F: Fn(String, Option<String>, Option<String>) + 'static>(
+    pub fn connect_notification<F: Fn(String, Option<String>, Option<String>, Option<gtk4::gdk::Texture>) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
         self.connect_closure(
             "notification",
             false,
-            glib::closure_local!(
-                move |_: Self, summary: String, body: Option<String>, icon: Option<String>| { f(summary, body, icon) }
-            ),
+            glib::closure_local!(move |_: Self,
+                                       summary: String,
+                                       body: Option<String>,
+                                       icon: Option<String>,
+                                       image: Option<gtk4::gdk::Texture>| {
+                f(summary, body, icon, image)
+            }),
         )
     }
 
@@ -141,10 +145,31 @@ impl Events {
             SystemEvent::KeyboardLayoutChanged(new_layout) => {
                 self.emit_by_name("keyboard-layout-changed", &[&new_layout])
             }
-            SystemEvent::Notification(notification) => self.emit_by_name(
-                "notification",
-                &[&notification.summary, &notification.body, &notification.icon],
-            ),
+            SystemEvent::Notification(notification) => {
+                let image_data = notification.image.map(|image| {
+                    let bytes = glib::Bytes::from_owned(image.data);
+                    gtk4::gdk::MemoryTextureBuilder::new()
+                        .set_bytes(Some(&bytes))
+                        .set_height(image.height)
+                        .set_width(image.width)
+                        .set_stride(image.row_stride as usize)
+                        .set_format(if image.has_alpha {
+                            gtk4::gdk::MemoryFormat::R8g8b8a8
+                        } else {
+                            gtk4::gdk::MemoryFormat::R8g8b8
+                        })
+                        .build()
+                });
+                self.emit_by_name(
+                    "notification",
+                    &[
+                        &notification.summary,
+                        &notification.body,
+                        &notification.icon,
+                        &image_data,
+                    ],
+                )
+            }
             SystemEvent::Empty => todo!(),
         }
     }
@@ -207,6 +232,7 @@ mod imp {
                             String::static_type(),
                             Option::<String>::static_type(),
                             Option::<String>::static_type(),
+                            Option::<gtk4::gdk::Texture>::static_type(),
                         ])
                         .build(),
                 ]

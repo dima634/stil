@@ -31,6 +31,18 @@ pub struct Notification {
     pub summary: String,
     pub body: Option<String>,
     pub icon: Option<String>,
+    pub image: Option<Image>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Image {
+    pub data: Vec<u8>,
+    pub has_alpha: bool,
+    pub bits_per_sample: i32,
+    pub width: i32,
+    pub height: i32,
+    pub row_stride: i32,
+    pub channels: i32,
 }
 
 #[derive(Debug, Clone)]
