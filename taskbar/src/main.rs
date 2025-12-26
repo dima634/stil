@@ -22,7 +22,10 @@ fn events() -> &'static events::Events {
 fn main() {
     let application = gtk4::Application::new(Some("com.dmytro.volovyk.stil"), Default::default());
     application.connect_startup(|_| load_css());
-    application.connect_activate(create_taskbar_window);
+    application.connect_activate(|app| {
+        create_taskbar(app);
+        ui::init_notifications(5);
+    });
     application.run();
 }
 
@@ -37,7 +40,7 @@ fn load_css() {
     );
 }
 
-fn create_taskbar_window(application: &gtk4::Application) {
+fn create_taskbar(application: &gtk4::Application) {
     let window = gtk4::ApplicationWindow::new(application);
     window.init_layer_shell();
     window.set_layer(Layer::Top);
@@ -57,7 +60,4 @@ fn create_taskbar_window(application: &gtk4::Application) {
     window.add_css_class("shell-window");
 
     window.present();
-
-    let notifications = ui::create_notifications_window();
-    notifications.present();
 }
