@@ -109,20 +109,20 @@
 .notifications-window {
     background-color: transparent;
 
-    listview {        
-        row {
-            background-color: transparent;
-        }
-    }
-
-
     .notification {
         padding: 4px;
         background-color: rgba(224, 238, 248, 0.9);
         border-radius: 3px;
         border: 1px solid rgba(0, 0, 0, 0.16);
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11);
-        font-size: 16px;
+
+        .header {
+            font-size: 16px;
+        }
+
+        .body {
+            font-size: 14px;
+        }
     }
 }
 
@@ -135,5 +135,5 @@ list {
 }
 
 label {
-    color: black;
+    color: rgba(32, 32, 32, 1);
 }
